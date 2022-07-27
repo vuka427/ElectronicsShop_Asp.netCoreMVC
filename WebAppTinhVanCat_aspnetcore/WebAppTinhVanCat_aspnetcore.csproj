@@ -8,12 +8,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.17" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.1.0" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="MimeKit" Version="3.3.0" />
   </ItemGroup>
 
 </Project>
