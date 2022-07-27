@@ -17,7 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAppTinhVanCat_aspnetcore.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace WebAppTinhVanCat_aspnetcore
 {
@@ -33,6 +33,12 @@ namespace WebAppTinhVanCat_aspnetcore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddOptions();
+            var mailsetting = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(mailsetting);
+            services.AddSingleton<IEmailSender, SendMailService>();
+
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
 
