@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using WebAppTinhVanCat_aspnetcore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
 {
+    [Authorize]
     public partial class EmailModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
@@ -46,7 +48,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Email mới")]
             public string NewEmail { get; set; }
         }
 
@@ -68,7 +70,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"không tìm thấy user với ID '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -80,7 +82,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"không tìm thấy user với ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -102,14 +104,14 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "xác thực email",
+                    $"vui lòng xác thực tài khoản bỡi <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>. Tại đây</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Đã gửi liên kết xác thực để thay đổi email. Vui lòng kiểm tra email.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Email của bản đã được thay đổi.";
             return RedirectToPage();
         }
 
@@ -118,7 +120,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"không tìm thấy user với ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -138,10 +140,10 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "xác thực email",
+                    $"vui lòng xác thực tài khoản bỡi <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>. Tại đây</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Đã gửi liên kết xác thực email. Vui lòng kiểm tra email.";
             return RedirectToPage();
         }
     }

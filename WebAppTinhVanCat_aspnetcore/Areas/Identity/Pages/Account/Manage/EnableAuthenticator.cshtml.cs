@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
@@ -48,9 +48,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
-            [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(7, ErrorMessage = "{0} phải dài từ {2} đến {1} ký tự.", MinimumLength = 6)]
             [DataType(DataType.Text)]
-            [Display(Name = "Verification Code")]
+            [Display(Name = "Mã xác thực")]
             public string Code { get; set; }
         }
 
@@ -59,7 +59,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"không tìm thấy người dùng '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadSharedKeyAndQrCodeUriAsync(user);
@@ -72,7 +72,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"không tìm thấy người dùng'{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -89,7 +89,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
 
             if (!is2faTokenValid)
             {
-                ModelState.AddModelError("Input.Code", "Verification code is invalid.");
+                ModelState.AddModelError("Input.Code", "Mã xác thực không hợp lệ.");
                 await LoadSharedKeyAndQrCodeUriAsync(user);
                 return Page();
             }
@@ -98,7 +98,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
 
-            StatusMessage = "Your authenticator app has been verified.";
+            StatusMessage = "Ứng dụng xác thực của bạn đã được xác minh.";
 
             if (await _userManager.CountRecoveryCodesAsync(user) == 0)
             {
@@ -149,7 +149,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("WebAppTinhVanCat_aspnetcore"),
+                _urlEncoder.Encode("razorweb"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

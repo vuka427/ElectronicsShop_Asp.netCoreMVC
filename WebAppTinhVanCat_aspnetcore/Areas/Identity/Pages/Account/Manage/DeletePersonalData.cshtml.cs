@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -30,8 +30,10 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            
+            [Required(ErrorMessage = "{0} không được bỏ trống ")]
             [DataType(DataType.Password)]
+            [Display( Name ="Mật khẩu")]
             public string Password { get; set; }
         }
 
@@ -42,7 +44,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"không tìm thấy người dùng '{_userManager.GetUserId(User)}'.");
             }
 
             RequirePassword = await _userManager.HasPasswordAsync(user);
@@ -54,7 +56,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"không tìm thấy người dùng '{_userManager.GetUserId(User)}'.");
             }
 
             RequirePassword = await _userManager.HasPasswordAsync(user);
@@ -62,7 +64,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             {
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect password.");
+                    ModelState.AddModelError(string.Empty, "Mật khẩu sai !.");
                     return Page();
                 }
             }

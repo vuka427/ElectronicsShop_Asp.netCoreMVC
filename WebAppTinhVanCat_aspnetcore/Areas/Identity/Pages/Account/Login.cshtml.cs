@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -43,15 +43,16 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Required(ErrorMessage = "{0} không được bỏ trống ")]
+            [Display(Name = "Tài khoản hoặc Email")]
+            public string UserNameOrEmail { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "{0} không được bỏ trống ")]
+            [Display(Name = "Mật khẩu")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Nhớ thông tin đăng nhập?")]
             public bool RememberMe { get; set; }
         }
 
@@ -82,10 +83,25 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.UserNameOrEmail, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
+                if(!result.Succeeded)
+                {
+                    var user = await _userManager.FindByEmailAsync(Input.UserNameOrEmail);
+                    if(user != null)
+                    {
+                        
+                        result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
+                    }
+
+                }
+
+
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("Đăng nhập thành công.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -94,12 +110,12 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Tài khoản bị khóa.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Thất bài, tài khoản không tồn tại hoặc sài username hoặc password");
                     return Page();
                 }
             }

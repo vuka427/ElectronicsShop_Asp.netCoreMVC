@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,7 +37,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account
             }
             else
             {
-                return RedirectToPage();
+                returnUrl = Url.Content("~/");
+                return LocalRedirect(returnUrl);
             }
         }
     }

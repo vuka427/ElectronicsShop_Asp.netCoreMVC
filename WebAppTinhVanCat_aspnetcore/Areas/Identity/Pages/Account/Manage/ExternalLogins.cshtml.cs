@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID 'user.Id'.");
+                return NotFound($"Không tìm thấy user 'user.Id'.");
             }
 
             CurrentLogins = await _userManager.GetLoginsAsync(user);
@@ -53,18 +53,18 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID 'user.Id'.");
+                return NotFound($"Không tìm thấy user 'user.Id'.");
             }
 
             var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
             if (!result.Succeeded)
             {
-                StatusMessage = "The external login was not removed.";
+                StatusMessage = "Không thể xóa dịch vụ ngoài.";
                 return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "The external login was removed.";
+            StatusMessage = "Đã xóa dịch vụ ngoài.";
             return RedirectToPage();
         }
 
@@ -84,7 +84,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID 'user.Id'.");
+                return NotFound($"Không tìm thấy user 'user.Id'.");
             }
 
             var info = await _signInManager.GetExternalLoginInfoAsync(user.Id);
@@ -103,7 +103,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account.Manage
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = "The external login was added.";
+            StatusMessage = "Đã thêm dịch vụ ngoài.";
             return RedirectToPage();
         }
     }

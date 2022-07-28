@@ -104,6 +104,40 @@ namespace WebAppTinhVanCat_aspnetcore
                 options.ValidationInterval = TimeSpan.FromSeconds(5);
             });
 
+            services.ConfigureApplicationCookie(options => {
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
+                options.AccessDeniedPath = "/khongcoquyentruycap.html";
+
+            });
+
+            services.AddAuthentication()
+                    .AddGoogle(options => {
+                        var gconfig = Configuration.GetSection("Authentication:Google");
+                        options.ClientId = gconfig["ClientId"];
+                        options.ClientSecret = gconfig["ClientSecret"];
+
+                        options.CallbackPath = "/dang-nhap-tu-google";
+                    })
+                    .AddFacebook(facebookOptions => {
+                        //đọc cấu hình
+                        var facebookAuthNSection = Configuration.GetSection("Authentication:Facebook");
+                        facebookOptions.AppId = facebookAuthNSection["AppId"];
+                        facebookOptions.AppSecret = facebookAuthNSection["AppSecret"];
+                        // Thiết lập đường dẫn Facebook chuyển hướng đến
+                        facebookOptions.CallbackPath = "/dang-nhap-tu-facebook";
+
+                    })
+                    //https://localhost:5001/dang-nhap-tu-microsoft-account
+                    .AddMicrosoftAccount(microsoftOptions => {
+                        var Mgconfig = Configuration.GetSection("Authentication:Microsoft");
+                        microsoftOptions.ClientId = Mgconfig["ClientId"];
+                        microsoftOptions.ClientSecret = Mgconfig["ClientSecret"];
+
+                        microsoftOptions.CallbackPath = Mgconfig["CallbackPath"];
+                    });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

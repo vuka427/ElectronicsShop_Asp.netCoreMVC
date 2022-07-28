@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
@@ -31,7 +31,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "{0} không được bỏ trống ")]
             [EmailAddress]
             public string Email { get; set; }
         }
@@ -59,8 +59,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Đặt lại mật khẩu",
+                    $"Vui lòng đặt lại mật khẩu. <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Tại đây.</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
