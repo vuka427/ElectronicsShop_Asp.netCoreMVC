@@ -4,13 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data.Entity;
+
 
 namespace WebAppTinhVanCat_aspnetcore.Models
 {
     public class AppDbContext : IdentityDbContext<AppUser>
     {
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options) { }
+
+        public DbSet<Category> Categories { set; get; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,6 +29,11 @@ namespace WebAppTinhVanCat_aspnetcore.Models
                     entityType.SetTableName(tableName.Substring(6));
                 }
             }
+
+            builder.Entity<Category>(entity => {
+                entity.HasIndex(p => p.Slug);
+            });
+
         }
     }
 }
