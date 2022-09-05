@@ -7,8 +7,10 @@
     <div class="dropdown-toggle text-danger" data-toggle="dropdown">
         <strong>Manage</strong>
     </div>
-    <div class="dropdown-menu" >
+    <div class="dropdown-menu">
         <a class="dropdown-item" asp-action="Index" asp-controller="DbManage" asp-area="Database">Database</a>
-       
+        <a class="dropdown-item" asp-action="Index" asp-controller="Role" asp-area="Identity">Quản Lý Role</a>
+        <a class="dropdown-item" asp-action="Index" asp-controller="User" asp-area="Identity">Quản Lý User</a>
+
     </div>
 </div>
