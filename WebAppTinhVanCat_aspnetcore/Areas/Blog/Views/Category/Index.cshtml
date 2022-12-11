@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<WebAppTinhVanCat_aspnetcore.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Chuyên mục Blog";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Tạo chuyên muc</a>
 </p>
 <table class="table">
     <thead>
@@ -16,39 +16,52 @@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Slug)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParentCategory)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slug)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentCategory.Slug)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+           await  RenderCategoryAsync(item, 0);
+
+        }
     </tbody>
 </table>
+
+@{
+    async Task RenderCategoryAsync(Category item, int level)
+    {
+        string prefix = string.Concat(Enumerable.Repeat("&emsp;", level));
+        <tr>
+            <td>
+                @Html.Raw(prefix)
+                <a asp-action="Edit" asp-route-id="@item.Id">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </a>
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug) 
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+            </td>
+        </tr>
+        if(item.CategoryChildren?.Count > 0)
+        {
+            foreach(var cCategory in item.CategoryChildren)
+            {
+                await RenderCategoryAsync(cCategory, level + 1);
+            }
+
+        }
+    }
+}

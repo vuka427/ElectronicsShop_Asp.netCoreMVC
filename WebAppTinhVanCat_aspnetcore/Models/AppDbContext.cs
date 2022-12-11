@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAppTinhVanCat_aspnetcore.Models.Contacts;
+
 
 
 namespace WebAppTinhVanCat_aspnetcore.Models
@@ -14,6 +16,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options) { }
 
         public DbSet<Category> Categories { set; get; }
+        public DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

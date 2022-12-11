@@ -1,21 +1,21 @@
 ﻿@model WebAppTinhVanCat_aspnetcore.Models.Category
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Tạo chuyên mục";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>@ViewData["Title"] </h1>
 
-<h4>Category</h4>
+<h4>Chuyên mục</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ParentCategoryId" class="control-label"></label>
-                <select asp-for="ParentCategoryId" class ="form-control" asp-items="ViewBag.ParentCategoryId"></select>
+                <select asp-for="ParentCategoryId" class="form-control" asp-items="ViewBag.ParentCategoryId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
+                <textarea rows="5" asp-for="Content" class="form-control"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,16 +33,21 @@
                 <span asp-validation-for="Slug" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở lại danh sách chuyên mục</a>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+@{
+    var summernote = new Summernote("#Content");
+}
+<partial name="_Summernote" model="summernote" />

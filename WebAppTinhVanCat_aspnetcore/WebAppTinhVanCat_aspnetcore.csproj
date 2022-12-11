@@ -28,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
       <PrivateAssets>all</PrivateAssets>
@@ -46,6 +47,8 @@
   <ItemGroup>
     <Folder Include="Areas\Blog\Data\" />
     <Folder Include="Areas\Blog\Models\" />
+    <Folder Include="Areas\Contact\Data\" />
+    <Folder Include="Areas\Contact\Models\" />
     <Folder Include="Areas\Database\Data\" />
     <Folder Include="Areas\Database\Models\" />
     <Folder Include="Areas\Identity\Data\" />

@@ -1,0 +1,18 @@
+﻿@model WebAppTinhVanCat_aspnetcore.Models.Summernote
+
+
+@if (Model.LoadLibrary)
+{
+    <script src="@Url.Content("~/lib/summernote/summernote-bs4.min.js")"></script>
+    <link href="@Url.Content("~/lib/summernote/summernote-bs4.min.css")" rel="stylesheet">
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('@Model.IDEditor').summernote({
+            height: @Model.height,
+            toolbar: @Html.Raw(Model.toolbar)
+        });
+    });
+</script>

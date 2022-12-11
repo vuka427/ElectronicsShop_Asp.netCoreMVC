@@ -35,13 +35,11 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         public string Slug { set; get; }
 
         // Các Category con
-        public ICollection<Category> CategoryChildren { get; set; }
+        public virtual ICollection<Category> CategoryChildren { get; set; }
 
         [ForeignKey("ParentCategoryId")]
         [Display(Name = "Danh mục cha")]
-
-
-        public Category ParentCategory { set; get; }
+        public virtual Category ParentCategory { set; get; }
 
     }
 }

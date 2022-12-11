@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Text.Encodings.Web;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
 {
@@ -24,19 +25,33 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ManageController> _logger;
+        private readonly UrlEncoder _urlEncoder;
+
+        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public ManageController(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
         IEmailSender emailSender,
-        ILogger<ManageController> logger)
+        ILogger<ManageController> logger,
+        UrlEncoder urlEncoder)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _urlEncoder = urlEncoder;
         }
 
+
+        private string GenerateQrCodeUri(string email, string unformattedKey)
+        {
+            return string.Format(
+                AuthenticatorUriFormat,
+                _urlEncoder.Encode("razorweb"),
+                _urlEncoder.Encode(email),
+                unformattedKey);
+        }
         //
         // GET: /Manage/Index
         [HttpGet]
@@ -52,6 +67,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
                 : "";
 
             var user = await GetCurrentUserAsync();
+            var email = await _userManager.GetEmailAsync(user);
+            var sharedkey = await _userManager.GetAuthenticatorKeyAsync(user);
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
@@ -59,7 +76,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
-                AuthenticatorKey = await _userManager.GetAuthenticatorKeyAsync(user),
+                AuthenticatorKey = sharedkey,
+                AuthenticatorUri = GenerateQrCodeUri(email,sharedkey ),
                 profile = new EditExtraProfileModel()
                 {
                     BirthDate = user.Birthday,
@@ -323,6 +341,10 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
             }
             return RedirectToAction(nameof(Index), "Manage");
         }
+
+
+
+        
 
         //
         // POST: /Manage/DisableTwoFactorAuthentication

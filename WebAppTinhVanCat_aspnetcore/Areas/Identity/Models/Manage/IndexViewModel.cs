@@ -20,5 +20,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Models.ManageViewModels
         public bool BrowserRemembered { get; set; }
 
         public string AuthenticatorKey { get; set; }
+
+       
+        public string AuthenticatorUri { get; set; }
     }
 }

@@ -5,12 +5,12 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
 
-<h4>Category</h4>
+
+<h4>Chỉnh sửa chuyên mục @Model.Title </h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -35,16 +35,21 @@
                 <span asp-validation-for="Slug" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở lại danh sách chuyên mục</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+@{ 
+
+    var summernote = new Summernote("#Content");
+}
+<partial name="_Summernote" model="summernote" />

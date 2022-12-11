@@ -55,8 +55,8 @@ namespace WebAppTinhVanCat_aspnetcore
             // Đăng ký AppDbContext, sử dụng kết nối đến MS SQL Server
             services.AddDbContext<AppDbContext>(options => {
                 string connectstring = Configuration.GetConnectionString("MyAppContext");
-                
                 options.UseSqlServer(connectstring);
+                options.UseLazyLoadingProxies();
             });
             // Đăng ký các dịch vụ của Identity
             services.AddIdentity<AppUser, IdentityRole>()
