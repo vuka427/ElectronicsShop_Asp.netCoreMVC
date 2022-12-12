@@ -33,7 +33,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
                                         .Include(c => c.CategoryChildren);
             var categories = (await qr.ToListAsync()).Where(c => c.ParentCategory == null).ToList();
 
-            var selectList = new SelectList(categories, "Id", "Title");
+            var selectList = new SelectList(categories, "Id", "Title"); 
 
             return View(categories);
         }
@@ -188,12 +188,50 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
                 return NotFound();
             }
 
-            if (category.ParentCategoryId == category.Id)
+            bool CanUpdate = true; // cho phép cập nhật
+            
+
+            if (category.ParentCategoryId == category.Id) // không cho phép chọn chính nó là danh mục cha
             {
                 ModelState.AddModelError(String.Empty,"Phải chọn danh mục cha khác !");
+                CanUpdate = false;
             }
 
-            if (ModelState.IsValid && category.ParentCategoryId != category.Id)
+
+            if (CanUpdate && category.ParentCategoryId != null) // không cho phép chọn con của nó làm danh mục cha
+            {
+                 var childCategory = (from c in _context.Categories.AsNoTracking() select c)
+                    .Include(c => c.CategoryChildren)
+                    .ToList()
+                    .Where(c => c.ParentCategoryId == category.Id) ;
+
+                //func check id kiểm tra danh mục cha có trùng với con không 
+                Func<List<Category>, bool> checkParentCate = null;
+                checkParentCate = (childCategory) => {
+                    foreach (var cate in childCategory)
+                    {
+                        if (cate.Id == category.ParentCategoryId) 
+                        {
+                            CanUpdate = false;
+                            ModelState.AddModelError(String.Empty, "Phải chọn danh mục cha khác !");
+                            return true;
+                        }
+                        if (cate.CategoryChildren !=null)
+                        {
+                            return checkParentCate(cate.CategoryChildren.ToList());//đệ quy kiêm tra các danh mục con cấp nhỏ hơn 
+                           
+                        }
+                    }
+
+                    return false;
+                };
+                //end func
+
+                checkParentCate(childCategory.ToList());
+            }
+            
+
+            if (CanUpdate && ModelState.IsValid )
             {
                 try
                 {
