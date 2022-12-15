@@ -17,6 +17,8 @@ namespace WebAppTinhVanCat_aspnetcore.Models
 
         public DbSet<Category> Categories { set; get; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostCategory> PostCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,10 +35,20 @@ namespace WebAppTinhVanCat_aspnetcore.Models
                 }
             }
 
-            builder.Entity<Category>(entity => {
-                entity.HasIndex(p => p.Slug);
+            builder.Entity<Category>(entity => { // dánh chỉ mục trường slug
+                entity.HasIndex(p => p.Slug)
+                .IsUnique(); //isUnipue : có giá trị duy nhất 
             });
 
+            builder.Entity<PostCategory>( entity=> { // PostID và CategoryID là khóa chính tạo quan hệ nhiều - nhiều cho bản post và category
+                entity.HasKey(k => new {k.CategoryID, k.PostID });
+
+            });
+
+            builder.Entity<Post>(entity => { // dánh chỉ mục trường slug
+                entity.HasIndex(p => p.Slug)
+                .IsUnique(); //isUnipue : có giá trị duy nhất 
+            });
         }
     }
 }

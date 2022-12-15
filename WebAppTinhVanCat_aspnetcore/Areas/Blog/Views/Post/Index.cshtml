@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Post>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Danh sách các bài viết</h4>
+<partial name="_StatusMessage" />
+<p>
+    <a class="btn btn-primary" asp-action="Create">Thêm bài viết mới</a>
+</p>
+<p> Tổng Số bài viết : @ViewBag.TotalPost</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Published)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateUpdated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @(++ViewBag.PostIndex)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PostId">
+                        @Html.DisplayFor(modelitem => item.Title)
+                    </a>
+                    <br />
+                    <small>
+                        @string.Join(",", item.PostCategories.Select(pc => pc.Category.Title))
+                    </small>
+                    
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Published) 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Author.UserName) 
+                <td>
+                    @Html.DisplayFor(modelitem => item.DateUpdated) 
+                </td>
+                <td>
+
+                    <a asp-action="Details" asp-route-id="@item.PostId">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PostId">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_PagingXTL" model="@ViewBag.PagingModel" />

@@ -29,8 +29,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
         {
 
             var qr = (from c in _context.Categories select c)
-                                        .Include(c => c.ParentCategory)
-                                        .Include(c => c.CategoryChildren);
+                                       .Include(c => c.ParentCategory)
+                                       .Include(c => c.CategoryChildren);
+                                        
             var categories = (await qr.ToListAsync()).Where(c => c.ParentCategory == null).ToList();
 
             var selectList = new SelectList(categories, "Id", "Title"); 
