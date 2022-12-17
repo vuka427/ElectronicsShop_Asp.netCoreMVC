@@ -72,5 +72,12 @@
             isOpen: false,
         });</script>
 
-    <partial name="_ValidationScriptsPartial" />
+    
 }
+<partial name="_ValidationScriptsPartial" />
+@{
+
+    var summernote = new Summernote("#Content");
+    summernote.height = 700;
+}
+<partial name="_Summernote" model="summernote" />
