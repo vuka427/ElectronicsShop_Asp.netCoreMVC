@@ -25,7 +25,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models
               ['color', ['color']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
-              ['insert', ['link', 'picture', 'video']],
+              ['insert', ['link', 'picture', 'video','elfinder']],
               ['view', ['fullscreen', 'codeview', 'help']]
             ]";
 

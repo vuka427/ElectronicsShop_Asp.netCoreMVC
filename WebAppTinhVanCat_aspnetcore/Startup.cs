@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using WebAppTinhVanCat_aspnetcore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace WebAppTinhVanCat_aspnetcore
 {
@@ -155,6 +157,14 @@ namespace WebAppTinhVanCat_aspnetcore
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions() //truy cập files tĩnh
+            {
+                FileProvider = new PhysicalFileProvider(
+                        Path.Combine(Directory.GetCurrentDirectory(),"Uploads")
+                    ),
+                RequestPath ="/contens"
+
+            }); ;
 
             app.UseRouting();
 
