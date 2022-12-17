@@ -29,7 +29,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DateUpdated)
             </th>
-            <th></th>
+            <th>Tác vụ</th>
         </tr>
     </thead>
     <tbody>
@@ -46,9 +46,8 @@
                     </a>
                     <br />
                     <small>
-                        @string.Join(",", item.PostCategories.Select(pc => pc.Category.Title))
+                        @string.Join(", ", item.PostCategories.Select(pc => pc.Category.Title))
                     </small>
-                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelitem => item.Published) 
@@ -59,7 +58,6 @@
                     @Html.DisplayFor(modelitem => item.DateUpdated) 
                 </td>
                 <td>
-
                     <a asp-action="Details" asp-route-id="@item.PostId">Chi tiết</a> |
                     <a asp-action="Delete" asp-route-id="@item.PostId">Xóa</a>
                 </td>

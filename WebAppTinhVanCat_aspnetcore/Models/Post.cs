@@ -32,7 +32,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         [Display(Name = "Xuất bản")]
         public bool Published { set; get; } //có hiển thị ra hay không
 
-        [Required]
+        //[Required]
         [Display(Name = "Tác giả")]
         public string AuthorId { set; get; }
 

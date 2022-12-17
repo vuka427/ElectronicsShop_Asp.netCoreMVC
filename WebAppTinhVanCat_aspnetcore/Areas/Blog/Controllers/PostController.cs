@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebAppTinhVanCat_aspnetcore.Areas.Blog.Models;
 using WebAppTinhVanCat_aspnetcore.Data;
 using WebAppTinhVanCat_aspnetcore.Models;
+using WebAppTinhVanCat_aspnetcore.Utilities;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
 {
@@ -17,10 +20,12 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
     public class PostController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _usermanager;
 
-        public PostController(AppDbContext context)
+        public PostController(AppDbContext context, UserManager<AppUser> usermanager)
         {
             _context = context;
+            _usermanager = usermanager;
         }
 
         [TempData]
@@ -83,9 +88,11 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
         }
 
         // GET: Blog/Post/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id");
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["categories"] = new MultiSelectList(categories,"Id", "Title");
+            
             return View();
         }
 
@@ -94,15 +101,47 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostId,Title,Description,Slug,Content,Published,AuthorId,DateCreated,DateUpdated")] Post post)
+        public async Task<IActionResult> Create([Bind("Title,Description,Slug,Content,Published,CategoryIDs")] CreatePostModel post)
         {
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
+            if (post.Slug == null) // phát sinh url nếu chưa có
+            {
+                post.Slug = AppUtilities.GenerateSlug(post.Title);
+            }
+            if (await _context.Posts.AnyAsync(p => p.Slug == post.Slug))//kiểm tra url có đc sử dụng hay chưa
+            {
+                ModelState.AddModelError("Slug", "Nhập chuỗi Url khác !");
+                return View(post);
+            }
+
+            
+
             if (ModelState.IsValid)
             {
+                var user = await _usermanager.GetUserAsync(this.User);
+                post.DateCreated = post.DateUpdated = DateTime.Now;
+                post.AuthorId = user.Id;
                 _context.Add(post);
+
+                if (post.CategoryIDs != null)
+                {
+                    foreach (var cate in post.CategoryIDs)
+                    {
+                        _context.Add(new PostCategory()
+                        {
+                            CategoryID = cate,
+                            Post = post
+                        }) ;
+                    }
+                }
+
+                
                 await _context.SaveChangesAsync();
+                StatusMessage = "Vừa tạo bài viết mới ";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", post.AuthorId);
+            
             return View(post);
         }
 
@@ -114,32 +153,93 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts.Include(p => p.PostCategories).FirstOrDefaultAsync(p=>p.PostId == id);
             if (post == null)
             {
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", post.AuthorId);
-            return View(post);
+            var PostEdit = new CreatePostModel()
+            {
+                PostId = post.PostId,
+                Title = post.Title,
+                Content = post.Content,
+                Description = post.Description,
+                Slug = post.Slug,
+                Published = post.Published,
+                CategoryIDs = post.PostCategories.Select(pc => pc.CategoryID).ToArray()
+            };
+
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
+            return View(PostEdit);
         }
 
         // POST: Blog/Post/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Description,Slug,Content,Published,AuthorId,DateCreated,DateUpdated")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Description,Slug,Content,Published,CategoryIDs")] CreatePostModel post)
         {
             if (id != post.PostId)
             {
                 return NotFound();
             }
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
 
+            if (post.Slug == null) // phát sinh url nếu chưa có
+            {
+                post.Slug = AppUtilities.GenerateSlug(post.Title);
+            }
+            if (await _context.Posts.AnyAsync(p => p.Slug == post.Slug && p.PostId != id))//kiểm tra url có đc sử dụng hay chưa
+            {
+                ModelState.AddModelError("Slug", "Nhập chuỗi Url khác !");
+                return View(post);
+            }
+            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(post);
+                    var PostUpdate = await _context.Posts.Include(p => p.PostCategories).FirstOrDefaultAsync(p => p.PostId == id);
+                    if (PostUpdate == null)
+                    {
+                        return NotFound("lỗi rồi hehe !");
+                    }
+
+                    PostUpdate.Title = post.Title;
+                    PostUpdate.Content = post.Content;
+                    PostUpdate.Description = post.Description;
+                    PostUpdate.Slug = post.Slug;
+                    PostUpdate.Published = post.Published;
+                    PostUpdate.DateUpdated = DateTime.Now;
+
+                    // update categoryIDs
+                    if (post.CategoryIDs == null) post.CategoryIDs = new int[] {};
+
+                    var oldCateIds = PostUpdate.PostCategories.Select(c => c.CategoryID).ToArray();//dánh sách cate id cũ
+                    var newCateIds = post.CategoryIDs; //dánh sách cate id mới
+
+                    var removeCatePost = from postCate in PostUpdate.PostCategories 
+                                         where (!newCateIds.Contains(postCate.CategoryID)) //lấy các postCategory không có trong dánh sách postCategory mới 
+                                         select postCate;
+
+                    _context.PostCategories.RemoveRange(removeCatePost);// xóa các postCategory không có trong dánh sách postCategory cập nhật mới
+
+                    var addCateIds = from CateId in newCateIds //danh sách id của các categoy cần cập nhật
+                                      where !oldCateIds.Contains(CateId) //lấy các idc trong dánh sách postCategory mới mà không có trong danh sách cũ
+                                      select CateId;
+
+                    foreach (var CateId in addCateIds)
+                    {
+                        _context.PostCategories.Add(new PostCategory()// thêm PostCategory từ danh sách id của các categoy cần cập nhật
+                        {
+                            PostID = id,
+                            CategoryID = CateId
+                        });
+                    }
+
+                    _context.Update(PostUpdate);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -153,6 +253,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
                         throw;
                     }
                 }
+                StatusMessage = "Vừa cập nhật bài viết !";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", post.AuthorId);

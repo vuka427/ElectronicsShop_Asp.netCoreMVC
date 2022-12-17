@@ -47,7 +47,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Blog\Data\" />
-    <Folder Include="Areas\Blog\Models\" />
     <Folder Include="Areas\Contact\Data\" />
     <Folder Include="Areas\Contact\Models\" />
     <Folder Include="Areas\Database\Data\" />
