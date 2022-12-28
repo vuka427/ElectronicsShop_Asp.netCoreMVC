@@ -201,10 +201,12 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
 
             if (CanUpdate && category.ParentCategoryId != null) // không cho phép chọn con của nó làm danh mục cha
             {
-                 var childCategory = (from c in _context.Categories.AsNoTracking() select c)
+                 var childCategory = (from cate in  _context.Categories select cate).AsNoTracking() //có lỗi ở đây
                     .Include(c => c.CategoryChildren)
                     .ToList()
                     .Where(c => c.ParentCategoryId == category.Id) ;
+
+                
 
                 //func check id kiểm tra danh mục cha có trùng với con không 
                 Func<List<Category>, bool> checkParentCate = null;
@@ -237,7 +239,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
                 try
                 {
                     if (category.ParentCategoryId == -1) category.ParentCategoryId = null;
-                    _context.Update(category);
+                    
+                    _context.Categories.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

@@ -1,54 +1,6 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+body {
+  background: #fff;
+  color: #1d1d1f;
 }
 
 /* Sticky footer styles
@@ -62,10 +14,102 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+}
+
+.app-navbar {
+  background: #3f76e8;
+}
+.app-navbar .text-dark {
+  color: #453b3b !important;
+}
+.app-navbar .text-dark:hover {
+  color: white !important;
+}
+.app-navbar .navbar-brand {
+  color: white !important;
+  font-weight: 800;
+}
+.app-navbar .navbar-brand:hover {
+  color: #808080 !important;
+}
+.app-navbar .dropdown-toggle {
+  color: white;
+}
+
+.navbar-right .nav-item .nav-link {
+  color: white;
+}
+
+.categorysidebar ul, .categorysidebar li {
+  list-style: none;
+  padding-left: 10px;
+}
+.categorysidebar a {
+  text-decoration: none;
+}
+.categorysidebar a:hover {
+  color: #02006e;
+  font-weight: 600;
+}
+.categorysidebar a.active {
+  color: red;
+}
+.categorysidebar > ul > li > a {
+  font-weight: bold;
+}
+.categorysidebar h4 {
+  text-transform: uppercase;
+  font-size: 1.3em;
+  border-bottom: 1px solid blue;
+  padding-bottom: 10px;
+}
+
+.contact-firstcol {
+  background-color: #05c3e1;
+  color: white;
+  text-align: center;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.contact-firstcol img {
+  max-width: 100px;
+}
+
+.formcontact label {
+  font-weight: 700;
+}
+.formcontact .btn-primary {
+  background-color: #20dbf8 !important;
+  border-color: #20dbf8 !important;
+}
+.formcontact .btn-primary:hover {
+  background-color: #1694a8 !important;
+}
+
+.app-footer {
+  background-color: #25273b;
+  text-align: center;
+  color: white;
+}
+
+.detailpost h2 {
+  font-weight: 300;
+}
+.detailpost .sapo {
+  font-weight: 500;
+  font-style: italic;
+}
+.detailpost img {
+  max-width: 100%;
 }

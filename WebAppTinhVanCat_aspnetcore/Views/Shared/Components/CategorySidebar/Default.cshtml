@@ -1,0 +1,50 @@
+﻿@model WebAppTinhVanCat_aspnetcore.Components.CategorySidebar.CategorySidebarData
+@using WebAppTinhVanCat_aspnetcore.Components;
+
+
+@{
+    int level = Model.Level;
+    
+}
+
+@if(Model.Categories.Count>0){
+
+    @if (level==0)
+    {
+        @Html.Raw("<div class=\"categorysidebar\">")
+        <h4>
+            <a asp-controller="ViewPost" asp-action="Index" asp-route-categoryslug="">
+                Tất cả các chuyên mục
+            </a>
+        </h4>
+        
+    }
+    
+    <ul>
+        @foreach (var category in Model.Categories )
+        {
+            var cssActive = (category.Slug == Model.CategorySlug) ? "active" : null; // đánh dấu css cho danh mục đang truy cập
+            <li>
+                <a class="@cssActive" asp-controller="ViewPost" asp-action="Index" asp-route-categoryslug="@category.Slug">
+                    @category.Title
+                </a>
+                @if (category.CategoryChildren?.Count > 0)  // duyệt đệ quy nếu có danh mục con
+                {
+                   @await Component.InvokeAsync("WebAppTinhVanCat_aspnetcore.Components.CategorySidebar", 
+                        new CategorySidebar.CategorySidebarData()// duyệt đệ quy danh mục con
+                        {
+                            Categories = category.CategoryChildren.ToList(),
+                            Level = level+1,
+                            CategorySlug = @ViewBag.categoryslug
+                        })
+                }
+
+
+            </li>
+        }
+    </ul>
+    @if (level == 0)
+    {
+        @Html.Raw("</div>")
+    }
+}

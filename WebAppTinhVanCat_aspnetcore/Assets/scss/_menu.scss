@@ -1,0 +1,64 @@
+﻿.app-navbar {
+    background: #3f76e8;
+
+
+    .text-dark { // link nav chính
+        color: #453b3b !important;
+
+        &:hover {
+
+            color: white !important;
+        }
+    }
+
+    .navbar-brand { // logo
+        color: white !important;
+        font-weight: 800;
+
+
+        &:hover {
+            color: #808080 !important;
+        }
+    }
+
+    .dropdown-toggle {
+        color: white;
+    }
+
+    
+}
+.navbar-right {
+    .nav-item {
+        .nav-link { // link nav login
+            color: white;
+        }
+    }
+}
+//sidebar
+.categorysidebar {
+    ul, li {
+        list-style: none;
+        padding-left: 10px;
+        
+    }
+
+    a {
+        text-decoration: none;
+        &:hover{
+            color :#02006e;
+            font-weight: 600;
+        }
+        &.active{
+            color:red;
+        }
+    }
+    >ul>li>a{
+        font-weight:bold;
+    }
+    h4{
+        text-transform : uppercase;
+        font-size: 1.3em;
+        border-bottom: 1px solid blue;
+        padding-bottom: 10px;
+    }
+}

@@ -65,6 +65,7 @@
     <Folder Include="Areas\Files\Data\" />
     <Folder Include="Areas\Files\Models\" />
     <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\files\" />
   </ItemGroup>
 

@@ -1,0 +1,74 @@
+﻿@using WebAppTinhVanCat_aspnetcore.Components;
+@model Post;
+
+@{
+    List<Category> categories = ViewBag.categories as List<Category>;
+    Category category = ViewBag.category as Category;
+    ViewData["Title"] = Model.Title;
+    IQueryable<Post> otherPost = ViewBag.otherPost as IQueryable<Post>;
+
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        @if (category != null)
+        {
+            var listParent = category.ListParents();
+            foreach (var item in listParent)
+            {
+                <li class="breadcrumb-item" >
+                    <a asp-action="Index" asp-route-categoryslug="@item.Slug">
+                @item.Title
+                    </a> 
+                </li>
+            }
+              <li class="breadcrumb-item" >
+                    <a asp-action="Index" asp-route-categoryslug="@category.Slug">
+                @category.Title
+                    </a> 
+                </li>
+        }
+
+
+    </ol>
+</nav>
+
+<div class="detailpost">
+    <h2>@Model.Title</h2>
+    <div class="sapo"> 
+        @Model.Description
+    </div>
+    <div>
+        <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i> /
+        Tác giả: <strong>@Model.Author.UserName</strong>
+
+    </div>
+    <hr />
+    @Html.Raw(Model.Content)
+</div>
+
+
+
+
+
+@section Sidebar {
+    @await Component.InvokeAsync("WebAppTinhVanCat_aspnetcore.Components.CategorySidebar", 
+    new CategorySidebar.CategorySidebarData()// chuyên data sang viewcomponent
+    {
+        Categories = categories,
+        Level = 0,
+        CategorySlug = category.Slug
+    })
+
+    <ul class="list-group">
+        @foreach (var post in otherPost)
+        {
+            <li class="list-group-item">
+                <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
+                @post.Title
+                </a>
+            </li>
+        }
+    </ul>
+}

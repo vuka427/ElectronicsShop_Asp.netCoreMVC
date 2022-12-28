@@ -41,5 +41,35 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         [Display(Name = "Danh mục cha")]
         public virtual Category ParentCategory { set; get; }
 
+        public void ChildCategoryIDs(List<int> lists, ICollection<Category> childcates = null) // lấy tất cả id của danh mục con cháu truyên vào list
+        {
+            if (childcates == null)
+            {
+                childcates = this.CategoryChildren;
+
+            }
+            foreach(Category category in childcates)
+            {
+                lists.Add(category.Id);
+                ChildCategoryIDs(lists, category.CategoryChildren);
+            }
+
+        }
+
+        public List<Category> ListParents() //lấy danh sách danh mục cha hiện có
+        {
+
+            List <Category> lists = new List<Category>();
+            var parent = this.ParentCategory;
+            while (parent != null)//kiểm tra có tồn tại dang mục cha hay ko nếu có thêm vào danh sách và tiếp tục lập kiểm tra cha của có  danh mục ông nội ko ....
+            {
+                lists.Add(parent);
+                parent = parent.ParentCategory;
+            }
+            lists.Reverse();//đảo ngược danh sách
+
+            return lists;
+        }
+        
     }
 }

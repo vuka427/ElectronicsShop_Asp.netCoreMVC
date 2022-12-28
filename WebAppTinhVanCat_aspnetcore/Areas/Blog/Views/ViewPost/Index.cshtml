@@ -1,0 +1,83 @@
+﻿@model List<Post>
+@using WebAppTinhVanCat_aspnetcore.Components;
+
+
+@{
+    List<Category> categories = ViewBag.categories as List<Category> ;
+    Category category = ViewBag.category as Category;
+    ViewData["Title"] = (category != null)? category.Title : "Tất cả bài viết";
+}
+
+    
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        @if (category != null)
+        {
+            var listParent = category.ListParents();
+            foreach (var item in listParent)
+            {
+                <li class="breadcrumb-item" >
+                    <a asp-action="Index" asp-route-categoryslug="@item.Slug">
+                        @item.Title
+                    </a> 
+                </li>
+            }
+        }
+
+       
+    </ol>
+</nav>
+
+<h3> @ViewData["Title"] </h3>
+
+@if (category != null)
+{
+    <p> @category.Content </p>
+}
+else
+{
+    <p>Bài viết thuộc tất cả các chuyên mục</p>
+}
+
+@foreach (var post in Model)
+{
+<div class="media border-bottom mb-3 pb-3">
+        <img class="mr-3 w-25" src="/contens/ico/nophoto.png" alt=" hahaha !">
+  <div class="media-body">
+    <h5 class="mt-0">
+                <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
+            @post.Title
+        </a>
+    </h5>
+    @post.Description
+    <div>
+        Chủ đề: 
+        <strong class="text-danger">
+            @post.PostCategories.FirstOrDefault()?.Category.Title
+        </strong>
+    </div>
+    <div class="author-row">
+        Tác giả: <strong>@post.Author.UserName</strong> |
+        Ngày cập nhật: <i>@post.DateUpdated.ToShortDateString()</i>
+    </div>
+  </div>
+</div>
+}
+
+<partial name="_PagingXTL" model="@ViewBag.PagingModel" />
+
+
+
+@section Sidebar {
+    @await Component.InvokeAsync("WebAppTinhVanCat_aspnetcore.Components.CategorySidebar", 
+    new CategorySidebar.CategorySidebarData()// chuyên data sang viewcomponent
+    {
+        Categories = categories,
+        Level = 0,
+        CategorySlug = @ViewBag.categoryslug
+    })
+}
+
+
+
