@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAppTinhVanCat_aspnetcore.Models.Contacts;
 
-
-
 namespace WebAppTinhVanCat_aspnetcore.Models
 {
     public class AppDbContext : IdentityDbContext<AppUser>
@@ -16,7 +14,6 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options) { }
 
         public DbSet<Category> Categories { set; get; }
-        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
 
