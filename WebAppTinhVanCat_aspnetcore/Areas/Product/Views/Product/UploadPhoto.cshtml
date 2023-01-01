@@ -1,0 +1,154 @@
+﻿@model WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers.ProductController.UploadOneFile
+@using Microsoft.EntityFrameworkCore
+
+
+@{
+
+    ProductModel product = ViewData["product"] as ProductModel;
+    ViewData["Title"] = "Upload ảnh cho " + product.Title;
+}
+
+
+
+<h2>upload photo cho @product.Title</h2>
+
+<form method="post" enctype="multipart/form-data">
+
+    <label asp-for="@Model.FileUpload"></label>
+    <input  asp-for="@Model.FileUpload" />
+    <span asp-validation-for="@Model.FileUpload"></span>
+
+    <input class="btn btn-primary" type="submit" asp-action="UploadPhoto" asp-route-id="@product.ProductId" value="Upload" />
+
+</form>
+
+<hr>
+<div>
+    <input class="collapse" type="file" id="select-file-upload" onchange="AutoUploadPhoto()" />
+
+    <span class="btn btn-primary" onclick="ClickButtonUpload()">Uploads</span>
+    
+</div>
+<hr />
+
+<div id="box-photo-upload" class="d-flex flex-wrap photo-upload" data-id="@product.ProductId" >
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+
+@section uploadPhotoScript {
+
+    <script>
+
+
+        function ClickButtonUpload() {
+
+            $("#select-file-upload").click();
+        }
+
+        function AutoUploadPhoto(){ //up ảnh thông qua api
+            var ProductID = $("#box-photo-upload").data("id");
+
+            var formData = new FormData();
+            formData.append("id", ProductID);
+
+            var totalfile =  document.getElementById("select-file-upload").files.length;
+            if(totalfile == 0) return ;
+            var file = document.getElementById("select-file-upload").files[0];
+            formData.append("FileUpload",file);
+
+
+            var urlUpload = "@Url.Action("UploadPhotoApi")"; // đường dẫn post về
+
+            $.ajax({
+
+                data: formData,// post data từ form về
+                cache: false,
+                url: urlUpload,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+
+                    LoadPhoto();
+                }
+
+            });
+        }
+
+        function setClickDeletePhoto(){ //thêm sự kiện click xóa ảnh cho thẻ span
+
+            $("#box-photo-upload .photodetail span").click(function(){
+               
+                if (confirm("Bạn có chắc chắn xóa ảnh ?") != true)  return;
+
+                var spanButton = $(this);
+                var id = spanButton.data("id");
+
+                 var formData = new FormData();
+                formData.append("id",id);
+                var urlDeletePhoto = "@Url.Action("DeletePhoto")"; // đường dẫn post về
+
+                $.ajax({
+
+                    data : formData,// post data từ form về
+                    cache: false,
+                    url : urlDeletePhoto,
+                    type : "POST",
+                    contentType:false,
+                    processData:false,
+                    success: function(data){
+
+                        LoadPhoto();
+                    }
+
+                });
+            });
+        }
+
+
+        function LoadPhoto(){ //load danh sách hình ảnh
+            var box = $("#box-photo-upload");
+            var ProductID = box.data("id");
+            box.empty();
+
+            var formData = new FormData();
+            formData.append("id",ProductID);
+            var urlListPhoto = "@Url.Action("ListPhotos")"; // đường dẫn post về
+
+            $.ajax({
+
+                data : formData,// post data từ form về
+                cache: false,
+                url : urlListPhoto,
+                type : "POST",
+                contentType:false,
+                processData:false,
+                success: function(data){
+
+                    data.photos.forEach( function(item){
+                         var htmlphoto  = $(
+                             '<div class="photodetail w-25 p-1">'
+                                   + '<img class="w-100" src="'+ item.path +'" />'
+                                   + '<span class="btn btn-danger" data-id="'+ item.id +'"> Xóa ảnh </span></div>'
+                            )
+                            box.append(htmlphoto);
+                    });
+                    setClickDeletePhoto(); 
+                }
+            });
+
+        }
+        
+        $(document).ready(function(){
+
+            LoadPhoto();
+
+
+        });
+    </script>
+
+
+}
+

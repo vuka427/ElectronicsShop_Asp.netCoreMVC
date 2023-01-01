@@ -1,4 +1,5 @@
 ﻿@using WebAppTinhVanCat_aspnetcore.Components;
+@using WebAppTinhVanCat_aspnetcore.Models.Blog;
 @model Post;
 
 @{
@@ -58,17 +59,20 @@
     {
         Categories = categories,
         Level = 0,
-        CategorySlug = category.Slug
+        CategorySlug = (category != null)?  category.Slug : "" 
     })
-
-    <ul class="list-group">
-        @foreach (var post in otherPost)
-        {
-            <li class="list-group-item">
-                <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
-                @post.Title
-                </a>
-            </li>
-        }
-    </ul>
+    @if (otherPost != null)
+    {
+         <ul class="list-group">
+            @foreach (var post in otherPost)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
+                        @post.Title
+                    </a>
+                </li>
+            }
+         </ul>
+    }
+   
 }

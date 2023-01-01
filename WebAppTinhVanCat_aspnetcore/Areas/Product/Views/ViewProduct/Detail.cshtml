@@ -1,0 +1,78 @@
+﻿@using WebAppTinhVanCat_aspnetcore.Components;
+@using WebAppTinhVanCat_aspnetcore.Models.Products;
+@model ProductModel;
+
+@{
+    List<CategoryProduct> categories = ViewBag.categories as List<CategoryProduct>;
+    CategoryProduct category = ViewBag.category as CategoryProduct;
+    ViewData["Title"] = Model.Title;
+    IQueryable<ProductModel> otherPost = ViewBag.otherPost as IQueryable<ProductModel>;
+
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        @if (category != null)
+        {
+            var listParent = category.ListParents();
+            foreach (var item in listParent)
+            {
+                <li class="breadcrumb-item" >
+                    <a asp-action="Index" asp-route-categoryslug="@item.Slug">
+                @item.Title
+                    </a> 
+                </li>
+            }
+              <li class="breadcrumb-item" >
+                    <a asp-action="Index" asp-route-categoryslug="@category.Slug">
+                @category.Title
+                    </a> 
+                </li>
+        }
+
+
+    </ol>
+</nav>
+
+<div class="detailpost">
+    <h2>@Model.Title</h2>
+    <div class="sapo"> 
+        @Model.Description
+    </div>
+    <div>
+        <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i> /
+        Tác giả: <strong>@Model.Author.UserName</strong>
+
+    </div>
+    <hr />
+    @Html.Raw(Model.Content)
+</div>
+
+
+
+
+
+@section Sidebar {
+    @await Component.InvokeAsync("WebAppTinhVanCat_aspnetcore.Components.CategoryProductSidebar",
+    new CategoryProductSidebar.CategoryProductSidebarData()// chuyên data sang viewcomponent
+    {
+        Categories = categories,
+        Level = 0,
+        CategorySlug = (category != null)?  category.Slug : "" 
+    })
+    @if (otherPost != null)
+    {
+         <ul class="list-group">
+            @foreach (var post in otherPost)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@post.Slug">
+                        @post.Title
+                    </a>
+                </li>
+            }
+         </ul>
+    }
+   
+}

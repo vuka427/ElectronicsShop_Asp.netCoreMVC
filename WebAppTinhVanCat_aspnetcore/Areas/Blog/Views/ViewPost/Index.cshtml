@@ -1,5 +1,6 @@
 ﻿@model List<Post>
 @using WebAppTinhVanCat_aspnetcore.Components;
+@using WebAppTinhVanCat_aspnetcore.Models.Blog;
 
 
 @{
@@ -33,7 +34,7 @@
 
 @if (category != null)
 {
-    <p> @category.Content </p>
+    <p> @Html.Raw(category.Content) </p>
 }
 else
 {

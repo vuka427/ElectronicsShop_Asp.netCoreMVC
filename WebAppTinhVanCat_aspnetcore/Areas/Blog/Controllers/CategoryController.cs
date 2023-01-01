@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppTinhVanCat_aspnetcore.Models;
 using WebAppTinhVanCat_aspnetcore.Data;
+using WebAppTinhVanCat_aspnetcore.Models.Blog;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
 {
-    
+
     [Area("Blog")]
     [Route("admin/blog/category/[action]/{id?}")]
     [Authorize(Roles = RoleName.Administrator)]

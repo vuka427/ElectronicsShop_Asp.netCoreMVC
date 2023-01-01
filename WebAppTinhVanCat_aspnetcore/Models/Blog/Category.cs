@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebAppTinhVanCat_aspnetcore.Models
+namespace WebAppTinhVanCat_aspnetcore.Models.Blog
 {
     [Table("Category")]
     public class Category
@@ -45,10 +45,10 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         {
             if (childcates == null)
             {
-                childcates = this.CategoryChildren;
+                childcates = CategoryChildren;
 
             }
-            foreach(Category category in childcates)
+            foreach (Category category in childcates)
             {
                 lists.Add(category.Id);
                 ChildCategoryIDs(lists, category.CategoryChildren);
@@ -59,8 +59,8 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         public List<Category> ListParents() //lấy danh sách danh mục cha hiện có
         {
 
-            List <Category> lists = new List<Category>();
-            var parent = this.ParentCategory;
+            List<Category> lists = new List<Category>();
+            var parent = ParentCategory;
             while (parent != null)//kiểm tra có tồn tại dang mục cha hay ko nếu có thêm vào danh sách và tiếp tục lập kiểm tra cha của có  danh mục ông nội ko ....
             {
                 lists.Add(parent);
@@ -70,6 +70,6 @@ namespace WebAppTinhVanCat_aspnetcore.Models
 
             return lists;
         }
-        
+
     }
 }

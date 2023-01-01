@@ -1,0 +1,14 @@
+﻿.photodetail{
+    position:relative;
+    span{
+        position:absolute;
+        bottom:45% ;
+        left:38%;
+        display:none;
+    }
+    &:hover{
+        span{
+            display:block;
+        }
+    }
+}

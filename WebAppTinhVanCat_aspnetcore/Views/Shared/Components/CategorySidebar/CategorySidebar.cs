@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using WebAppTinhVanCat_aspnetcore.Models;
+using System.Diagnostics.CodeAnalysis;
+using WebAppTinhVanCat_aspnetcore.Models.Blog;
 
 namespace WebAppTinhVanCat_aspnetcore.Components
 {
@@ -10,9 +11,11 @@ namespace WebAppTinhVanCat_aspnetcore.Components
 
         public class CategorySidebarData 
         {
-            public List<Category> Categories { get; set; } // dánh mục
+            public List<Category> Categories { get; set; } // tất cả danh mục
             public int Level { get; set; } // danh mục đang truy cập
-            public string CategorySlug { get; set; } // url  đang truy cập 
+
+         
+            public string? CategorySlug { get; set; } // url  đang truy cập 
         }
 
 

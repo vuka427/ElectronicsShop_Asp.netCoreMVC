@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAppTinhVanCat_aspnetcore.Models.Contacts;
+using WebAppTinhVanCat_aspnetcore.Models.Blog;
+using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Products;
 
 namespace WebAppTinhVanCat_aspnetcore.Models
 {
@@ -13,9 +16,14 @@ namespace WebAppTinhVanCat_aspnetcore.Models
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options) { }
 
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Category> Categories { set; get; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
+        public DbSet<CategoryProduct> CategoryProducts { set; get; }
+        public DbSet<ProductModel> Products { get; set; }
+        public DbSet<ProductCategoryProduct> ProductCategoryProducts { get; set; }
+        public DbSet<ProductPhoto> ProductPhotos { set; get; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +51,22 @@ namespace WebAppTinhVanCat_aspnetcore.Models
             });
 
             builder.Entity<Post>(entity => { // dánh chỉ mục trường slug
+                entity.HasIndex(p => p.Slug)
+                .IsUnique(); //isUnipue : có giá trị duy nhất 
+            });
+
+            // phần product
+            builder.Entity<CategoryProduct>(entity => { // dánh chỉ mục trường slug
+                entity.HasIndex(p => p.Slug)
+                .IsUnique(); //isUnipue : có giá trị duy nhất 
+            });
+
+            builder.Entity<ProductCategoryProduct>(entity => { // PostID và CategoryID là khóa chính tạo quan hệ nhiều - nhiều cho bản post và category
+                entity.HasKey(k => new { k.ProductID, k.CategoryProductID });
+
+            });
+
+            builder.Entity<ProductModel>(entity => { // dánh chỉ mục trường slug
                 entity.HasIndex(p => p.Slug)
                 .IsUnique(); //isUnipue : có giá trị duy nhất 
             });

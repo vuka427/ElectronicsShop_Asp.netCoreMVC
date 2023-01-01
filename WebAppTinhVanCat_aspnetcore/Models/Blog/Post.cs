@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAppTinhVanCat_aspnetcore.Models
+namespace WebAppTinhVanCat_aspnetcore.Models.Blog
 {
     [Table("Post")]
     public class Post

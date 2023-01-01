@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
 using WebAppTinhVanCat_aspnetcore.Models;
+using WebAppTinhVanCat_aspnetcore.Models.Blog;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
 {
@@ -48,7 +49,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
                                     .ThenInclude(p => p.Category)
                                     .AsQueryable(); 
                                     
-            Post = Post.OrderByDescending(p => p.DateUpdated);
+            Post = Queryable.OrderByDescending(Post, p => p.DateUpdated);
 
 
             if (category != null) //  nếu có danh mục thì lấy các bài viết con cháu và của danh mục đó
@@ -62,7 +63,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
             }
             // phân trang
             
-            var totalPosts =  Post.Count(); // tổng số bài viết
+            var totalPosts = Queryable.Count(Post); // tổng số bài viết
             if (pagesize <= 0) pagesize = 10;
             var countPages = (int)Math.Ceiling((double)totalPosts / pagesize); // tính số lượng trang  =  tổng số bài viết / số bài viết trên 1 trang
 
@@ -108,14 +109,19 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
             {
                 return NotFound("không thấy bài viết !");
             }
-            Category category =  Post.PostCategories.FirstOrDefault()?.Category;
+            Category category =  Post.PostCategories.FirstOrDefault()?.Category;//lấy danh mục của bài viết
             ViewBag.category = category;
-
-            var otherPost = _context.Posts.Where(p=>p.PostCategories.Any(c=>c.Category.Id == category.Id))
-                                            .Where(p=>p.PostId != Post.PostId)
-                                            .OrderByDescending(p=>p.DateUpdated)
+            if (category != null)
+            {
+                var otherPost = _context.Posts.Where(p => p.PostCategories.Any(c => c.Category.Id == category.Id)) // lấy 5 bài viết cùng danh mục
+                                            .Where(p => p.PostId != Post.PostId)
+                                            .OrderByDescending(p => p.DateUpdated)
                                             .Take(5);
-            ViewBag.otherPost = otherPost;
+                ViewBag.otherPost = otherPost;
+
+            }
+           
+            
 
             return View(Post);
         }

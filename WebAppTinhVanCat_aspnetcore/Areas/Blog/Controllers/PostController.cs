@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAppTinhVanCat_aspnetcore.Areas.Blog.Models;
 using WebAppTinhVanCat_aspnetcore.Data;
 using WebAppTinhVanCat_aspnetcore.Models;
+using WebAppTinhVanCat_aspnetcore.Models.Blog;
 using WebAppTinhVanCat_aspnetcore.Utilities;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
@@ -97,8 +98,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
         }
 
         // POST: Blog/Post/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Description,Slug,Content,Published,CategoryIDs")] CreatePostModel post)

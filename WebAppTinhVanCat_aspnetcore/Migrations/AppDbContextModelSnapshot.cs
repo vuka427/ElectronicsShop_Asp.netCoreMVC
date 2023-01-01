@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppTinhVanCat_aspnetcore.Models;
 
-namespace WebAppTinhVanCat_aspnetcore.Migrations
+#nullable disable
+
+namespace WebAppTinhVanCataspnetcore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -15,9 +17,10 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -43,15 +46,16 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -67,15 +71,16 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims");
+                    b.ToTable("RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -91,7 +96,7 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -113,7 +118,7 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins");
+                    b.ToTable("UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -128,7 +133,7 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -147,7 +152,7 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens");
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.AppUser", b =>
@@ -223,15 +228,16 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Category", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -259,47 +265,15 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Contacts.Contact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateSent")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Massage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contacts");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Post", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
                     b.Property<string>("AuthorId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
@@ -337,7 +311,7 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
                     b.ToTable("Post");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.PostCategory", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.PostCategory", b =>
                 {
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
@@ -350,6 +324,158 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
                     b.HasIndex("PostID");
 
                     b.ToTable("PostCategory");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Contacts.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Massage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("ProductPhoto");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentCategoryId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("CategoryProduct");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductCategoryProduct", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductID", "CategoryProductID");
+
+                    b.HasIndex("CategoryProductID");
+
+                    b.ToTable("ProductCategoryProduct");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Slug")
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasFilter("[Slug] IS NOT NULL");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -403,35 +529,33 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Category", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.Category", b =>
                 {
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Category", "ParentCategory")
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Blog.Category", "ParentCategory")
                         .WithMany("CategoryChildren")
                         .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Post", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.Post", b =>
                 {
                     b.HasOne("WebAppTinhVanCat_aspnetcore.Models.AppUser", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.PostCategory", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.PostCategory", b =>
                 {
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Category", "Category")
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Blog.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Post", "Post")
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Blog.Post", "Post")
                         .WithMany("PostCategories")
                         .HasForeignKey("PostID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -442,14 +566,74 @@ namespace WebAppTinhVanCat_aspnetcore.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Category", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductPhoto", b =>
+                {
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", "Product")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", b =>
+                {
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", "ParentCategory")
+                        .WithMany("CategoryChildren")
+                        .HasForeignKey("ParentCategoryId");
+
+                    b.Navigation("ParentCategory");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductCategoryProduct", b =>
+                {
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", "Product")
+                        .WithMany("ProductCategoryProducts")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", b =>
+                {
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.Category", b =>
                 {
                     b.Navigation("CategoryChildren");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Post", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Blog.Post", b =>
                 {
                     b.Navigation("PostCategories");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", b =>
+                {
+                    b.Navigation("CategoryChildren");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", b =>
+                {
+                    b.Navigation("Photos");
+
+                    b.Navigation("ProductCategoryProducts");
                 });
 #pragma warning restore 612, 618
         }

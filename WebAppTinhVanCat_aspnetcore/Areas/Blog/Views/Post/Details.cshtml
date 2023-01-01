@@ -1,4 +1,4 @@
-﻿@model WebAppTinhVanCat_aspnetcore.Models.Post
+﻿@model Post
 
 @{
     ViewData["Title"] = @Model.Title;
@@ -56,6 +56,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.PostId">Chỉnh sửa</a> |
+    <a asp-action="Edit" asp-route-id=" @Model.PostId">Chỉnh sửa</a> |
     <a asp-action="Index">Trở về danh sách bài viết </a>
 </div>
