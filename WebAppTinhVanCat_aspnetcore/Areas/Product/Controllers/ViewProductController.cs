@@ -1,5 +1,6 @@
 ﻿using Castle.Core.Logging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Evaluation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
+using WebAppTinhVanCat_aspnetcore.Areas.Product.Models;
+using WebAppTinhVanCat_aspnetcore.Areas.Product.Service;
 using WebAppTinhVanCat_aspnetcore.Models;
 using WebAppTinhVanCat_aspnetcore.Models.Products;
 
@@ -17,26 +20,30 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
     {
         private readonly ILogger<ViewProductController> _logger;
         private readonly AppDbContext _context;
+        private readonly CartService _cartService;
 
-        public ViewProductController(ILogger<ViewProductController> logger, AppDbContext context)
+        public ViewProductController(ILogger<ViewProductController> logger, AppDbContext context, CartService cartservice)
         {
             _logger = logger;
             _context = context;
+            _cartService = cartservice;
         }
 
+
+
         //product
-        //post/{categoryslug?}
-        [Route("/product/{categoryslug?}")]
-        public IActionResult Index(string categoryslug, [FromQuery(Name = "p")] int currentPage, int pagesize) 
+        //product/{productslug?}
+        [Route("/product/{productslug?}")]
+        public IActionResult Index(string productslug, [FromQuery(Name = "p")] int currentPage, int pagesize) 
         {
             ViewBag.categories = GetCategories();//tất cả danh mục
-            ViewBag.categoryslug = categoryslug;//url truy cập hiện tại
+            ViewBag.categoryslug = productslug;//url truy cập hiện tại
 
             CategoryProduct category = null; //danh mục tương ứng với url truy cập hiện tại
 
-            if (!string.IsNullOrEmpty(categoryslug) ) // nếu tồn tại url chỉ định danh mục thì lấy danh mục tương ứng
+            if (!string.IsNullOrEmpty(productslug) ) // nếu tồn tại url chỉ định danh mục thì lấy danh mục tương ứng
             {
-                category = _context.CategoryProducts.Where(c=>c.Slug == categoryslug)
+                category = _context.CategoryProducts.Where(c=>c.Slug == productslug)
                                                 .Include(c => c.CategoryChildren)                    
                                                 .FirstOrDefault();
                 if(category == null) return NotFound("không tìm thấy danh mục");
@@ -45,6 +52,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
 
             var product = _context.Products.Include(p => p.Author) //tất cả các sản phẩm
+                                    .Include(p=>p.Photos)
                                     .Include(p => p.ProductCategoryProducts)
                                     .ThenInclude(p => p.Category)
                                     .AsQueryable(); 
@@ -64,7 +72,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             // phân trang
             
             var totalProduct =  product.Count(); // tổng số sản phẩm
-            if (pagesize <= 0) pagesize = 10;
+            if (pagesize <= 0) pagesize = 12;
             var countPages = (int)Math.Ceiling((double)totalProduct / pagesize); // tính số lượng trang  =  tổng số sản phẩm / số sản phẩm trên 1 trang
 
             if (currentPage > countPages)
@@ -100,30 +108,32 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             ViewBag.categories = GetCategories();//tất cả danh mục
 
 
-            var Post = _context.Products.Where(p => p.Slug == productslug)
+            var Product = _context.Products.Where(p => p.Slug == productslug)
                                         .Include(p => p.Author)
+                                        .Include(p => p.Photos)
                                         .Include(p => p.ProductCategoryProducts)
                                         .ThenInclude(pc => pc.Category)
                                         .FirstOrDefault();
-            if(Post == null)
+            if(Product == null)
             {
                 return NotFound("không thấy bài viết !");
             }
-            CategoryProduct category =  Post.ProductCategoryProducts.FirstOrDefault()?.Category;//lấy danh mục của sản phẩm
+            CategoryProduct category =  Product.ProductCategoryProducts.FirstOrDefault()?.Category;//lấy danh mục của sản phẩm
             ViewBag.category = category;
+
             if (category != null)
             {
-                var otherPost = _context.Products.Where(p => p.ProductCategoryProducts.Any(c => c.Category.Id == category.Id)) // lấy 5 sản phẩm cùng danh mục
-                                            .Where(p => p.ProductId != Post.ProductId)
+                var otherProduct = _context.Products.Where(p => p.ProductCategoryProducts.Any(c => c.Category.Id == category.Id)) // lấy 5 sản phẩm cùng danh mục
+                                            .Where(p => p.ProductId != Product.ProductId)
                                             .OrderByDescending(p => p.DateUpdated)
                                             .Take(5);
-                ViewBag.otherPost = otherPost;
+                ViewBag.otherProduct = otherProduct;
 
             }
            
             
 
-            return View(Post);
+            return View(Product);
         }
 
         [NonAction]
@@ -138,6 +148,85 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
             return categories;
 
+        }
+
+        [Route("addcart/{productid:int}", Name = "addcart")]
+        public IActionResult AddToCart([FromRoute] int productid)
+        {
+
+            var product = _context.Products
+                .Where(p => p.ProductId == productid)
+                .FirstOrDefault();
+            if (product == null)
+                return NotFound("Không có sản phẩm");
+
+            // Xử lý đưa vào Cart ...
+            var cart = _cartService.GetCartItems();
+            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            if (cartitem != null)
+            {
+                // Đã tồn tại, tăng thêm 1
+                cartitem.quantity++;
+            }
+            else
+            {
+                //  Thêm mới
+                cart.Add(new CartItem() { quantity = 1, product = product });
+            }
+
+            // Lưu cart vào Session
+            _cartService.SaveCartSession(cart);
+            // Chuyển đến trang hiện thị Cart
+            return RedirectToAction(nameof(Cart));
+        }
+
+        [Route("/cart", Name = "cart")]
+        public IActionResult Cart()
+        {
+            return View(_cartService.GetCartItems());
+        }
+
+        /// Cập nhật
+        [Route("/updatecart", Name = "updatecart")]
+        [HttpPost]
+        public IActionResult UpdateCart([FromForm] int productid, [FromForm] int quantity)
+        {
+            // Cập nhật Cart thay đổi số lượng quantity ...
+            var cart = _cartService.GetCartItems();
+            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            if (cartitem != null)
+            {
+                // Đã tồn tại, tăng thêm 1
+                cartitem.quantity = quantity;
+            }
+            _cartService.SaveCartSession(cart);
+            // Trả về mã thành công (không có nội dung gì - chỉ để Ajax gọi)
+            return Ok();
+        }
+
+        /// xóa item trong cart
+        [Route("/removecart/{productid:int}", Name = "removecart")]
+        public IActionResult RemoveCart([FromRoute] int productid)
+        {
+            var cart = _cartService.GetCartItems();
+            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            if (cartitem != null)
+            {
+                // Đã tồn tại, tăng thêm 1
+                cart.Remove(cartitem);
+            }
+
+            _cartService.SaveCartSession(cart);
+            return RedirectToAction(nameof(Cart));
+        }
+
+        [Route("/checkout")]
+        public IActionResult Checkout()
+        {
+            var cart = _cartService.GetCartItems();
+
+            _cartService.ClearCart();
+            return Content("đã gửi đơn hàng ");
         }
     }
 }

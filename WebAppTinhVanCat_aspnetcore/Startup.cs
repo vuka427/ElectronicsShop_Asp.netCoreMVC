@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using WebAppTinhVanCat_aspnetcore.Areas.Product.Service;
 
 namespace WebAppTinhVanCat_aspnetcore
 {
@@ -139,6 +140,14 @@ namespace WebAppTinhVanCat_aspnetcore
                         microsoftOptions.CallbackPath = Mgconfig["CallbackPath"];
                     });
 
+            services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+            services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+                cfg.Cookie.Name = "TinhVanCat";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+                cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
+            });
+
+            services.AddTransient<CartService>();
+
 
         }
 
@@ -157,6 +166,7 @@ namespace WebAppTinhVanCat_aspnetcore
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+           
             app.UseStaticFiles(new StaticFileOptions() //truy cập files tĩnh
             {
                 FileProvider = new PhysicalFileProvider(
@@ -164,7 +174,9 @@ namespace WebAppTinhVanCat_aspnetcore
                     ),
                 RequestPath ="/contens"
 
-            }); ;
+            }); 
+
+            app.UseSession();
 
             app.UseRouting();
 

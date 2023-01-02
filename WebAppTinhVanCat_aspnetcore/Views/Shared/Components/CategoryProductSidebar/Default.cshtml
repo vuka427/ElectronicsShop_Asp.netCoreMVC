@@ -13,7 +13,7 @@
     {
         @Html.Raw("<div class=\"categorysidebar\">")
         <h4>
-            <a asp-controller="ViewProduct" asp-action="Index" asp-route-categoryslug="">
+            <a asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="">
                 Tất cả các danh mục sản phẩm
             </a>
         </h4>
@@ -23,9 +23,9 @@
     <ul>
         @foreach (var category in Model.Categories )
         {
-            var cssActive = (category.Slug == Model.CategorySlug) ? "active" : null; // đánh dấu css cho danh mục đang truy cập
+            var cssActive = (category.Slug == Model.CategorySlug)? "active" : null; // đánh dấu css cho danh mục đang truy cập
             <li>
-                <a class="@cssActive" asp-controller="ViewProduct" asp-action="Index" asp-route-categoryslug="@category.Slug">
+                <a class="@cssActive" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="@category.Slug">
                     @category.Title
                 </a>
                 @if (category.CategoryChildren?.Count > 0)  // duyệt đệ quy nếu có danh mục con

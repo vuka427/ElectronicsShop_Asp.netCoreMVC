@@ -6,7 +6,7 @@
     List<CategoryProduct> categories = ViewBag.categories as List<CategoryProduct>;
     CategoryProduct category = ViewBag.category as CategoryProduct;
     ViewData["Title"] = Model.Title;
-    IQueryable<ProductModel> otherPost = ViewBag.otherPost as IQueryable<ProductModel>;
+    IQueryable<ProductModel> otherProduct = ViewBag.otherProduct as IQueryable<ProductModel>;
 
 }
 
@@ -19,13 +19,13 @@
             foreach (var item in listParent)
             {
                 <li class="breadcrumb-item" >
-                    <a asp-action="Index" asp-route-categoryslug="@item.Slug">
+                    <a asp-action="Index" asp-route-productslug="@item.Slug">
                 @item.Title
                     </a> 
                 </li>
             }
               <li class="breadcrumb-item" >
-                    <a asp-action="Index" asp-route-categoryslug="@category.Slug">
+                    <a asp-action="Index" asp-route-productslug="@category.Slug">
                 @category.Title
                     </a> 
                 </li>
@@ -41,8 +41,25 @@
         @Model.Description
     </div>
     <div>
-        <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i> /
-        Tác giả: <strong>@Model.Author.UserName</strong>
+        <p>
+            Giá : <strong>@Model.Price</strong>
+            <a asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger">Đặt hàng</a>
+        </p>
+    </div>
+    <div>
+        <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i> 
+    </div>
+    <hr />
+    @if (Model.Photos.Any())
+    {
+        <div class="d-flex flex-wrap justify-content-between" >
+            @foreach (var photo in Model.Photos)
+            {
+                
+                <img src="/contens/Products/@photo.FileName" class="w-50 p-1" alt="hehe hông có j hết">
+            }
+        </div>
+    }
 
     <hr />
     @Html.Raw(Model.Content)
@@ -60,10 +77,12 @@
         Level = 0,
         CategorySlug = (category != null)?  category.Slug : "" 
     })
-    @if (otherPost != null)
+
+
+    @if (otherProduct != null)
     {
          <ul class="list-group">
-            @foreach (var post in otherPost)
+            @foreach (var post in otherProduct)
             {
                 <li class="list-group-item">
                     <a asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@post.Slug">
