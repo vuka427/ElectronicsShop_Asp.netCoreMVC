@@ -5,7 +5,6 @@
     ViewData["Title"] = "Đăng ký tài khoản";
 }
 
-<h1>@ViewData["Title"].</h1>
 
 <div class="row">
     <div class="col-md-8">
@@ -74,16 +73,12 @@
                                 {
                                     <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.Name account">@provider.Name</button>
                                 }
-                            </p>
-                        </div>
                     </form>
                 }
             }
         </section>
     </div>
 </div>
-
-
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
