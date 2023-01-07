@@ -10,7 +10,7 @@ using WebAppTinhVanCat_aspnetcore.Models;
 
 namespace WebAppTinhVanCat_aspnetcore.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

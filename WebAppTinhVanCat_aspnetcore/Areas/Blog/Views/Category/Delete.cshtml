@@ -1,15 +1,12 @@
 ﻿@model Category
 
 @{
-    ViewData["Title"] = "Xóa chuyên mục";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Xóa chuyên mục " + Model.Title;
+  
 }
 
-<h1> @ViewData["Title"]</h1>
-
-<h3>Chắc chắn xóa chuyên mục này?</h3>
+<h4>Chắc chắn xóa chuyên mục này?</h4>
 <div>
-    <h4>Chuyên mục</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-4">
@@ -27,3 +24,9 @@
         <a asp-action="Index">Trở lại danh sách chuyên mục</a>
     </form>
 </div>
+@{
+    _AdminSideBarService.SetActive("Category", "Index", "Blog");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

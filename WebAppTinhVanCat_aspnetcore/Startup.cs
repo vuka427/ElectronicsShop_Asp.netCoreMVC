@@ -21,6 +21,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using WebAppTinhVanCat_aspnetcore.Areas.Product.Service;
+using WebAppTinhVanCat_aspnetcore.Data;
+using WebAppTinhVanCat_aspnetcore.Menu;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace WebAppTinhVanCat_aspnetcore
 {
@@ -146,8 +149,17 @@ namespace WebAppTinhVanCat_aspnetcore
                 cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
             });
 
-            services.AddTransient<CartService>();
+            services.AddTransient<CartService>();//dịch vụ gió hàng
 
+            services.AddAuthorization(options => // policy cấp quyền hiển thị nút quản lý
+            {
+                options.AddPolicy("viewManageMenu", policy => {
+                    policy.RequireRole(RoleName.Administrator);
+                });
+
+            });
+            services.AddTransient<IActionContextAccessor , ActionContextAccessor>();
+            services.AddTransient<AdminSideBarService>();// dịch vụ side bar 
 
         }
 

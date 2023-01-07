@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Product\Data\**" />
+    <Content Remove="Areas\Product\Data\**" />
+    <EmbeddedResource Remove="Areas\Product\Data\**" />
+    <None Remove="Areas\Product\Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Uploads\pictures\anh1.jpg" />
     <Content Include="Uploads\pictures\anh2.jpg" />
     <Content Include="Uploads\pictures\CON LỪA CƯỜI BÁ ĐẠO .mp4" />
@@ -68,13 +75,22 @@
     <Folder Include="Areas\Files\Data\" />
     <Folder Include="Areas\Files\Models\" />
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="Areas\Product\Data\" />
     <Folder Include="Uploads\Products\" />
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\files\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\chart.js\Chart.bundle.js" />
+    <None Include="wwwroot\js\chart.js\Chart.bundle.min.js" />
+    <None Include="wwwroot\js\chart.js\Chart.js" />
+    <None Include="wwwroot\js\chart.js\Chart.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Blog\Views\_ViewStart.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="Areas\Product\Views\CategoryProduct\Create.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

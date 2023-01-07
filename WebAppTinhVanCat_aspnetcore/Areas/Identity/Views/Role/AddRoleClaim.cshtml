@@ -34,3 +34,10 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+@{
+    _AdminSideBarService.SetActive("Role", "Index", "Indentity");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

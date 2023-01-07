@@ -2,14 +2,12 @@
 @model WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Chỉnh sửa danh mục " + Model.Title;
+    
 }
 
 
 
-<h4>Chỉnh sửa danh mục @Model.Title </h4>
-<hr />
 <div class="row">
     <div class="col-md-8">
         <form asp-action="Edit">
@@ -55,3 +53,9 @@
     summernote.height = 700;
 }
 <partial name="_Summernote" model="summernote" />
+@{
+    _AdminSideBarService.SetActive("CategoryProduct", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

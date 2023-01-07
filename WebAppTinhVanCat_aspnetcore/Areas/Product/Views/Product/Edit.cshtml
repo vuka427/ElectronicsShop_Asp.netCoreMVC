@@ -3,14 +3,11 @@
 
 @{
     ViewData["Title"] = "Cập nhật thông tin sản phẩm";
-    Layout = "/Views/Shared/_Layout.cshtml";
-
     var list = ViewData["categories"] as MultiSelectList;
 }
 
 
-<h4>@ViewData["Title"]</h4>
-<hr />
+
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Edit" asp-controller="Product" >
@@ -208,3 +205,9 @@
 
 }
 <partial name="_Summernote" model="summernote" />
+@{
+    _AdminSideBarService.SetActive("Product", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

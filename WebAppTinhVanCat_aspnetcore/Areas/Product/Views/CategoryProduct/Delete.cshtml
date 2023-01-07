@@ -2,10 +2,8 @@
 
 @{
     ViewData["Title"] = "Xóa danh mục sản phẩm";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    
 }
-
-<h1> @ViewData["Title"]</h1>
 
 <h3>Chắc chắn xóa danh mục sản phẩm này?</h3>
 <div>
@@ -27,3 +25,9 @@
         <a asp-action="Index">Trở lại danh mục sản phẩm</a>
     </form>
 </div>
+@{
+    _AdminSideBarService.SetActive("CategoryProduct", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

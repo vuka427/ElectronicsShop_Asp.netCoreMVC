@@ -1,22 +1,15 @@
-﻿
+﻿@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService authorizationServer;
 
 
+@{
+    var result = await authorizationServer.AuthorizeAsync(this.User, "viewManageMenu");
+}
 
 
-<div class="dropdown ">
-    <div class="dropdown-toggle btn  " data-toggle="dropdown">
-        <strong>Manage</strong>
-    </div>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" asp-action="Index" asp-controller="DbManage" asp-area="Database">Database</a>
-        <a class="dropdown-item" asp-action="Index" asp-controller="Role" asp-area="Identity">Quản Lý Role</a>
-        <a class="dropdown-item" asp-action="Index" asp-controller="User" asp-area="Identity">Quản Lý User</a>
-        <a class="dropdown-item" asp-action="Index" asp-controller="Contact" asp-area="Contact">Quản lý Liên Hệ</a>
-        <a class="dropdown-item" asp-action="Index" asp-controller="Category" asp-area="Blog">Quản lý Chuyên mục Blog</a>
-        <a class="dropdown-item" asp-action="Index" asp-controller="Post" asp-area="Blog">Quản lý Bài viết</a>
-        <a class="dropdown-item" target="_blank" asp-action="Index" asp-controller="FileManager" asp-area="Files">Quản lý Files</a>
-        <a class="dropdown-item" asp-action="Index" asp-controller="CategoryProduct" asp-area="Product">Quản lý Danh mục sản phẩm</a>
-        <a class="dropdown-item" asp-action="Index" asp-controller="Product" asp-area="Product">Quản lý sản phẩm</a>
+@if (result.Succeeded)
+{
+    <a class="nav-link text-light" asp-action="Index" asp-controller="Admin" asp-area="AdminCP"><i class="fas fa-cog"></i>  Quản trị</a>
 
-    </div>
-</div>
+}
+

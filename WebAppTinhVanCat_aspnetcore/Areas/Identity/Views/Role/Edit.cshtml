@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Cập nhật role";
 }
-<h2>@ViewData["Title"]</h2>
+
 <partial name="_StatusMessage"></partial>
 
 <hr>
@@ -48,4 +48,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@{
+    _AdminSideBarService.SetActive("Role", "Index", "Identity");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
 }

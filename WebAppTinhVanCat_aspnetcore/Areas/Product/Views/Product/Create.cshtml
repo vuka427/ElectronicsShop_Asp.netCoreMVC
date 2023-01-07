@@ -3,14 +3,11 @@
 
 @{
     ViewData["Title"] = "Thêm sản phẩm mới";
-    Layout = "/Views/Shared/_Layout.cshtml";
 
     var list = ViewData["categories"] as MultiSelectList;
 }
 
 
-<h4>@ViewData["Title"]</h4>
-<hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Create">
@@ -87,3 +84,9 @@
     summernote.height = 700;
 }
 <partial name="_Summernote" model="summernote" />
+@{
+    _AdminSideBarService.SetActive("Product", "Create", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Xóa sản phẩm";
-    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -38,3 +37,9 @@
         <a asp-action="Index">Trở lại danh sách sản phẩm</a>
     </form>
 </div>
+@{
+    _AdminSideBarService.SetActive("Product", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

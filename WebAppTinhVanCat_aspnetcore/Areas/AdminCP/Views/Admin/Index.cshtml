@@ -1,0 +1,10 @@
+﻿@using WebAppTinhVanCat_aspnetcore.Menu;
+@inject AdminSideBarService _AdminSideBarService;
+
+@{
+    ViewData["Title"] = "Admin Control Panel";
+}
+
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

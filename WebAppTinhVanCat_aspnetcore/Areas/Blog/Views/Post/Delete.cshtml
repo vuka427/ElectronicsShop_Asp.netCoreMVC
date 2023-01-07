@@ -1,10 +1,8 @@
 ﻿@model Post
 
 @{
-    ViewData["Title"] = "Delete";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Xóa bài viết";
 }
-
 
 
 <div>
@@ -38,3 +36,9 @@
         <a asp-action="Index">Trở lại danh sách bài viết</a>
     </form>
 </div>
+@{
+    _AdminSideBarService.SetActive("Post", "Index", "Blog");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

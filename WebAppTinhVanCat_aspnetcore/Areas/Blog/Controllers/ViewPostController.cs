@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -27,6 +28,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
         //post
         //post/{categoryslug?}
         [Route("/post/{categoryslug?}")]
+        [AllowAnonymous]
         public IActionResult Index(string categoryslug, [FromQuery(Name = "p")] int currentPage, int pagesize) 
         {
             ViewBag.categories = GetCategories();//tất cả danh mục
@@ -95,6 +97,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
 
 
         [Route("/post/{postslug}.html")]
+        [AllowAnonymous]
         public IActionResult Detail(string postslug) 
         {
             ViewBag.categories = GetCategories();//tất cả danh mục

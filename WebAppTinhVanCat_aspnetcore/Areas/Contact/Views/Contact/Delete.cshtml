@@ -1,16 +1,15 @@
 ﻿@model WebAppTinhVanCat_aspnetcore.Models.Contacts.Contact
 
 @{
-    ViewData["Title"] = "Delete";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Xóa liên hệ";
+    _AdminSideBarService.SetActive("Contact", "Index", "Contact");
+   
 }
 
-<h1>Xóa Liên hệ</h1>
 
-<h3>Có chắc chắn xóa?</h3>
+<h3>Có chắc chắn xóa thông tin liên hệ này?</h3>
 <div>
-    <h4>Liên hệ</h4>
-    <hr />
+ 
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FullName)
@@ -50,3 +49,6 @@
         <a asp-action="Index">Trở lại danh sách</a>
     </form>
 </div>
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

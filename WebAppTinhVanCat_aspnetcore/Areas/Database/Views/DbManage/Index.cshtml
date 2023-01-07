@@ -1,6 +1,7 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 @using System.Data;
 
+
 @inject AppDbContext dbcontext
 
 @{
@@ -9,10 +10,7 @@
     var connect = dbcontext.Database.GetDbConnection();
     var dbname = connect.Database;
     var can_connect = dbcontext.Database.CanConnect();
-
-
-
-
+    _AdminSideBarService.SetActive("DbManage", "Index", "Database");
 }
 
 <partial name="_StatusMessage"></partial>
@@ -67,7 +65,8 @@
     <form method="post">
         <button class="btn btn-outline-primary" asp-action="SeedData">Seed Data</button>
     </form>
-    
+}
 
-
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
 }

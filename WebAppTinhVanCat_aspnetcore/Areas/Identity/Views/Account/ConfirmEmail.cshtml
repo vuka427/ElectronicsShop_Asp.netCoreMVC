@@ -1,11 +1,32 @@
 ﻿@{
     ViewData["Title"] = "Xác thực email";
+    Layout = "_LoginLayout";
 }
 
-<h1>@ViewData["Title"].</h1>
-<div>
-    <p>
-        Bạn đã hoàn thành xác thực email. 
-        Hãy <a asp-controller="Account" asp-action="Login">bấm vào đây để đăng nhập</a>.
-    </p>
+<div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-6">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-2">Bạn đã hoàn thành xác thực email!</h1>
+                                <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-user btn-block  font-weight-bold">
+                                    bấm vào đây để đăng nhập
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+

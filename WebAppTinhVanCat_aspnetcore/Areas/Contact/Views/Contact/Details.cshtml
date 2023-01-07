@@ -1,15 +1,12 @@
 ﻿@model WebAppTinhVanCat_aspnetcore.Models.Contacts.Contact
 
 @{
-    ViewData["Title"] = "chi tiết ";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Thông tin liên hệ";
+    _AdminSideBarService.SetActive("Contact", "Index", "Contact");
+   
 }
 
-<h1>Chi tiết</h1>
-
 <div>
-    <h4>Liên hệ</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FullName)
@@ -46,3 +43,7 @@
 <div>
     <a asp-action="Index">Trở lại danh sách</a>
 </div>
+
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

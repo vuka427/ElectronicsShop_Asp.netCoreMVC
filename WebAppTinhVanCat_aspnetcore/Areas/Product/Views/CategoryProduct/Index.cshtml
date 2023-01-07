@@ -3,13 +3,11 @@
 
 @{
     ViewData["Title"] = "Danh mục sản phẩm";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    
 }
 
-<h1>@ViewData["Title"]</h1>
-
 <p>
-    <a asp-action="Create">Tạo Danh mục mới</a>
+    <a class="btn btn-primary" asp-action="Create">Thêm danh mục mới</a>
 </p>
 <table class="table">
     <thead>
@@ -65,4 +63,10 @@
 
         }
     }
+}
+@{
+    _AdminSideBarService.SetActive("CategoryProduct", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
 }

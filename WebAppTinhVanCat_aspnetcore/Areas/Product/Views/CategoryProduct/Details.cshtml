@@ -2,13 +2,11 @@
 
 @{
     ViewData["Title"] = Model.Title;
-    Layout = "/Views/Shared/_Layout.cshtml";
+  
 }
 
-<h1> @ViewData["Title"]</h1>
 
 <div>
-    <h4>Chuyên mục</h4>
     <hr />
     <dl class="row">
      
@@ -31,3 +29,9 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Sữa</a> |
     <a asp-action="Index">Trở lại danh mục sản phẩm</a>
 </div>
+@{
+    _AdminSideBarService.SetActive("CategoryProduct", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

@@ -10,7 +10,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Models.AccountViewModels
         [Required]
         public string Provider { get; set; }
 
-        [Required]
+       
+        [Required(ErrorMessage = "Phải nhập {0}")]
+        [Display(Name = "Mã code", Prompt = "Mã code")]
         public string Code { get; set; }
 
         public string ReturnUrl { get; set; }

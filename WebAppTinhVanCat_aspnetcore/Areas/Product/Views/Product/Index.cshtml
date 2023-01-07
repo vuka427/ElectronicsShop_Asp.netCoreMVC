@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<ProductModel>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Danh sách các sản phẩm";
+    
 }
 
-<h4>Danh sách các sản phẩm</h4>
+
 <partial name="_StatusMessage" />
 <p>
     <a class="btn btn-primary" asp-action="Create">Thêm sản phẩm mới</a>
@@ -74,3 +74,9 @@
 </table>
 
 <partial name="_PagingXTL" model="@ViewBag.PagingModel" />
+@{
+    _AdminSideBarService.SetActive("Product", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

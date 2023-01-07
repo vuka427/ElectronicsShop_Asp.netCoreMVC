@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Evaluation;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         //product
         //product/{productslug?}
         [Route("/product/{productslug?}")]
+        [AllowAnonymous]
         public IActionResult Index(string productslug, [FromQuery(Name = "p")] int currentPage, int pagesize) 
         {
             ViewBag.categories = GetCategories();//tất cả danh mục
@@ -103,6 +105,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
 
         [Route("/product/{productslug}.html")]
+        [AllowAnonymous]
         public IActionResult Detail(string productslug) 
         {
             ViewBag.categories = GetCategories();//tất cả danh mục

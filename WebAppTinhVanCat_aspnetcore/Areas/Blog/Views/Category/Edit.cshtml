@@ -2,14 +2,10 @@
 @model Category
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Chỉnh sửa chuyên mục "+Model.Title;
+   
 }
 
-
-
-<h4>Chỉnh sửa chuyên mục @Model.Title </h4>
-<hr />
 <div class="row">
     <div class="col-md-8">
         <form asp-action="Edit">
@@ -26,15 +22,16 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <textarea asp-for="Content" class="form-control" ></textarea>
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Slug" class="control-label"></label>
                 <input asp-for="Slug" class="form-control" />
                 <span asp-validation-for="Slug" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control" ></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Cập nhật" class="btn btn-primary" />
             </div>
@@ -55,3 +52,9 @@
     summernote.height = 700;
 }
 <partial name="_Summernote" model="summernote" />
+@{
+    _AdminSideBarService.SetActive("Category", "Index", "Blog");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

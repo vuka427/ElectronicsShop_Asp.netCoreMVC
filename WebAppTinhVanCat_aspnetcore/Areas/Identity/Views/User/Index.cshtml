@@ -42,3 +42,9 @@
 }
 
 <partial name="_PagingXTL" model="@pagingmodel" />
+@{
+    _AdminSideBarService.SetActive("User", "Index", "Identity");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

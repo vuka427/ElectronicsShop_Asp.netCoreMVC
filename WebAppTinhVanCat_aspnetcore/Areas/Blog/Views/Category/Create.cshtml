@@ -2,14 +2,10 @@
 @model Category
 
 @{
-    ViewData["Title"] = "Tạo chuyên mục";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Thêm chuyên mục bài viết";
+   
 }
 
-<h1>@ViewData["Title"] </h1>
-
-<h4>Chuyên mục</h4>
-<hr />
 <div class="row">
     <div class="col-md-8">
         <form asp-action="Create">
@@ -53,3 +49,9 @@
     summernote.height = 700;
 }
 <partial name="_Summernote" model="summernote" />
+@{
+    _AdminSideBarService.SetActive("Category", "Create", "Blog");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

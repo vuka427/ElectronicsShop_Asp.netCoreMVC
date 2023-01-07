@@ -3,14 +3,9 @@
 
 @{
     ViewData["Title"] = "Thêm bài viết Blog";
-    Layout = "/Views/Shared/_Layout.cshtml";
-
     var list = ViewData["categories"] as MultiSelectList;
 }
 
-
-<h4>@ViewData["Title"]</h4>
-<hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Create">
@@ -45,8 +40,6 @@
                     <input class="form-check-input" asp-for="Published" /> @Html.DisplayNameFor(model => model.Published)
                 </label>
             </div>
-
-
             <div class="form-group">
                 <input type="submit" value="Tạo bài viết" class="btn btn-primary" />
             </div>
@@ -82,3 +75,10 @@
     summernote.height = 700;
 }
 <partial name="_Summernote" model="summernote" />
+
+@{
+    _AdminSideBarService.SetActive("Post", "Create", "Blog");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

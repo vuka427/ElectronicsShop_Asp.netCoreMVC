@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Post>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Danh sách các bài viết";
+    
 }
 
-<h4>Danh sách các bài viết</h4>
+
 <partial name="_StatusMessage" />
 <p>
     <a class="btn btn-primary" asp-action="Create">Thêm bài viết mới</a>
@@ -67,3 +67,9 @@
 </table>
 
 <partial name="_PagingXTL" model="@ViewBag.PagingModel" />
+@{
+    _AdminSideBarService.SetActive("Post", "Index", "Blog");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

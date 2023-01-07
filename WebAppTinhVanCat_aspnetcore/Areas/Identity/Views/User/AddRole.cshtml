@@ -72,3 +72,9 @@
 
     <partial name="_ValidationScriptsPartial" />
 }
+@{
+    _AdminSideBarService.SetActive("User", "Index", "Identity");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
 {
@@ -433,7 +434,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
-        {
+        {     
+          
             return code == null ? View("Error") : View();
         }
 
@@ -442,10 +444,11 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model )
         {
-            if (!ModelState.IsValid)
-            {
+            
+            if (!ModelState.IsValid) 
+            { 
                 return View(model);
             }
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -453,14 +456,15 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
             {
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
-            var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code));
+            var coders = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code));
 
-            var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
+            var result = await _userManager.ResetPasswordAsync(user, coders, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
             ModelState.AddModelError(result);
+
             return View();
         }
 
@@ -568,12 +572,12 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning(7, "User account locked out.");
+                _logger.LogWarning(7, "Tài khoản của bạn bị khóa.");
                 return View("Lockout");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid code.");
+                ModelState.AddModelError(string.Empty, "code không khớp.");
                 return View(model);
             }
         }
@@ -616,7 +620,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning(7, "User account locked out.");
+                _logger.LogWarning(7, "Tài khoản của bạn bị khóa.");
                 return View("Lockout");
             }
             else

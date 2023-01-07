@@ -11,8 +11,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Phải nhập {0}")]
+        [EmailAddress(ErrorMessage = "Phải đúng định dạng email")]
         public string Email { get; set; }
     }
 }

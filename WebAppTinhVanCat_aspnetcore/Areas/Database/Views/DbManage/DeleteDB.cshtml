@@ -1,6 +1,8 @@
 ﻿
+
 @{
     ViewData["Title"] = "Xóa Database";
+    _AdminSideBarService.SetActive("DbManage","Index","Database");
 }
 <h1> @ViewData["Title"]</h1>
 
@@ -13,3 +15,7 @@
     <hr />
     <a  asp-action="Index"> Quản lý DB</a>
 </form>
+
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}

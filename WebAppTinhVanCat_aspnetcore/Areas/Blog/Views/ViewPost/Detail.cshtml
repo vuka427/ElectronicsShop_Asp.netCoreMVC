@@ -7,6 +7,7 @@
     Category category = ViewBag.category as Category;
     ViewData["Title"] = Model.Title;
     IQueryable<Post> otherPost = ViewBag.otherPost as IQueryable<Post>;
+    Layout = "_LayoutBlog";
 
 }
 
