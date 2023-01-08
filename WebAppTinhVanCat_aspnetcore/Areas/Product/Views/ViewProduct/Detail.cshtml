@@ -10,6 +10,11 @@
 
 }
 
+
+
+
+
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="~/">Home</a></li>
@@ -31,42 +36,73 @@
                 </li>
         }
 
-
     </ol>
 </nav>
 
-<div class="detailpost">
-    <h2>@Model.Title</h2>
-    <div class="sapo"> 
-        @Model.Description
-    </div>
-    <div>
-        <p>
-            Giá : <strong>@Model.Price</strong>
-            <a asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger">Đặt hàng</a>
-        </p>
-    </div>
-    <div>
-        <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i> 
-    </div>
-    <hr />
-    @if (Model.Photos.Any())
-    {
-        <div class="d-flex flex-wrap justify-content-between" >
-            @foreach (var photo in Model.Photos)
+
+<!-- chi tiêt -->
+
+
+<div class="row detailpost">
+    <div class="col-md-7 ">
+
+        <div class="photo-detail">
+            @if (Model.Photos.Any())
             {
-                
-                <img src="/contens/Products/@photo.FileName" class="w-50 p-1" alt="hehe hông có j hết">
+                <img id="ImgDetail" src="/contens/Products/@Model.Photos.First().FileName" alt="">
+            }
+            else
+            {
+                <img src="/contens/ico/nophoto.png" alt="">
+            }
+            
+        </div>
+        <div class="photo-list">
+            @if (Model.Photos.Any())
+            {
+                @foreach (var photo in Model.Photos)
+                {
+                    <div class="photo-list-item">
+                        <img onclick="SetImgDetail(this)" src="/contens/Products/@photo.FileName"  alt="">
+                    </div>
+                }
             }
         </div>
+        
+    </div>
+    <div class="col-md-5 ">
+        <h4>@Model.Title</h4>
+        <div class="sapo">
+            @Model.Description
+        </div>
+        <div>
+            <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i>
+        </div>
+        <hr />
+        <div>
+            <p>
+                Giá : <strong>@Model.Price</strong>
+                <a  asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger">Đặt hàng</a>
+            </p>
+        </div>
+        
+    </div>
+</div>
+<hr />
+<h3>Thông tin sản phẩm</h3>
+@Html.Raw(Model.Content)
+
+
+<script>
+    var imgSrc = document.getElementById("ImgDetail");
+
+    function SetImgDetail(element){
+        
+       imgSrc.src = element.src;
+        console.log(imgSrc.src);
     }
 
-    <hr />
-    @Html.Raw(Model.Content)
-</div>
-
-
-
+</script>
 
 
 @section Sidebar {
