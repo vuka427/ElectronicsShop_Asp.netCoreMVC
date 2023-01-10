@@ -289,7 +289,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
             {
                 return NotFound();
             }
-            StatusMessage = $"Đã xóa bài viết : {post.Title.Substring(0,20)}...  !";
+            StatusMessage = $"Đã xóa bài viết : {post.Title}!";
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
             

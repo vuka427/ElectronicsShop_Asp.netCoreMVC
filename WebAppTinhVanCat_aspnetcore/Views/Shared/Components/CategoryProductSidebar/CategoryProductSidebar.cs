@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using WebAppTinhVanCat_aspnetcore.Models;
 using WebAppTinhVanCat_aspnetcore.Models.Products;
 
@@ -13,7 +14,9 @@ namespace WebAppTinhVanCat_aspnetcore.Components
         {
             public List<CategoryProduct> Categories { get; set; } // tất cả danh mục
             public int Level { get; set; } // danh mục đang truy cập
-            public string? CategorySlug { get; set; } // url  đang truy cập 
+
+            [AllowNull]
+            public string CategorySlug { get; set; } // url  đang truy cập 
         }
 
 

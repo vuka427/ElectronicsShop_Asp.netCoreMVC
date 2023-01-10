@@ -146,7 +146,7 @@ namespace WebAppTinhVanCat_aspnetcore
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
             services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
                 cfg.Cookie.Name = "TinhVanCat";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
-                cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
+                cfg.IdleTimeout = new TimeSpan(1, 0 , 0);    // Thời gian tồn tại của Session
             });
 
             services.AddTransient<CartService>();//dịch vụ gió hàng

@@ -14,24 +14,24 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Contacts
 
         [Column(TypeName = "nvarchar")]
         [StringLength(50)]
-        [Required(ErrorMessage ="{0} không được bỏ trống ! ")]
-        [Display(Name ="Họ và Tên")]
+        [Required(ErrorMessage = "{0} không được bỏ trống ! ")]
+        [Display(Name = "Họ và Tên")]
         public string FullName { get; set; }
 
         [StringLength(50)]
         [Required(ErrorMessage = "{0} không được bỏ trống ! ")]
-        [EmailAddress(ErrorMessage ="Phải nhập địa chỉ {0} !")]
+        [EmailAddress(ErrorMessage = "Phải nhập địa chỉ {0} !")]
         public string Email { get; set; }
 
-        [Display(Name ="Ngày gửi")]
-        public DateTime DateSent {get; set;}
+        [Display(Name = "Ngày gửi")]
+        public DateTime DateSent { get; set; }
 
         [Display(Name = "Nội dung")]
-        public string Massage { get; set;}
+        public string Massage { get; set; }
 
         [StringLength(10)]
         [Display(Name = "Số điện thoại")]
-        [Phone(ErrorMessage ="Phải nhập {0}")]
+        [Phone(ErrorMessage = "Phải nhập {0}")]
         public string Phone { get; set; }
 
     }

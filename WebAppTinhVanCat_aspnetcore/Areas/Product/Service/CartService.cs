@@ -24,10 +24,10 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Service
         {
 
             var session = _httpContext.Session;
-            string jsoncart = session.GetString(CARTKEY);
+            string jsoncart = session.GetString(CARTKEY); // lấy chuổi json với key CARTKEY
             if (jsoncart != null)
             {
-                return JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
+                return JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);//khôi phục lại cartItem từ json
             }
             return new List<CartItem>();
         }

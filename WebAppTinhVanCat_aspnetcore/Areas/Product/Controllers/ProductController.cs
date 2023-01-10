@@ -298,7 +298,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             {
                 return NotFound();
             }
-            StatusMessage = $"Đã xóa sản phẩm : {product.Title.Substring(0,20)}...  !";
+            StatusMessage = $"Đã xóa sản phẩm : { product.Title} !";
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             

@@ -14,8 +14,8 @@ namespace WebAppTinhVanCat_aspnetcore.Components
             public List<Category> Categories { get; set; } // tất cả danh mục
             public int Level { get; set; } // danh mục đang truy cập
 
-         
-            public string? CategorySlug { get; set; } // url  đang truy cập 
+            [AllowNull]
+            public string CategorySlug { get; set; } // url  đang truy cập 
         }
 
 

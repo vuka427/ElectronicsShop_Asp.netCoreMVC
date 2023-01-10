@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAppTinhVanCat_aspnetcore.Models.Contacts;
 using WebAppTinhVanCat_aspnetcore.Models.Blog;
 using WebAppTinhVanCat_aspnetcore.Models.Products;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Contacts;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 
 namespace WebAppTinhVanCat_aspnetcore.Models
 {
@@ -24,6 +24,9 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         public DbSet<ProductModel> Products { get; set; }
         public DbSet<ProductCategoryProduct> ProductCategoryProducts { get; set; }
         public DbSet<ProductPhoto> ProductPhotos { set; get; }
+        public DbSet<OrderModel> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { set; get; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -61,7 +64,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models
                 .IsUnique(); //isUnipue : có giá trị duy nhất 
             });
 
-            builder.Entity<ProductCategoryProduct>(entity => { // PostID và CategoryID là khóa chính tạo quan hệ nhiều - nhiều cho bản post và category
+            builder.Entity<ProductCategoryProduct>(entity => { // ProductID và CategoryProductID là khóa chính tạo quan hệ nhiều - nhiều cho bản Product và CategoryProduct
                 entity.HasKey(k => new { k.ProductID, k.CategoryProductID });
 
             });
@@ -69,6 +72,10 @@ namespace WebAppTinhVanCat_aspnetcore.Models
             builder.Entity<ProductModel>(entity => { // dánh chỉ mục trường slug
                 entity.HasIndex(p => p.Slug)
                 .IsUnique(); //isUnipue : có giá trị duy nhất 
+            });
+            
+            builder.Entity<OrderItem>(entity => { // ProductID và OrderID là khóa chính tạo quan hệ nhiều - nhiều cho bảng Product và Order
+                entity.HasKey(k => new { k.ProductID, k.OrderID });
             });
         }
     }
