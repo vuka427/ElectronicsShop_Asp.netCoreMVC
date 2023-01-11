@@ -1,0 +1,60 @@
+﻿@using WebAppTinhVanCat_aspnetcore.Areas.Product.Models;
+@model List<CartItem>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Thanh Toán";
+
+}
+<h2>Thanh Toán</h2>
+<hr />
+
+
+@if (Model.Count > 0)
+{
+    decimal total = 0;
+    int stt = 1;
+
+    <table class="table">
+        <tr>
+            <th>STT</th>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+            <th></th>
+        </tr>
+        @foreach (var cartitem in Model)
+        {
+            var thanhtien = cartitem.quantity * cartitem.product.Price;
+            total += thanhtien;
+            var srcimg = (cartitem.product.Photos != null) && (cartitem.product.Photos.Count > 0) ? "/contens/Products/" + cartitem.product.Photos.First().FileName : "/contens/ico/nophoto.png";
+
+            <tr>
+                <td>@(stt++)</td>
+                <td> <img class="cart-photo" src="@srcimg" alt=""> </td>
+                <td>@cartitem.product.Title</td>
+                <td>@(
+                cartitem.product.Price.ToString("n0")
+                )</td>
+                <td><input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.ProductId}")" /></td>
+                <td>@(
+                thanhtien.ToString("n0")
+                )</td>
+               
+            </tr>
+        }
+        <tr>
+            <td colspan="4" class="text-right">Tổng tiền</td>
+            <td>@(
+                total.ToString("n0")
+                )</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <hr />
+    <h5> Địa chỉ giao hàng </h5>
+    <h5> Phương thức thanh toán</h5>
+    <hr />
+    <a   asp-controller="Order" asp-action="CheckoutConfirm" class="btn btn-success float-right">Đặt Hàng</a>
+}
