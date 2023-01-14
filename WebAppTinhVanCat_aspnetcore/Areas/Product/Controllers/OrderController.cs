@@ -117,7 +117,14 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         {
             var cart = _cartService.GetCartItems();
 
+
+
+
+
             _cartService.ClearCart();
+
+
+
             return Content("Đặt hàng thành công");
         }
 

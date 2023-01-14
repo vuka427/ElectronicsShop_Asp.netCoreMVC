@@ -74,9 +74,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models
                 .IsUnique(); //isUnipue : có giá trị duy nhất 
             });
             
-            builder.Entity<OrderItem>(entity => { // ProductID và OrderID là khóa chính tạo quan hệ nhiều - nhiều cho bảng Product và Order
-                entity.HasKey(k => new { k.ProductID, k.OrderID });
-            });
+          
         }
     }
 }

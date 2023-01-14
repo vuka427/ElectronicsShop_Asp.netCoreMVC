@@ -47,6 +47,9 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Products
         [Display(Name = "Ngày cập nhật")]
         public DateTime DateUpdated { set; get; }
 
+        [Display(Name = "Đặc tính sản phẩm")]
+        public string Feature { set; get; }
+
         [Display(Name = "Giá sản phẩm")]
         [Column(TypeName = "decimal(18,4)")] //chỉ định độ chính xác với 18 chữa số trong đó có 4 chữ số thập phân 
         [Range(0,int.MaxValue,ErrorMessage ="Nhập giá trị từ {1} đến {2} ")]
