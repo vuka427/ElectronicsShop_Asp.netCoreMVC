@@ -66,6 +66,10 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [StringLength(255, MinimumLength = 0, ErrorMessage = "{0} dài {1} đến {2}")]
         public string CustomNote { get; set; }
 
+        [Display(Name = "Số tài khoản")]
+        public string BankAccountNumber { get; set; }
+        
+
         [Display(Name = "Ghi chú của Shop")]
         [StringLength(255, MinimumLength = 0, ErrorMessage = "{0} dài {1} đến {2}")]
         public string ShopNote { get; set; }

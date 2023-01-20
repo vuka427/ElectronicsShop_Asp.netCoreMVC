@@ -11,7 +11,9 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Products
         [Key]
         public int Id { get; set; } 
 
-        public string FileName { get; set; }
+        public string FileName { get; set; }//local
+
+        public string ImageUrl { get; set; }
 
         public int ProductID { get; set; }
 

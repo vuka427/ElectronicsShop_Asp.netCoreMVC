@@ -202,7 +202,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
             if (CanUpdate && category.ParentCategoryId != null) // không cho phép chọn con của nó làm danh mục cha
             {
-                 var childCategory = (from cate in  _context.CategoryProducts select cate).AsNoTracking() //có lỗi ở đây
+                 var childCategory = (from cate in  _context.CategoryProducts select cate).AsNoTracking() 
                     .Include(c => c.CategoryChildren)
                     .ToList()
                     .Where(c => c.ParentCategoryId == category.Id) ;

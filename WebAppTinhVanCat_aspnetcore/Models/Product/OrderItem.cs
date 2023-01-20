@@ -38,5 +38,8 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
 
         [Display(Name = "Số lượng ")]
         public int Quantity { get; set; }
+
+        [Display(Name = "Đơn vị")]
+        public string Unit { get; set; }
     }
 }

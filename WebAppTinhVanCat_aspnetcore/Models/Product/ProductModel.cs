@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.Build.ObjectModelRemoting;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 
 namespace WebAppTinhVanCat_aspnetcore.Models.Products
 {
@@ -27,7 +28,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Products
         [RegularExpression(@"^[a-z0-9-]*$", ErrorMessage = "Chỉ dùng các ký tự [a-z0-9-]")]
         public string Slug { set; get; } //chuổi url
 
-        [Display(Name = "Nội dung")]
+        [Display(Name = "Mô tả sản phẩm")]
         public string Content { set; get; }
 
         [Display(Name = "Xuất bản")]
@@ -54,6 +55,21 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Products
         [Column(TypeName = "decimal(18,4)")] //chỉ định độ chính xác với 18 chữa số trong đó có 4 chữ số thập phân 
         [Range(0,int.MaxValue,ErrorMessage ="Nhập giá trị từ {1} đến {2} ")]
         public decimal Price { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Nhập giá trị từ {1} đến {2} ")]
+        [Display(Name = "Số lượng")]
+        public int Quantity { set; get; }
+
+        [Display(Name = "Thời gian bảo hành")]
+        public int Warranty { set; get; }//năm
+
+        [Display(Name = "Thuế VAT")]
+        public int GTGT { get; set; }
+
+        public int Unit { get; set; }
+
+        [ForeignKey("Unit")]
+        public UnitProduct UnitProduct { get; set; }
 
         public virtual List<ProductCategoryProduct> ProductCategoryProducts { get; set; }
 

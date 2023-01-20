@@ -24,6 +24,7 @@ using WebAppTinhVanCat_aspnetcore.Areas.Product.Service;
 using WebAppTinhVanCat_aspnetcore.Data;
 using WebAppTinhVanCat_aspnetcore.Menu;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using WebAppTinhVanCat_aspnetcore.Services;
 
 namespace WebAppTinhVanCat_aspnetcore
 {
@@ -150,6 +151,8 @@ namespace WebAppTinhVanCat_aspnetcore
             });
 
             services.AddTransient<CartService>();//dịch vụ gió hàng
+
+            services.AddSingleton<DiaGioiHanhChinhVN>();// địa giới hành chính Việt Nam
 
             services.AddAuthorization(options => // policy cấp quyền hiển thị nút quản lý
             {

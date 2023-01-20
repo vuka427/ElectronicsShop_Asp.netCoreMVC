@@ -38,6 +38,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Service
             }
             return new List<CartItem>();
         }
+
         // Lấy cart từ Session (danh sách CartItem)
         public List<CartItem> GetCartItemsWithPhoto()
         {

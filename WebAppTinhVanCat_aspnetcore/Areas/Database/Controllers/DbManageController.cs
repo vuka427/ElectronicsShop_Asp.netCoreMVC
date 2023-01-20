@@ -23,13 +23,14 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
         private readonly AppDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public DbManageController(AppDbContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public DbManageController(AppDbContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _roleManager = roleManager;
-
+            _signInManager = signInManager;
         }
 
 
@@ -94,11 +95,17 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
 
                 };
                 await _userManager.CreateAsync(useradmin, "admin");
+              
                 await _userManager.AddToRoleAsync(useradmin, RoleName.Administrator);
 
             }
-            SeedPostCategory();
-            SeedProductCategory();
+            var user = _userManager.GetUserAsync(this.User).Result;
+            if (user !=null)
+            {
+                SeedPostCategory();
+                SeedProductCategory();
+            }
+            
 
             StatusMessage = " Vừa seed Database !";
 

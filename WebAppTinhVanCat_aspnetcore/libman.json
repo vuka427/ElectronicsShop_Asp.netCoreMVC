@@ -25,6 +25,11 @@
     {
       "library": "font-awesome@5.15.3",
       "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "axios@0.21.1",
+      "destination": "wwwroot/js/axios"
     }
+
   ]
 }

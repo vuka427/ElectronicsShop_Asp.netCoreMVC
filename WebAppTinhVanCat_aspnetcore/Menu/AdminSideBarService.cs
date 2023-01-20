@@ -33,6 +33,7 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                 AwesomeIcon = "fa fa-database"
 
             });
+            
             Items.Add(new SideBarItem() // Quản lý liên hệ
             {
                 Type = SidebarItemType.NavItem,
@@ -43,6 +44,27 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                 AwesomeIcon = "fa fa-address-book"
 
             });
+            Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
+            Items.Add(new SideBarItem()
+            { //Cấu hình Shop
+                Type = SidebarItemType.NavItem,
+                Title = "Cấu hình Shop",
+                AwesomeIcon = "fa fa-window-restore",
+                CollapseId= "config",
+                    Items = new List<SideBarItem>()
+                    {
+                          new SideBarItem() // Đơn vị tính
+                              {
+                                    Type = SidebarItemType.NavItem,
+                                    Controller = "ConfigShop",
+                                    Action = "UnitProduct",
+                                    Area = "Product",
+                                    Title = "Đơn vị tính"
+                              }
+
+                    }
+
+                });
             Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
             Items.Add(new SideBarItem()//Phân quyền và thành viên
             {
