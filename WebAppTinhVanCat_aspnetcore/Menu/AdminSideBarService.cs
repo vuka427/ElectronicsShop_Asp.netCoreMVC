@@ -45,27 +45,6 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
 
             });
             Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
-            Items.Add(new SideBarItem()
-            { //Cấu hình Shop
-                Type = SidebarItemType.NavItem,
-                Title = "Cấu hình Shop",
-                AwesomeIcon = "fa fa-window-restore",
-                CollapseId= "config",
-                    Items = new List<SideBarItem>()
-                    {
-                          new SideBarItem() // Đơn vị tính
-                              {
-                                    Type = SidebarItemType.NavItem,
-                                    Controller = "ConfigShop",
-                                    Action = "UnitProduct",
-                                    Area = "Product",
-                                    Title = "Đơn vị tính"
-                              }
-
-                    }
-
-                });
-            Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
             Items.Add(new SideBarItem()//Phân quyền và thành viên
             {
                 Type = SidebarItemType.NavItem,
