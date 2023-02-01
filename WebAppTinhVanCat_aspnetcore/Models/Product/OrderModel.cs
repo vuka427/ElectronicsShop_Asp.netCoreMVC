@@ -29,9 +29,6 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [AllowNull]
         public string CustomerID { set; get; }
 
-        [ForeignKey("CustomerID")]
-        [AllowNull]
-        public AppUser Customer { get; set; }
 
         [Display(Name = "Ngày tạo")]
         public DateTime CreateDate { get; set; }
