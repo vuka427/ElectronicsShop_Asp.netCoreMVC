@@ -24,10 +24,6 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
 
         public int ProductID { get; set; }
 
-        [ForeignKey("ProductID")]
-        [AllowNull]
-        public ProductModel Product { get; set; }
-
         [Display(Name = "Giá")]
         [Column(TypeName = "decimal(18,4)")] //chỉ định độ chính xác với 18 chữa số trong đó có 4 chữ số thập phân 
         [Range(0, int.MaxValue, ErrorMessage = "Nhập giá trị từ {1} đến {2} ")]
