@@ -12,7 +12,7 @@ using System.Linq;
 using WebAppTinhVanCat_aspnetcore.Areas.Product.Models;
 using WebAppTinhVanCat_aspnetcore.Areas.Product.Service;
 using WebAppTinhVanCat_aspnetcore.Models;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 {
@@ -94,6 +94,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             ViewBag.TotalProduct = totalProduct;
 
             var ListProductInPage = product.Skip((currentPage - 1) * pagesize) // bỏ qua những sản phẩm của trang trước đó
+                        .Include(u=>u.UnitProduct)
                         .Take(pagesize)// lấy sản phẩm trang hiện tại
                         .ToList();
             
@@ -114,6 +115,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             var Product = _context.Products.Where(p => p.Slug == productslug)
                                         .Include(p => p.Author)
                                         .Include(p => p.Photos)
+                                        .Include(u=>u.UnitProduct)
                                         .Include(p => p.ProductCategoryProducts)
                                         .ThenInclude(pc => pc.Category)
                                         .FirstOrDefault();

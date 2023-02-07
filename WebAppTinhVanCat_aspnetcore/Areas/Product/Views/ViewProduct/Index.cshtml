@@ -1,6 +1,7 @@
 ﻿
 @using WebAppTinhVanCat_aspnetcore.Components;
-@using WebAppTinhVanCat_aspnetcore.Models.Products;
+@using WebAppTinhVanCat_aspnetcore.Models.Product;
+@using WebAppTinhVanCat_aspnetcore.ExtendMethods;
 @model List<ProductModel>
 
 
@@ -56,7 +57,7 @@ else
             <div class="card-body">
                 <h5 class="card-title"> @product.Title</h5>
                 <p>
-                    Giá : <strong>@product.Price</strong>
+                    Giá : <strong>@product.Price.ToPriceUnitVND()</strong>/@product.UnitProduct.Unit
                 </p>
             </div>
 

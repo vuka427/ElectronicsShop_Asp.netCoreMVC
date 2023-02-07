@@ -31,9 +31,9 @@
                 <td>@(stt++)</td>
                 <td> <img class="cart-photo" src="@srcimg" alt=""> </td>
                 <td>@cartitem.product.Title</td>
-                <td>@(cartitem.product.Price.ToString("n0"))</td>
-                <td><input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.ProductId}")" /></td>
-                <td>@(thanhtien.ToString("n0"))</td>
+                <td>@cartitem.product.Price.ToPriceUnitVND()</td>
+                <td><input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.ProductId}")" /> @cartitem.product.UnitProduct.Unit </td>
+                <td>@thanhtien.ToPriceUnitVND()</td>
                 <td>
                     <button class="btn btn-success updatecartitem"
                     data-productid="@cartitem.product.ProductId">
@@ -46,7 +46,7 @@
         }
         <tr>
             <td colspan="4" class="text-right">Tổng tiền</td>
-            <td>@(total.ToString("n0"))</td>
+            <td>@total.ToPriceUnitVND()</td>
             <td></td>
         </tr>
     </table>

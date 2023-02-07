@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAppTinhVanCat_aspnetcore.Models;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Models
 {

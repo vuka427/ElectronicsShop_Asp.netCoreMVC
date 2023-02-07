@@ -1,5 +1,5 @@
 ﻿@using WebAppTinhVanCat_aspnetcore.Components;
-@using WebAppTinhVanCat_aspnetcore.Models.Products;
+@using WebAppTinhVanCat_aspnetcore.Models.Product;
 @model ProductModel;
 
 @{
@@ -77,7 +77,7 @@
         <hr />
         <div>
             <p>
-                Giá : <strong>@Model.Price</strong>
+                Giá : <strong>@Model.Price.ToPriceUnitVND()</strong>/@Model.UnitProduct.Unit
                 <a asp-controller="Order"  asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger">Đặt hàng</a>
             </p>
         </div>

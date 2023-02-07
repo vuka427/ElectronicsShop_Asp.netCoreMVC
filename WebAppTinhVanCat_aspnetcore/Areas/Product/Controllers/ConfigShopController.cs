@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Linq;
 using WebAppTinhVanCat_aspnetcore.Data;
@@ -71,12 +72,12 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                var unit = _context.UnitProducts.Find(id);
-                _context.Remove(unit); 
-                _context.SaveChanges();
-               
-
+                var unit = _context.UnitProducts.Where(un => un.Id == id).Include(u=>u.Products).FirstOrDefault();
+                if (unit.Products.Count == 0)
+                {
+                    _context.Remove(unit);
+                    _context.SaveChanges();
+                } 
             }
 
             return Ok();

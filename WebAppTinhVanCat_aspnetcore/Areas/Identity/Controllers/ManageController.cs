@@ -83,6 +83,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
                     BirthDate = user.Birthday,
                     HomeAdress = user.Address,
                     UserName = user.UserName,
+                    FullName = user.FullName,
                     UserEmail = user.Email,
                     PhoneNumber = user.PhoneNumber,
                 }
@@ -402,8 +403,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
                 BirthDate = user.Birthday,
                 HomeAdress = user.Address,
                 UserName = user.UserName,
+                FullName = user.FullName,
                 UserEmail = user.Email,
-                PhoneNumber = user.PhoneNumber,
+                PhoneNumber = user.PhoneNumber
             };
             return View(model);
         }
@@ -414,6 +416,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
 
             user.Address = model.HomeAdress;
             user.Birthday = model.BirthDate;
+            user.FullName= model.FullName;
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);

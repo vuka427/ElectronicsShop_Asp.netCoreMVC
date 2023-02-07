@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppTinhVanCat_aspnetcore.Models;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 using WebAppTinhVanCat_aspnetcore.Data;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers

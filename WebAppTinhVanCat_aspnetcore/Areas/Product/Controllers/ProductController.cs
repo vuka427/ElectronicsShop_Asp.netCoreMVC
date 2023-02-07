@@ -16,7 +16,7 @@ using WebAppTinhVanCat_aspnetcore.Areas.Blog.Models;
 using WebAppTinhVanCat_aspnetcore.Areas.Product.Models;
 using WebAppTinhVanCat_aspnetcore.Data;
 using WebAppTinhVanCat_aspnetcore.Models;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 using WebAppTinhVanCat_aspnetcore.Utilities;
 
 
@@ -39,12 +39,12 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        // GET: Blog/Post
+      
         public async Task<IActionResult> Index([FromQuery(Name = "p")] int currentPage , int pagesize)
         {
             var ListProduct = _context.Products.Include(p => p.Author).OrderByDescending(p=>p.DateUpdated);
 
-          
+           
 
             var totalProduct = await ListProduct.CountAsync(); // tổng số sản phẩm
             if (pagesize <= 0) pagesize = 10;
@@ -68,6 +68,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
             var ListProductInPage = await ListProduct.Skip((currentPage - 1) * pagesize) // bỏ qua nhưng sản phẩm của trang trước đó
                         .Take(pagesize)// lấy sản phẩm trang hiện tại
+                        .Include(u => u.UnitProduct)
                         .Include(p=>p.ProductCategoryProducts)
                         .ThenInclude(pc=>pc.Category)
                         .ToListAsync(); 
@@ -76,7 +77,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             return View(ListProductInPage);
         }
 
-        // GET: Blog/Post/Details/5
+       
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -86,6 +87,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Author)
+                .Include(p => p.UnitProduct)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -95,20 +97,22 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             return View(product);
         }
 
-        // GET: Blog/Post/Create
+        
         public async Task<IActionResult> Create()
         {
             var categories = await _context.CategoryProducts.ToListAsync();
             ViewData["categories"] = new MultiSelectList(categories,"Id", "Title");
-            
+            var units = await _context.UnitProducts.ToListAsync();
+            ViewData["units"] = new SelectList(units, "Id", "Unit");
+
             return View();
         }
 
-        // POST: Blog/Post/Create
+        
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Price,Quantity,Description,Slug,Content,Published,CategoryIDs")] CreateProductModel product)
+        public async Task<IActionResult> Create([Bind("Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryIDs")] CreateProductModel product)
         {
             var categories = await _context.CategoryProducts.ToListAsync();
             ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
@@ -152,7 +156,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             return View(product);
         }
 
-        // GET: Blog/Post/Edit/5
+      
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -170,8 +174,10 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                 ProductId = product.ProductId,
                 Title = product.Title,
                 Price= product.Price,
+                Unit= product.Unit,
                 Content = product.Content,
                 Description = product.Description,
+                Quantity= product.Quantity,
                 Slug = product.Slug,
                 Published = product.Published,
                 CategoryIDs = product.ProductCategoryProducts.Select(pc => pc.CategoryProductID).ToArray()
@@ -179,14 +185,16 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
             var categories = await _context.CategoryProducts.ToListAsync();
             ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
+            var units = await _context.UnitProducts.ToListAsync();
+            ViewData["units"] = new SelectList(units, "Id", "Unit");
             return View(ProductEdit);
         }
 
-        // POST: Blog/Post/Edit/5
+        
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Price,Quantity,Description,Slug,Content,Published,CategoryIDs")] CreateProductModel product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryIDs")] CreateProductModel product)
         {
             if (id != product.ProductId)
             {
@@ -194,6 +202,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             }
             var categories = await _context.CategoryProducts.ToListAsync();
             ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
+            var units = await _context.UnitProducts.ToListAsync();
+            ViewData["units"] = new SelectList(units, "Id", "Unit");
 
             if (product.Slug == null) // phát sinh url nếu chưa có
             {
@@ -217,6 +227,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
                     ProductUpdate.Title = product.Title;
                     ProductUpdate.Price= product.Price;
+                    ProductUpdate.Unit = product.Unit;
                     ProductUpdate.Quantity = product.Quantity;
                     ProductUpdate.Content = product.Content;
                     ProductUpdate.Description = product.Description;
@@ -230,11 +241,11 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                     var oldCateIds = ProductUpdate.ProductCategoryProducts.Select(c => c.CategoryProductID).ToArray();//dánh sách cate id cũ
                     var newCateIds = product.CategoryIDs; //dánh sách cate id mới
 
-                    var removeCatePost = from productCate in ProductUpdate.ProductCategoryProducts
+                    var removeCateProduct = from productCate in ProductUpdate.ProductCategoryProducts
                                          where (!newCateIds.Contains(productCate.CategoryProductID)) //lấy các ProductCategoryProduct không có trong dánh sách ProductCategoryProduct mới 
                                          select productCate;
 
-                    _context.ProductCategoryProducts.RemoveRange(removeCatePost);// xóa các ProductCategoryProduct không có trong dánh sách ProductCategoryProduct cập nhật mới
+                    _context.ProductCategoryProducts.RemoveRange(removeCateProduct);// xóa các ProductCategoryProduct không có trong dánh sách ProductCategoryProduct cập nhật mới
 
                     var addCateIds = from CateId in newCateIds //danh sách id của các CategoryProduct cần cập nhật
                                      where !oldCateIds.Contains(CateId) //lấy các idc trong dánh sách ProductCategoryProduct mới mà không có trong danh sách cũ

@@ -34,6 +34,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Service
             {
 
                 var cart = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);//khôi phục lại cartItem từ json
+
                 return cart;
             }
             return new List<CartItem>();
@@ -49,7 +50,11 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Service
             {
 
                 var cart = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);//khôi phục lại cartItem từ json
-                cart.ForEach(c => c.product = _DBcontext.Products.Where(p => p.ProductId == c.product.ProductId).Include(pt => pt.Photos).FirstOrDefault());
+                cart.ForEach(c => c.product = _DBcontext.Products
+                                                        .Where(p => p.ProductId == c.product.ProductId)
+                                                        .Include(pt => pt.Photos)
+                                                        .Include(pu => pu.UnitProduct)
+                                                        .FirstOrDefault());
                 return cart;
             }
             return new List<CartItem>();

@@ -1,4 +1,4 @@
-﻿@model WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel
+﻿@model WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel
 
 @{
     ViewData["Title"] = @Model.Title;
@@ -31,13 +31,13 @@
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+            <strong>@Model.Price.ToPriceUnitVND()</strong> / @Model.UnitProduct.Unit
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Quantity)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
+            @Html.DisplayFor(model => model.Quantity) @Model.UnitProduct.Unit
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Published)

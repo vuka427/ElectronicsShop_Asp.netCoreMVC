@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using WebAppTinhVanCat_aspnetcore.Models;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 
 namespace WebAppTinhVanCat_aspnetcore.Components
 {

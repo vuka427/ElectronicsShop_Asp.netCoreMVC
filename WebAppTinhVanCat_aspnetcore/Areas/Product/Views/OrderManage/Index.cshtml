@@ -1,0 +1,280 @@
+﻿
+@model IEnumerable<OrderModel> ;
+
+
+@{
+    ViewData["Title"] = "Danh sách hóa đơn";
+    _AdminSideBarService.SetActive("OrderManage", "Index", "Product");
+}
+
+
+<partial name="_StatusMessage" />
+
+<!-- DataTales  -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <form class="p-1">
+            <label for="searchstring"><b>Tìm kiếm </b></label>
+            <input style="width:15%; display : inline" class="form-control form-control-sm" type="text" id="searchstring" placeholder="Mã HĐ, Tên, Địa chỉ, Số điện thoại ">
+            <button type="submit" class="btn  btn-primary btn-sm"> Tìm </button>
+        </form>
+        <h6 class="m-0 font-weight-bold text-primary">Tổng số hóa đơn : @ViewBag.TotalOrder</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead class="bg-primary text-light">
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </th>
+                        <th>
+                            Trang thái
+                        </th>
+                        <th>Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (OrderModel item in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                @(++ViewBag.OrderIndex)
+                            </td>
+                            <td>
+                                @string.Format("{0:00000}" ,item.OrderId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.FullName)
+                            </td>
+               
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Phone)
+                            </td>
+                            <td>
+                                @item.Price.ToPriceUnitVND()
+                            </td>
+                            <td>
+                                @item.CreateDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Address)
+                            </td>
+                            @{ string idState =  "state" + item.OrderId;}
+                            <td id="@idState" class="font-weight-bold">
+
+                                @switch (item.State)
+                                {
+                                    case StateOrder.Received:
+                                        <p id="@item.OrderId" class="text-warning">Chờ xác nhận</p>
+                                        break;
+                                    case StateOrder.Accept:
+                                        <p id="@item.OrderId" class="text-primary">Đã xác nhận</p>
+                                        break;
+                                    case StateOrder.ShopCancel:
+                                        <p id="@item.OrderId" class="text-danger">Đã hủy</p>
+                                        break;
+                                    case StateOrder.CustomerCancel:
+                                        <p id="@item.OrderId" class="text-danger">Khách hủy</p>
+                                        break;
+                                    case StateOrder.Sucess:
+                                        <p id="@item.OrderId" class="text-danger">Đã Giao</p>
+                                        break;
+                                    case StateOrder.Transport:
+                                        <p id="@item.OrderId" class="text-danger">Đang giao</p>
+                                        break;
+                                    default:
+                                        <p id="@item.OrderId" class="text-danger">Có lỗi</p>
+                                        break;
+
+                                }
+                                
+
+                            </td>
+                            @{ string ClassState =  "class" + item.OrderId;}
+                            <td width="20%" >
+                                @if (item.State == StateOrder.Received)
+                                {
+                                    <button class="AcceptButton @ClassState btn btn-sm btn-primary" data-id="@item.OrderId">Chấp nhận</button>
+                                    <button class="CancelButton @ClassState btn btn-sm btn-danger " data-id="@item.OrderId" data-toggle="modal" data-target="#dialogCancelOrder">Hủy đơn</button>
+                                }
+                                else
+                                {
+
+                                    if (item.State == StateOrder.Accept)
+                                    {
+                                        <button class=" disabled  btn btn-sm btn-outline-dark">Chấp nhận</button>
+                                        <button class=" CancelButton @ClassState btn btn-sm btn-danger " data-id="@item.OrderId" data-toggle="modal" data-target="#dialogCancelOrder">Hủy đơn</button>
+                                    }
+                                    else{
+                                        <button class=" disabled btn btn-sm btn-outline-dark">Chấp nhận</button>
+                                        <button class=" disabled btn btn-sm btn-outline-dark">Hủy đơn</button>
+                                    }
+                                }
+                               
+                                <a asp-action="OrderDetail" asp-route-orderid="@item.OrderId" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <partial name="_PagingXTL" model="@ViewBag.PagingModel" />
+        </div>
+    </div>
+</div>
+
+<!-- DataTales end  -->
+<!-- Dialog -->
+<div class="modal fade" id="dialogCancelOrder" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                
+                <h5 class="modal-title font-weight-bold">Bạn có muốn hủy đơn hàng này ? </h5>
+               
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <h6 class="modal-title text-danger font-italic">Đơn hàng đã hủy sẻ không thể khôi phục !</h6>
+                <label for="message-text" class="col-form-label">Vui lòng cho biết lý do hủy đơn hàng !</label>
+                <textarea class="form-control" id="reasonCancel" rows="5" placeholder="lý do ..."></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button id="acceptCancel" type="button" data-dismiss="modal" class="btn btn-danger">Xác nhận hủy</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Trở lại</button>
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+
+    <script>
+
+        function SetClickAccessOrder() {
+
+            $(".AcceptButton").click(function () {
+
+                var Button = $(this);
+                var id = Button.data("id");
+
+                var formData = new FormData();
+                formData.append("id", id);
+                var urlUpdateState = "@Url.Action("AccessOrderApi")";
+
+                $.ajax({
+                    data: formData,
+                    cache: false,
+                    url: urlUpdateState,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.error == 0){
+                            Button.addClass("disabled btn-outline-dark");
+                            Button.removeClass("btn-primary btn-danger");
+                            $("#" + id).html(function (i, origText) {
+                                return "<p id=\""+ id +"\"  class=\"text-primary\">Đã xác nhận</p> ";
+                            });
+                        }
+                    }
+                });
+            });
+        }
+        function SetClickDataToDialog() {
+
+            $(".CancelButton").click(function () {
+
+                var Button = $(this);
+                
+                var Dialog = $("#acceptCancel");
+
+                var id = Button.data("id");
+                Dialog.attr("data-id", id);
+            });
+        }
+
+
+        function SetClickCancelOrder() {
+
+            $("#acceptCancel").click(function () {
+                var Button = $(this);
+
+                var id = Button.attr("data-id");
+
+                var ButtonCancel = $(".class"+id);
+                var reason = $('#reasonCancel').val();
+                var formData = new FormData();
+                formData.append("id", id);
+                formData.append("reason", reason)
+                var urlUpdateState = "@Url.Action("CancelOrderApi")";
+
+                $.ajax({
+                    data: formData,
+                    cache: false,
+                    url: urlUpdateState,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        
+                        if (data.error == 0) {
+                            ButtonCancel.addClass("disabled btn-outline-dark");
+                            ButtonCancel.removeClass("btn-primary btn-danger");
+                            ButtonCancel.removeAttr("data-toggle");
+                            $("#" + id).html(function (i, origText) {
+                                return "<p id=\"" + id + "\"  class=\"text-danger\">Đã hủy</p> ";
+                            });
+                        }
+                    }
+
+                });
+            });
+        }
+       
+
+        $(document).ready(function () {
+            SetClickAccessOrder();
+            SetClickDataToDialog();
+            SetClickCancelOrder();
+        });
+    </script>
+}
+
+
+
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+
+}

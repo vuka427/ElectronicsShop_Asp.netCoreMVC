@@ -9,8 +9,9 @@ using WebAppTinhVanCat_aspnetcore.Models;
 using Microsoft.AspNetCore.Identity;
 using WebAppTinhVanCat_aspnetcore.Data;
 using Bogus;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 using WebAppTinhVanCat_aspnetcore.Models.Blog;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
 {
@@ -213,6 +214,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
             var categories = new CategoryProduct[] { cate1, cate2, cate11, cate12, cate21, cate211 };
             _dbContext.CategoryProducts.AddRange(categories);
 
+            var unit = _dbContext.UnitProducts.Where(p => p.Unit == "Tấn").FirstOrDefault();
+            if(unit==null) _dbContext.Add(new UnitProduct { Unit = "Tấn" });
+            _dbContext.SaveChanges();
             //product
             var rCateIndex = new Random();
             int bv = 1;
@@ -231,10 +235,13 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
             List<ProductModel> products = new List<ProductModel>();
             List<ProductCategoryProduct> Product_Categories = new List<ProductCategoryProduct>();
 
+            var unit2 = _dbContext.UnitProducts.Where(p => p.Unit == "Tấn").FirstOrDefault();
+
             for (int i = 1; i < 40; i++)
             {
                 var product = fakerProduct.Generate();
                 product.DateUpdated = product.DateCreated;
+                product.Unit = unit2.Id;
                 products.Add(product);
                 Product_Categories.Add(new ProductCategoryProduct()
                 {

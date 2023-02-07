@@ -1,9 +1,9 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 
-namespace WebAppTinhVanCat_aspnetcore.Models.Products
+namespace WebAppTinhVanCat_aspnetcore.Models.Product
 {
     [Table("ProductPhoto")]
     public class ProductPhoto

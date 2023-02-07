@@ -1,0 +1,197 @@
+﻿
+@model OrderModel
+
+@{
+    ViewData["Title"] = "Chi tiết hóa đơn";
+    _AdminSideBarService.SetActive("OrderManage", "Index", "Product");
+    int coutnOrderItem = 1;
+}
+<h3>Thông tin đơn hàng</h3>
+<hr />
+<dl class="row ">
+    <dt class="col-sm-2 text-primary ">
+        @Html.DisplayNameFor(model => model.FullName)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.FullName)
+    </dd>
+    <dt class="col-sm-2 text-primary">
+        @Html.DisplayNameFor(model => model.Phone)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Phone)
+    </dd>
+    <dt class="col-sm-2 text-primary">
+        @Html.DisplayNameFor(model => model.Email)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Email)
+    </dd>
+    <dt class="col-sm-2 text-primary">
+        @Html.DisplayNameFor(model => model.CreateDate)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.CreateDate.ToShortDateString()
+    </dd>
+    <dt class="col-sm-2 text-primary">
+        @Html.DisplayNameFor(model => model.Address)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Address)
+    </dd>
+    <dt class="col-sm-2 text-primary">
+        @Html.DisplayNameFor(model => model.Price)
+    </dt>
+    <dd class="col-sm-10">
+        <strong>@Model.Price.ToPriceUnitVND()</strong>
+    </dd>
+    <dt class="col-sm-2 text-primary">
+        @Html.DisplayNameFor(model => model.State)
+    </dt>
+    <dd class="col-sm-10 ">
+        @switch (Model.State)
+        {
+            case StateOrder.Received:
+                <strong class="text-warning ">Chờ xác nhận</strong>
+                break;
+            case StateOrder.Accept:
+                <strong class="text-primary ">Đã xác nhận</strong>
+                break;
+            case StateOrder.ShopCancel:
+                <strong class="text-danger ">Đã hủy</strong>
+                break;
+            case StateOrder.CustomerCancel:
+                <strong class="text-danger ">Khách hủy</strong>
+                break;
+            case StateOrder.Sucess:
+                <strong class="text-danger ">Đã Giao</strong>
+                break;
+            case StateOrder.Transport:
+                <strong class="text-danger ">Đang giao</strong>
+                break;
+            default:
+                <strong class="text-danger ">Có lỗi</strong>
+                break;
+
+        }
+    </dd>
+    @if (Model.State == StateOrder.ShopCancel)
+    {
+        <dt class="col-sm-2 text-primary">
+            @Html.DisplayNameFor(model => model.ShopCancelReason)
+        </dt>
+        <dd class="col-sm-10">
+            @if(Model.ShopCancelReason==null)
+            {
+                <p>Shop hủy không lý do ! </p>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.ShopCancelReason)
+            }
+
+            
+        </dd>
+    }else
+        {
+             @if (Model.State == StateOrder.CustomerCancel)
+                {
+                    <dt class="col-sm-2 text-primary">
+                        @Html.DisplayNameFor(model => model.CustomCancelReason)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @if (Model.CustomCancelReason == null)
+                        {
+                            <p>Khách hàng hủy không lý do ! </p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.CustomCancelReason)
+                        }
+                    </dd>
+                }
+        }
+
+</dl>
+
+<hr />
+<a class="btn btn-sm btn-outline-primary " asp-action="Index">Trở về danh sách hóa đơn </a>
+<hr />
+
+<!-- DataTales  -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+       
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách hàng hóa</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead class="bg-primary text-light">
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                            Đơn giá
+                        </th>
+                        <th>
+                            Số lượng
+                        </th>
+                        <th>
+                            Đơn vị tính
+                        </th>
+                        <th>
+                            Thành tiền
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (OrderItem item in Model.OrderItems)
+                    {
+                        var totalprice = item.Quantity * item.CurentPrice;
+                        <tr>
+                            <td>
+                                @coutnOrderItem
+                            </td>
+                            <td>
+                                @item.ProductTitle
+                            </td>
+                            <td>
+                                @item.CurentPrice.ToPriceUnitVND()
+                            </td>
+                            <td>
+                                @item.Quantity
+                            </td>
+                            <td>
+                                @item.Unit
+                            </td>
+                            <td class="text-dark">
+                                @totalprice.ToPriceUnitVND()
+                            </td>
+                        </tr>
+
+                        coutnOrderItem += 1;
+                    }
+                </tbody>
+            </table>
+           
+        </div>
+    </div>
+</div>
+
+<!-- DataTales  -->
+
+
+
+
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+
+}

@@ -196,6 +196,7 @@ namespace WebAppTinhVanCat_aspnetcore
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

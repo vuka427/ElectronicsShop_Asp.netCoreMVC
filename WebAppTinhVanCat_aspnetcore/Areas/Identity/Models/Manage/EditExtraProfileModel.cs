@@ -8,6 +8,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Models.ManageViewModels
       [Display(Name = "Tên tài khoản")]
       public string UserName { get; set; }
 
+      [Display(Name = "Tên người dùng")]
+      public string FullName { get; set; }
+
       [Display(Name = "Địa chỉ email")]
       public string UserEmail { get; set; }
       [Display(Name = "Số điện thoại")]

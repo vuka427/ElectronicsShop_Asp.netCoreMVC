@@ -11,7 +11,7 @@
     <a class="btn btn-primary" asp-action="Create">Thêm bài viết mới</a>
 </p>
 <p> Tổng Số bài viết : @ViewBag.TotalPost</p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -59,7 +59,7 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.PostId">Chi tiết</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PostId">Xóa</a>
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.PostId">Xóa</a>
                 </td>
             </tr>
         }

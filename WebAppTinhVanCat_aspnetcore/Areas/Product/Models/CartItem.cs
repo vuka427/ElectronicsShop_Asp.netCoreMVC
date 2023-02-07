@@ -1,4 +1,4 @@
-﻿using WebAppTinhVanCat_aspnetcore.Models.Products;
+﻿using WebAppTinhVanCat_aspnetcore.Models.Product;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Models
 {

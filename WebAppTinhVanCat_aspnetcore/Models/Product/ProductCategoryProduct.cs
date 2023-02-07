@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAppTinhVanCat_aspnetcore.Models.Products
+namespace WebAppTinhVanCat_aspnetcore.Models.Product
 {
     [Table("ProductCategoryProduct")]
     public class ProductCategoryProduct

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAppTinhVanCat_aspnetcore.Models.Blog;
-using WebAppTinhVanCat_aspnetcore.Models.Products;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 using WebAppTinhVanCat_aspnetcore.Models.Contacts;
 using WebAppTinhVanCat_aspnetcore.Models.Product;
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProductModel>
+﻿@model IEnumerable<ProductModel>;
 
 @{
     ViewData["Title"] = "Danh sách các sản phẩm";
@@ -11,7 +11,7 @@
     <a class="btn btn-primary" asp-action="Create">Thêm sản phẩm mới</a>
 </p>
 <p> Tổng Số sản phẩm : @ViewBag.TotalProduct</p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -57,7 +57,9 @@
                     </small>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelitem => item.Price)
+                    <strong>@item.Price.ToPriceUnitVND()</strong> / @item.UnitProduct.Unit
+                    
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelitem => item.Quantity)
@@ -72,12 +74,16 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.ProductId">Chi tiết</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+
+
 
 <partial name="_PagingXTL" model="@ViewBag.PagingModel" />
 @{
