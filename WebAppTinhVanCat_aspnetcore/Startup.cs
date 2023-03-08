@@ -119,14 +119,16 @@ namespace WebAppTinhVanCat_aspnetcore
             });
 
             services.AddAuthentication()
-                    .AddGoogle(options => {
+                    .AddGoogle(options =>
+                    {
                         var gconfig = Configuration.GetSection("Authentication:Google");
                         options.ClientId = gconfig["ClientId"];
                         options.ClientSecret = gconfig["ClientSecret"];
 
                         options.CallbackPath = "/dang-nhap-tu-google";
                     })
-                    .AddFacebook(facebookOptions => {
+                    .AddFacebook(facebookOptions =>
+                    {
                         //đọc cấu hình
                         var facebookAuthNSection = Configuration.GetSection("Authentication:Facebook");
                         facebookOptions.AppId = facebookAuthNSection["AppId"];
@@ -134,15 +136,15 @@ namespace WebAppTinhVanCat_aspnetcore
                         // Thiết lập đường dẫn Facebook chuyển hướng đến
                         facebookOptions.CallbackPath = "/dang-nhap-tu-facebook";
 
-                    })
+                    });
                     //https://localhost:5001/dang-nhap-tu-microsoft-account
-                    .AddMicrosoftAccount(microsoftOptions => {
+                    /*.AddMicrosoftAccount(microsoftOptions => {
                         var Mgconfig = Configuration.GetSection("Authentication:Microsoft");
                         microsoftOptions.ClientId = Mgconfig["ClientId"];
                         microsoftOptions.ClientSecret = Mgconfig["ClientSecret"];
 
                         microsoftOptions.CallbackPath = Mgconfig["CallbackPath"];
-                    });
+                    });*/
 
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
             services.AddSession(cfg => {                    // Đăng ký dịch vụ Session

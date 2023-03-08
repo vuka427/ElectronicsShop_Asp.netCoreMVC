@@ -25,9 +25,28 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index([FromQuery(Name = "p")] int currentPage, int pagesize)
+        public async Task<IActionResult> Index([FromQuery(Name = "p")] int currentPage, int pagesize , string searchstring)
         {
-            var orders = _context.Orders.OrderByDescending(o => o.CreateDate);
+            ViewData["Search"] = searchstring;
+
+
+            IQueryable<OrderModel> orders;
+            if (searchstring != null)
+            {
+                orders = _context.Orders.Where(o=>o.FullName.Contains(searchstring) ||
+                                                 o.Email.Contains(searchstring)     ||
+                                                 o.Address.Contains(searchstring)   ||
+                                                 o.Phone.Contains(searchstring)          
+                                                 )
+                                                .OrderByDescending(o => o.CreateDate);
+            }
+            else
+            {
+                orders = _context.Orders.OrderByDescending(o => o.CreateDate);
+            }
+
+
+
 
             var totalOrder = await orders.CountAsync(); // tổng số hóa đơn
             if (pagesize <= 0) pagesize = 10;
@@ -57,10 +76,10 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             return View(ListProductInPage);
         }
 
-        [Route("/order/manage/orderdetail/{orderid:int}", Name = "orderdetail")]
-        public async  Task<IActionResult> OrderDetail([FromRoute] int orderid)
+        [Route("/order/manage/orderdetail/{ordercode:guid}", Name = "orderdetail")]
+        public async  Task<IActionResult> OrderDetail([FromRoute] string ordercode)
         {
-            var order = await _context.Orders.Where(od => od.OrderId == orderid).Include(o=>o.OrderItems).FirstOrDefaultAsync();
+            var order = await _context.Orders.Where(od => od.OrderCode == ordercode).Include(o=>o.OrderItems).FirstOrDefaultAsync();
             if(order != null)
             {
                 return View(order);

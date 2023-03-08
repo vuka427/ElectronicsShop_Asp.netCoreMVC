@@ -113,7 +113,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ParentCategoryId,Title,Content,Slug")] CategoryProduct category)
+        public async Task<IActionResult> Create(CategoryProduct category)
         {
             if (ModelState.IsValid)
             {

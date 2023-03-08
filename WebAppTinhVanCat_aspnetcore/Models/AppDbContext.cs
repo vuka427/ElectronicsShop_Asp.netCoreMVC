@@ -22,7 +22,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         public DbSet<PostCategory> PostCategories { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { set; get; }
         public DbSet<ProductModel> Products { get; set; }
-        public DbSet<ProductCategoryProduct> ProductCategoryProducts { get; set; }
+       
         public DbSet<ProductPhoto> ProductPhotos { set; get; }
         public DbSet<OrderModel> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { set; get; }
@@ -65,17 +65,19 @@ namespace WebAppTinhVanCat_aspnetcore.Models
                 .IsUnique(); //isUnipue : có giá trị duy nhất 
             });
 
-            builder.Entity<ProductCategoryProduct>(entity => { // ProductID và CategoryProductID là khóa chính tạo quan hệ nhiều - nhiều cho bản Product và CategoryProduct
-                entity.HasKey(k => new { k.ProductID, k.CategoryProductID });
-
-            });
+          
 
             builder.Entity<ProductModel>(entity => { // dánh chỉ mục trường slug
                 entity.HasIndex(p => p.Slug)
                 .IsUnique(); //isUnipue : có giá trị duy nhất 
             });
-            
-          
+            builder.Entity<OrderModel>(entity => { // dánh chỉ mục trường codeOrder
+                
+                entity.HasIndex(p => p.OrderCode)
+                .IsUnique(); //isUnipue : có giá trị duy nhất 
+            });
+
+
         }
     }
 }

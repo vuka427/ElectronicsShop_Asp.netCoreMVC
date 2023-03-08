@@ -55,21 +55,20 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
             var product = _context.Products.Include(p => p.Author) //tất cả các sản phẩm
                                     .Include(p=>p.Photos)
-                                    .Include(p => p.ProductCategoryProducts)
-                                    .ThenInclude(p => p.Category)
+                                    .Include(p => p.Category)
                                     .AsQueryable(); 
                                     
-            product = product.OrderByDescending(p => p.DateUpdated);
+            product = product.OrderByDescending(p => p.DateUpdated);//sấp xếp sản phẩm
 
 
-            if (category != null) //  nếu có danh mục thì lấy các sản phẩm con cháu và của danh mục đó
+            if (category != null) //nếu có danh mục thì lấy các sản phẩm con cháu và của danh mục đó (lấy sản phẩm theo danh mục)
             {
-                var ids = new List<int>();
-                category.ChildCategoryIDs(ids, null);
-                ids.Add(category.Id);
+                var idCateChill = new List<int>();
+                category.ChildCategoryIDs(idCateChill, null);// lấy id của tất cả danh mục con
+                idCateChill.Add(category.Id);
 
-                product = product.Where(p => p.ProductCategoryProducts.Where(pc => ids.Contains(pc.CategoryProductID)).Any());
-                
+                product = product.Where(p => idCateChill.Contains(p.CategoryId)); //lấy tất cả cá sản phẩm mà có id danh mục có trong lits idCateChill
+
             }
             // phân trang
             
@@ -116,19 +115,18 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                                         .Include(p => p.Author)
                                         .Include(p => p.Photos)
                                         .Include(u=>u.UnitProduct)
-                                        .Include(p => p.ProductCategoryProducts)
-                                        .ThenInclude(pc => pc.Category)
+                                        .Include(p => p.Category)
                                         .FirstOrDefault();
             if(Product == null)
             {
                 return NotFound("không thấy bài viết !");
             }
-            CategoryProduct category =  Product.ProductCategoryProducts.FirstOrDefault()?.Category;//lấy danh mục của sản phẩm
-            ViewBag.category = category;
+             
+            ViewBag.category = Product.Category;//lấy danh mục của sản phẩm
 
-            if (category != null)
+            if (Product.Category != null)
             {
-                var otherProduct = _context.Products.Where(p => p.ProductCategoryProducts.Any(c => c.Category.Id == category.Id)) // lấy 5 sản phẩm cùng danh mục
+                var otherProduct = _context.Products.Where(p => p.Category == Product.Category) // lấy 5 sản phẩm cùng danh mục
                                             .Where(p => p.ProductId != Product.ProductId)
                                             .OrderByDescending(p => p.DateUpdated)
                                             .Take(5);

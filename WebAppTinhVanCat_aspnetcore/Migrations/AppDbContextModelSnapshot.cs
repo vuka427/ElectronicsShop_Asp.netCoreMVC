@@ -467,6 +467,9 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -489,22 +492,11 @@ namespace WebAppTinhVanCataspnetcore.Migrations
 
                     b.HasKey("OrderId");
 
+                    b.HasIndex("OrderCode")
+                        .IsUnique()
+                        .HasFilter("[OrderCode] IS NOT NULL");
+
                     b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductCategoryProduct", b =>
-                {
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryProductID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductID", "CategoryProductID");
-
-                    b.HasIndex("CategoryProductID");
-
-                    b.ToTable("ProductCategoryProduct");
                 });
 
             modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", b =>
@@ -517,6 +509,9 @@ namespace WebAppTinhVanCataspnetcore.Migrations
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -563,6 +558,8 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.HasKey("ProductId");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Slug")
                         .IsUnique()
@@ -721,30 +718,17 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductCategoryProduct", b =>
-                {
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.CategoryProduct", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", "Product")
-                        .WithMany("ProductCategoryProducts")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", b =>
                 {
                     b.HasOne("WebAppTinhVanCat_aspnetcore.Models.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
+
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.CategoryProduct", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.UnitProduct", "UnitProduct")
                         .WithMany("Products")
@@ -753,6 +737,8 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+
+                    b.Navigation("Category");
 
                     b.Navigation("UnitProduct");
                 });
@@ -791,8 +777,6 @@ namespace WebAppTinhVanCataspnetcore.Migrations
             modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", b =>
                 {
                     b.Navigation("Photos");
-
-                    b.Navigation("ProductCategoryProducts");
                 });
 
             modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.UnitProduct", b =>

@@ -12,8 +12,8 @@ using WebAppTinhVanCat_aspnetcore.Models;
 namespace WebAppTinhVanCataspnetcore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230119010224_fix-19-1")]
-    partial class fix191
+    [Migration("20230308172804_editProductCate")]
+    partial class editProductCate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -362,119 +362,7 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.OrderItem", b =>
-                {
-                    b.Property<int>("OrderItemID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemID"));
-
-                    b.Property<decimal>("CurentPrice")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<int>("GTGT")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductTitle")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("nvarchar(160)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OrderItemID");
-
-                    b.HasIndex("OrderID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("OrderItem");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.OrderModel", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BankAccountNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CustomNote")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("CustomerID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Finished")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<string>("ShopNote")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TransportCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("CustomerID");
-
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.UnitProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UnitProduct");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.CategoryProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -508,22 +396,113 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.ToTable("CategoryProduct");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductCategoryProduct", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.OrderItem", b =>
                 {
+                    b.Property<int>("OrderItemID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemID"));
+
+                    b.Property<decimal>("CurentPrice")
+                        .HasColumnType("decimal(10,0)");
+
+                    b.Property<int>("GTGT")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderID")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryProductID")
+                    b.Property<string>("ProductTitle")
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductID", "CategoryProductID");
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CategoryProductID");
+                    b.HasKey("OrderItemID");
 
-                    b.ToTable("ProductCategoryProduct");
+                    b.HasIndex("OrderID");
+
+                    b.ToTable("OrderItem");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.OrderModel", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankAccountNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomCancelReason")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("CustomNote")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("CustomerID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Finished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,0)");
+
+                    b.Property<string>("ShopCancelReason")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("ShopNote")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransportCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("OrderCode")
+                        .IsUnique()
+                        .HasFilter("[OrderCode] IS NOT NULL");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -533,6 +512,9 @@ namespace WebAppTinhVanCataspnetcore.Migrations
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -553,7 +535,7 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,4)");
+                        .HasColumnType("decimal(10,0)");
 
                     b.Property<bool>("Published")
                         .HasColumnType("bit");
@@ -580,6 +562,8 @@ namespace WebAppTinhVanCataspnetcore.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("Slug")
                         .IsUnique()
                         .HasFilter("[Slug] IS NOT NULL");
@@ -589,7 +573,7 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductPhoto", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductPhoto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -611,6 +595,22 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("ProductPhoto");
+                });
+
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.UnitProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UnitProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -701,6 +701,15 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.CategoryProduct", b =>
+                {
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.CategoryProduct", "ParentCategory")
+                        .WithMany("CategoryChildren")
+                        .HasForeignKey("ParentCategoryId");
+
+                    b.Navigation("ParentCategory");
+                });
+
             modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.OrderItem", b =>
                 {
                     b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.OrderModel", "Order")
@@ -709,74 +718,37 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.OrderModel", b =>
-                {
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.AppUser", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID");
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", b =>
-                {
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", "ParentCategory")
-                        .WithMany("CategoryChildren")
-                        .HasForeignKey("ParentCategoryId");
-
-                    b.Navigation("ParentCategory");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductCategoryProduct", b =>
-                {
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", "Product")
-                        .WithMany("ProductCategoryProducts")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", b =>
                 {
                     b.HasOne("WebAppTinhVanCat_aspnetcore.Models.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.UnitProduct", "UnitProduct")
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.CategoryProduct", "Category")
                         .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.UnitProduct", "UnitProduct")
+                        .WithMany("Products")
                         .HasForeignKey("Unit")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
 
+                    b.Navigation("Category");
+
                     b.Navigation("UnitProduct");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductPhoto", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductPhoto", b =>
                 {
-                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", "Product")
+                    b.HasOne("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", "Product")
                         .WithMany("Photos")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -795,21 +767,24 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     b.Navigation("PostCategories");
                 });
 
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.CategoryProduct", b =>
+                {
+                    b.Navigation("CategoryChildren");
+                });
+
             modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.OrderModel", b =>
                 {
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.CategoryProduct", b =>
-                {
-                    b.Navigation("CategoryChildren");
-                });
-
-            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Products.ProductModel", b =>
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel", b =>
                 {
                     b.Navigation("Photos");
+                });
 
-                    b.Navigation("ProductCategoryProducts");
+            modelBuilder.Entity("WebAppTinhVanCat_aspnetcore.Models.Product.UnitProduct", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

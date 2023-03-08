@@ -178,6 +178,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                 {
                     //sử lý trả về lổi 
                     //chưa làm j hết để tạm vậy
+
                     return NotFound("có lỗi người dùng chưa Cập nhật tên!");
                 }
 

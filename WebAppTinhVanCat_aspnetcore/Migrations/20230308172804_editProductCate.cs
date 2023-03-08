@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebAppTinhVanCataspnetcore.Migrations
 {
     /// <inheritdoc />
-    public partial class fix191 : Migration
+    public partial class editProductCate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,6 +71,34 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    OrderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CustomerID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Finished = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TransportCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(10,0)", nullable: false),
+                    CustomNote = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CustomCancelReason = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    BankAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShopNote = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ShopCancelReason = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.OrderId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -126,6 +154,31 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderItem",
+                columns: table => new
+                {
+                    OrderItemID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderID = table.Column<int>(type: "int", nullable: false),
+                    ProductTitle = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: true),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    CurentPrice = table.Column<decimal>(type: "decimal(10,0)", nullable: false),
+                    GTGT = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItem", x => x.OrderItemID);
+                    table.ForeignKey(
+                        name: "FK_OrderItem_Order_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "Order",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 columns: table => new
                 {
@@ -144,36 +197,6 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Order",
-                columns: table => new
-                {
-                    OrderId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Finished = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TransportCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    CustomNote = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    BankAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShopNote = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Order", x => x.OrderId);
-                    table.ForeignKey(
-                        name: "FK_Order_Users_CustomerID",
-                        column: x => x.CustomerID,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -216,15 +239,22 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Feature = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,0)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Warranty = table.Column<int>(type: "int", nullable: false),
                     GTGT = table.Column<int>(type: "int", nullable: false),
-                    Unit = table.Column<int>(type: "int", nullable: false)
+                    Unit = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_Product_CategoryProduct_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "CategoryProduct",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Product_UnitProduct_Unit",
                         column: x => x.Unit,
@@ -348,61 +378,6 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItem",
-                columns: table => new
-                {
-                    OrderItemID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderID = table.Column<int>(type: "int", nullable: false),
-                    ProductTitle = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false),
-                    ProductID = table.Column<int>(type: "int", nullable: false),
-                    CurentPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    GTGT = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderItem", x => x.OrderItemID);
-                    table.ForeignKey(
-                        name: "FK_OrderItem_Order_OrderID",
-                        column: x => x.OrderID,
-                        principalTable: "Order",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderItem_Product_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "Product",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductCategoryProduct",
-                columns: table => new
-                {
-                    ProductID = table.Column<int>(type: "int", nullable: false),
-                    CategoryProductID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductCategoryProduct", x => new { x.ProductID, x.CategoryProductID });
-                    table.ForeignKey(
-                        name: "FK_ProductCategoryProduct_CategoryProduct_CategoryProductID",
-                        column: x => x.CategoryProductID,
-                        principalTable: "CategoryProduct",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductCategoryProduct_Product_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "Product",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductPhoto",
                 columns: table => new
                 {
@@ -446,19 +421,16 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_CustomerID",
+                name: "IX_Order_OrderCode",
                 table: "Order",
-                column: "CustomerID");
+                column: "OrderCode",
+                unique: true,
+                filter: "[OrderCode] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_OrderID",
                 table: "OrderItem",
                 column: "OrderID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_ProductID",
-                table: "OrderItem",
-                column: "ProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Post_AuthorId",
@@ -483,6 +455,11 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_CategoryId",
+                table: "Product",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_Slug",
                 table: "Product",
                 column: "Slug",
@@ -493,11 +470,6 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 name: "IX_Product_Unit",
                 table: "Product",
                 column: "Unit");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCategoryProduct_CategoryProductID",
-                table: "ProductCategoryProduct",
-                column: "CategoryProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPhoto_ProductID",
@@ -557,9 +529,6 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 name: "PostCategory");
 
             migrationBuilder.DropTable(
-                name: "ProductCategoryProduct");
-
-            migrationBuilder.DropTable(
                 name: "ProductPhoto");
 
             migrationBuilder.DropTable(
@@ -587,13 +556,13 @@ namespace WebAppTinhVanCataspnetcore.Migrations
                 name: "Post");
 
             migrationBuilder.DropTable(
-                name: "CategoryProduct");
-
-            migrationBuilder.DropTable(
                 name: "Product");
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "CategoryProduct");
 
             migrationBuilder.DropTable(
                 name: "UnitProduct");

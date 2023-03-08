@@ -233,7 +233,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
             fakerProduct.RuleFor(p => p.Price, f => int.Parse(f.Commerce.Price(500,1000,0)));
 
             List<ProductModel> products = new List<ProductModel>();
-            List<ProductCategoryProduct> Product_Categories = new List<ProductCategoryProduct>();
+            List<CategoryProduct> Product_Categories = new List<CategoryProduct>();
 
             var unit2 = _dbContext.UnitProducts.Where(p => p.Unit == "Tấn").FirstOrDefault();
 
@@ -242,12 +242,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
                 var product = fakerProduct.Generate();
                 product.DateUpdated = product.DateCreated;
                 product.Unit = unit2.Id;
+                product.Category = categories[rCateIndex.Next(5)];
                 products.Add(product);
-                Product_Categories.Add(new ProductCategoryProduct()
-                {
-                    Product = product,
-                    Category = categories[rCateIndex.Next(5)]
-                });
+                
             }
             _dbContext.Products.AddRange(products);
             _dbContext.AddRange(Product_Categories);

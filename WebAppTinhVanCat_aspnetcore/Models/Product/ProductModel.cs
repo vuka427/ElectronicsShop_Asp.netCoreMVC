@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace WebAppTinhVanCat_aspnetcore.Models.Product
 {
     [Table("Product")]
+
     public class ProductModel
     {
         [Key]
@@ -72,8 +73,11 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [ForeignKey("Unit")]
         public UnitProduct UnitProduct { get; set; }
 
-        public virtual List<ProductCategoryProduct> ProductCategoryProducts { get; set; }
+        public int CategoryId { get; set; }
 
+        [ForeignKey("CategoryId")]
+        public CategoryProduct Category { get; set; }
+       
         public List<ProductPhoto> Photos { get; set; }
 
     }

@@ -71,8 +71,8 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
             Items.Add(new SideBarItem()//Order
             {
                 Type = SidebarItemType.NavItem,
-                Title = "Quản lý hóa đơn",
-                AwesomeIcon = "fa fa-list",
+                Title = "Quản lý đơn hàng",
+                AwesomeIcon = "fa fa-clipboard-list",
                 CollapseId = "order",
                 Items = new List<SideBarItem>()
                 {
@@ -82,7 +82,7 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                             Controller = "OrderManage",
                             Action = "Index",
                             Area = "Product",
-                            Title = "Hóa đơn"
+                            Title = "Đơn hàng"
                         }
                 },
             });

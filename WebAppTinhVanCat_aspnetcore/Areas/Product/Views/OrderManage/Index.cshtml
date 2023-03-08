@@ -3,8 +3,9 @@
 
 
 @{
-    ViewData["Title"] = "Danh sách hóa đơn";
+    ViewData["Title"] = "Danh sách đơn hàng";
     _AdminSideBarService.SetActive("OrderManage", "Index", "Product");
+   string searchString =  ViewData["Search"] as string;
 }
 
 
@@ -13,12 +14,20 @@
 <!-- DataTales  -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <form class="p-1">
+        <form class="p-1" method="get">
             <label for="searchstring"><b>Tìm kiếm </b></label>
-            <input style="width:15%; display : inline" class="form-control form-control-sm" type="text" id="searchstring" placeholder="Mã HĐ, Tên, Địa chỉ, Số điện thoại ">
+            <input style="width:15%; display : inline" class="form-control form-control-sm" type="text" id="searchstring" name="searchstring" placeholder="Mã HĐ, Tên, Địa chỉ, Số điện thoại ">
             <button type="submit" class="btn  btn-primary btn-sm"> Tìm </button>
         </form>
-        <h6 class="m-0 font-weight-bold text-primary">Tổng số hóa đơn : @ViewBag.TotalOrder</h6>
+        @if (searchString == null)
+        {
+            <h6 class="m-0 font-weight-bold text-primary">Tổng số hóa đơn : @ViewBag.TotalOrder</h6>
+        }
+        else
+        {
+            <h6 class="m-0 font-weight-bold text-primary">Kết quả tìm kiếm cho từ khóa "@searchString" : @ViewBag.TotalOrder</h6>
+        }
+        
     </div>
 
     <div class="card-body">
@@ -29,9 +38,6 @@
                     <tr>
                         <th>
                             STT
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.OrderId)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.FullName)
@@ -62,9 +68,7 @@
                             <td>
                                 @(++ViewBag.OrderIndex)
                             </td>
-                            <td>
-                                @string.Format("{0:00000}" ,item.OrderId)
-                            </td>
+                            
                             <td>
                                 @Html.DisplayFor(modelitem => item.FullName)
                             </td>
@@ -133,7 +137,7 @@
                                     }
                                 }
                                
-                                <a asp-action="OrderDetail" asp-route-orderid="@item.OrderId" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                                <a asp-action="OrderDetail" asp-route-ordercode="@item.OrderCode" class="btn btn-sm btn-outline-primary">Chi tiết</a>
                             </td>
                         </tr>
                     }

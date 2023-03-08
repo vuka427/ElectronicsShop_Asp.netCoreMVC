@@ -10,63 +10,77 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Thêm bài viết mới</a>
 </p>
-<p> Tổng Số bài viết : @ViewBag.TotalPost</p>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                STT
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Published)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateUpdated)
-            </th>
-            <th>Tác vụ</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
 
-            <tr>
-                <td>
-                    @(++ViewBag.PostIndex)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.PostId">
-                        @Html.DisplayFor(modelitem => item.Title)
-                    </a>
-                    <br />
-                    <small>
-                        @string.Join(", ", item.PostCategories.Select(pc => pc.Category.Title))
-                    </small>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelitem => item.Published) 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelitem => item.Author.UserName) 
-                <td>
-                    @Html.DisplayFor(modelitem => item.DateUpdated) 
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.PostId">Chi tiết</a> |
-                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.PostId">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
-<partial name="_PagingXTL" model="@ViewBag.PagingModel" />
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+
+
+        <h6 class="m-0 font-weight-bold text-primary">Tổng Số bài viết : @ViewBag.TotalPost</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead class="bg-primary text-light">
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Published)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Author)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DateUpdated)
+                        </th>
+                        <th>Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                @(++ViewBag.PostIndex)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.PostId">
+                                    @Html.DisplayFor(modelitem => item.Title)
+                                </a>
+                                <br />
+                                <small>
+                                    @string.Join(", ", item.PostCategories.Select(pc => pc.Category.Title))
+                                </small>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Published) 
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Author.UserName) 
+                            <td>
+                                @Html.DisplayFor(modelitem => item.DateUpdated) 
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.PostId">Chi tiết</a> |
+                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.PostId">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <partial name="_PagingXTL" model="@ViewBag.PagingModel" />
+        </div>
+    </div>
+</div>
+
 @{
     _AdminSideBarService.SetActive("Post", "Index", "Blog");
 }

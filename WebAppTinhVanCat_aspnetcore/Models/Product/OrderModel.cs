@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 namespace WebAppTinhVanCat_aspnetcore.Models.Product
 {
@@ -24,9 +25,17 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
     [Table("Order")]
     public class OrderModel
     {
+        public OrderModel()
+        {
+            OrderCode = Guid.NewGuid().ToString();
+        }
+
         [Key]
-        [Display(Name="Mã hóa đơn")]
+        
         public int OrderId { get; set; }
+
+        [Display(Name = "Mã đơn hàng")]
+        public string OrderCode { get; set; }
 
         [Display(Name = "ID khách hàng")]
         [AllowNull]
@@ -92,5 +101,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
 
         public ICollection<OrderItem> OrderItems { get; set; } //nav list sản phẩm 
 
+
+       
     }
 }
