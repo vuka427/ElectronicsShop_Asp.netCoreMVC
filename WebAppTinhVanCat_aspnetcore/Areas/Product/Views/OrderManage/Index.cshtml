@@ -13,7 +13,7 @@
 
 <!-- DataTales  -->
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
+    <div class="card-header py-3 ">
         <form class="p-1" method="get">
             <label for="searchstring"><b>Tìm kiếm </b></label>
             <input style="width:15%; display : inline" class="form-control form-control-sm" type="text" id="searchstring" name="searchstring" placeholder="Mã HĐ, Tên, Địa chỉ, Số điện thoại ">
@@ -28,7 +28,14 @@
             <h6 class="m-0 font-weight-bold text-primary">Kết quả tìm kiếm cho từ khóa "@searchString" : @ViewBag.TotalOrder</h6>
         }
         
+        <div class="">
+            <a class="btn btn-primary btn-sm float-right mr-3" asp-action="Index" asp-route-state="Received"> Đơn hàng chờ xác nhận </a>
+            <a class="btn btn-primary btn-sm float-right mr-3" asp-action="Index" asp-route-state="Accept"> Đơn hàng đã nhận </a>
+            <a class="btn btn-primary btn-sm float-right mr-3" asp-action="Index" asp-route-state="Cancel"> Đơn hàng đã hủy </a>
+        </div>
     </div>
+
+    
 
     <div class="card-body">
         <div class="table-responsive">

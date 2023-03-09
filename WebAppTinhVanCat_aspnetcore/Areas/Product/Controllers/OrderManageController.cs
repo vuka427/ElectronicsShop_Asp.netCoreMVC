@@ -25,30 +25,56 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index([FromQuery(Name = "p")] int currentPage, int pagesize , string searchstring)
+        public async Task<IActionResult> Index([FromQuery(Name = "p")] int currentPage, int pagesize , string searchstring , [FromQuery(Name = "state")] string state )
         {
             ViewData["Search"] = searchstring;
 
 
-            IQueryable<OrderModel> orders;
-            if (searchstring != null)
+            IQueryable<OrderModel> orders = null;
+
+            if (searchstring != null)// tìm kiếm
             {
-                orders = _context.Orders.Where(o=>o.FullName.Contains(searchstring) ||
-                                                 o.Email.Contains(searchstring)     ||
-                                                 o.Address.Contains(searchstring)   ||
-                                                 o.Phone.Contains(searchstring)          
+                orders = _context.Orders.Where(o => o.FullName.Contains(searchstring) ||
+                                                 o.Email.Contains(searchstring) ||
+                                                 o.Address.Contains(searchstring) ||
+                                                 o.Phone.Contains(searchstring)
                                                  )
                                                 .OrderByDescending(o => o.CreateDate);
             }
-            else
-            {
-                orders = _context.Orders.OrderByDescending(o => o.CreateDate);
+            else {
+
+                if (state != null )
+                {
+                    switch (state)
+                    {
+                        case "Accept":
+                            orders = _context.Orders.Where(o=>o.State == StateOrder.Accept).OrderByDescending(o => o.CreateDate);
+                            break;
+                        case "Received":
+                            orders = _context.Orders.Where(o => o.State == StateOrder.Received).OrderByDescending(o => o.CreateDate);
+                            break;
+                        case "Cancel":
+                            orders = _context.Orders.Where(o => o.State == StateOrder.ShopCancel || o.State == StateOrder.CustomerCancel).OrderByDescending(o => o.CreateDate);
+                            break;
+                        default:
+                            orders = _context.Orders.OrderByDescending(o => o.CreateDate);
+                            break;
+                    }
+                }
+                else
+                {
+                    orders = _context.Orders.OrderByDescending(o => o.CreateDate);
+                }
             }
 
+            int totalOrder = 0;
+            if (orders != null)
+            {
+                totalOrder = await orders.CountAsync(); // tổng số hóa đơn
+            }
 
+             
 
-
-            var totalOrder = await orders.CountAsync(); // tổng số hóa đơn
             if (pagesize <= 0) pagesize = 10;
             var countPages = (int)Math.Ceiling((double)totalOrder / pagesize); // tính số lượng trang  =  tổng số hóa đơn / số sản phẩm trên 1 trang
 
