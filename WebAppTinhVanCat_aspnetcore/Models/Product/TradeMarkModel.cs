@@ -14,7 +14,6 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [Display(Name="Tên thương hiệu")]
         public string Name { get; set; }
 
-        [StringLength(256, ErrorMessage = "{0} dài tối đa {1} ký tự")]
         [Display(Name = "Mô tả")]
         public string? Description { get; set; }
 

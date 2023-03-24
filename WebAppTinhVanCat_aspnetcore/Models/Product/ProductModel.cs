@@ -1,4 +1,5 @@
 ﻿using Microsoft.Build.ObjectModelRemoting;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -80,5 +81,11 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
        
         public List<ProductPhoto> Photos { get; set; }
 
+        [Display(Name = "Tên thương hiệu")]
+        public int TradeMarkId { get; set; }
+        [ForeignKey(nameof(TradeMarkId))]
+        public TradeMarkModel TradeMark { get; set; }
+
+        
     }
 }

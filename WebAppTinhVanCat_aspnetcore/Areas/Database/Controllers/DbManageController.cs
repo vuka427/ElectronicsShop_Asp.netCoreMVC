@@ -174,11 +174,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
             _dbContext.AddRange(posts);
             _dbContext.AddRange(postCategories);
 
-
-
             _dbContext.SaveChanges();
-
-
 
 
         }
@@ -189,6 +185,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
 
             _dbContext.CategoryProducts.RemoveRange(_dbContext.CategoryProducts.Where(c => c.Content.Contains("[fakeData]")));
             _dbContext.Products.RemoveRange(_dbContext.Products.Where(c => c.Content.Contains("[fakeData]")));
+            _dbContext.TradeMarks.RemoveRange(_dbContext.TradeMarks.Where(c => c.Description.Contains("[fakeData]")));
             _dbContext.SaveChanges();
 
             var fakerCategory = new Faker<CategoryProduct>(); //faker sinh các giá trị mẫu
@@ -217,6 +214,21 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
             var unit = _dbContext.UnitProducts.Where(p => p.Unit == "Tấn").FirstOrDefault();
             if(unit==null) _dbContext.Add(new UnitProduct { Unit = "Tấn" });
             _dbContext.SaveChanges();
+
+            //thương hiệu 
+           
+            var fakerTradeMark = new Faker<TradeMarkModel>();
+            fakerTradeMark.RuleFor(p => p.Name, f => f.Commerce.ProductName());
+            fakerTradeMark.RuleFor(p => p.Description, f => f.Lorem.Sentences(3) + "[fakeData]");
+            List<TradeMarkModel> tradems = new List<TradeMarkModel>();
+            for (int i = 1; i < 5; i++)
+            {
+                tradems.Add(fakerTradeMark.Generate());
+                
+            }
+            _dbContext.AddRange(tradems);
+            _dbContext.SaveChanges();
+
             //product
             var rCateIndex = new Random();
             int bv = 1;
@@ -243,6 +255,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
                 product.DateUpdated = product.DateCreated;
                 product.Unit = unit2.Id;
                 product.Category = categories[rCateIndex.Next(5)];
+                product.TradeMark = tradems[rCateIndex.Next(4)];
                 products.Add(product);
                 
             }

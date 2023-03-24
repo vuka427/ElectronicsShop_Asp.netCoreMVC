@@ -66,7 +66,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         public string Phone { get; set; }
 
         [Display(Name = "Mã vận chuyển")]
-        [AllowNull]
+       
         public string TransportCode { get; set; }
 
         [Display(Name = "Tổng thanh toán")]

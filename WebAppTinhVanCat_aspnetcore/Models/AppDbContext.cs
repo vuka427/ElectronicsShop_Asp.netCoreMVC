@@ -27,7 +27,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models
         public DbSet<OrderModel> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { set; get; }
         public DbSet<UnitProduct> UnitProducts { set; get; }
-
+        public DbSet<TradeMarkModel> TradeMarks { set; get; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -32,29 +32,13 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                 CollapseId = "product",
                 Items = new List<SideBarItem>()
                 {
-                   new SideBarItem() // danh mục product
-                        {
-                            Type = SidebarItemType.NavItem,
-                            Controller = "CategoryProduct",
-                            Action = "Index",
-                            Area = "Product",
-                            Title = "Danh mục sản phẩm"
-                        },
-                    new SideBarItem() // thêm danh mục
-                        {
-                            Type = SidebarItemType.NavItem,
-                            Controller = "CategoryProduct",
-                            Action = "Create",
-                            Area = "Product",
-                            Title = "Thêm danh mục"
-                        },
                     new SideBarItem() // các sản phẩm
                         {
                             Type = SidebarItemType.NavItem,
                             Controller = "Product",
                             Action = "Index",
                             Area = "Product",
-                            Title = "Sản phẩm"
+                            Title = "Danh sách sản phẩm"
                         },
                     new SideBarItem() // thêm sản phẩm
                         {
@@ -63,6 +47,22 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                             Action = "Create",
                             Area = "Product",
                             Title = "Thêm sản phẩm"
+                        },
+                   new SideBarItem() // danh mục product
+                        {
+                            Type = SidebarItemType.NavItem,
+                            Controller = "CategoryProduct",
+                            Action = "Index",
+                            Area = "Product",
+                            Title = "Danh mục sản phẩm"
+                        },
+                    new SideBarItem() // Thương hiệu
+                        {
+                            Type = SidebarItemType.NavItem,
+                            Controller = "TradeMark",
+                            Action = "Index",
+                            Area = "Product",
+                            Title = "Thương hiệu "
                         }
 
                 },
@@ -220,6 +220,12 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                     }
 
             });
+
+            Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
+          
+
+
+
         }
 
         public string renderHtml() 

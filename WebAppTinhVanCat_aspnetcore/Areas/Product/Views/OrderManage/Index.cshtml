@@ -127,20 +127,20 @@
                             <td width="20%" >
                                 @if (item.State == StateOrder.Received)
                                 {
-                                    <button class="AcceptButton @ClassState btn btn-sm btn-primary" data-id="@item.OrderId">Chấp nhận</button>
-                                    <button class="CancelButton @ClassState btn btn-sm btn-danger " data-id="@item.OrderId" data-toggle="modal" data-target="#dialogCancelOrder">Hủy đơn</button>
+                                    <button class="AcceptButton @ClassState btn btn-sm btn-primary my-1" data-id="@item.OrderId">Chấp nhận</button>
+                                    <button class="CancelButton @ClassState btn btn-sm btn-danger my-1" data-id="@item.OrderId" data-toggle="modal" data-target="#dialogCancelOrder">Hủy đơn</button>
                                 }
                                 else
                                 {
 
                                     if (item.State == StateOrder.Accept)
                                     {
-                                        <button class=" disabled  btn btn-sm btn-outline-dark">Chấp nhận</button>
-                                        <button class=" CancelButton @ClassState btn btn-sm btn-danger " data-id="@item.OrderId" data-toggle="modal" data-target="#dialogCancelOrder">Hủy đơn</button>
+                                        <button class=" disabled  btn btn-sm btn-outline-dark my-1">Chấp nhận</button>
+                                        <button class=" CancelButton @ClassState btn btn-sm btn-danger my-1" data-id="@item.OrderId" data-toggle="modal" data-target="#dialogCancelOrder">Hủy đơn</button>
                                     }
                                     else{
-                                        <button class=" disabled btn btn-sm btn-outline-dark">Chấp nhận</button>
-                                        <button class=" disabled btn btn-sm btn-outline-dark">Hủy đơn</button>
+                                        <button class=" disabled btn btn-sm btn-outline-dark my-1">Chấp nhận</button>
+                                        <button class=" disabled btn btn-sm btn-outline-dark my-1">Hủy đơn</button>
                                     }
                                 }
                                

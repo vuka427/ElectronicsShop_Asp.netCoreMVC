@@ -1,0 +1,77 @@
+﻿@model IEnumerable<TradeMarkModel>;
+
+@{
+    ViewData["Title"] = "Danh sách thương hiệu";
+    int i = 1;
+}
+
+
+<partial name="_StatusMessage" />
+<p>
+    <a class="btn btn-primary" asp-action="Create">Thêm thương hiệu mới</a>
+</p>
+
+
+
+<div class="card shadow mb-4">
+    
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead class="bg-primary text-light">
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                       
+                        <th>Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TradeMarkModel item in Model)
+                    {
+
+                        <tr>
+                            <td>
+                               @i
+                            </td>
+
+                            <td>
+                              <a asp-action="Edit" asp-route-id="@item.Id" > 
+                                    @Html.DisplayFor(modelitem => item.Name)
+                              </a>
+                               
+                               
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Description)
+
+                            </td>
+                            <td>
+                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+           
+        </div>
+    </div>
+</div>
+
+
+@{
+    _AdminSideBarService.SetActive("TradeMark", "Index", "Product");
+}
+@section Sidebar {
+    @Html.Raw(_AdminSideBarService.renderHtml())
+}
