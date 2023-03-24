@@ -6,9 +6,9 @@
 }
 
 
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-8">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -27,12 +27,13 @@
                 <input type="submit" value="Cập nhật" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index">Trở lại danh sách thương hiệu</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Trở lại danh sách thương hiệu</a>
-</div>
+
 
 
 @section Scripts {

@@ -102,6 +102,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             ViewData["categories"] = new SelectList(categories,"Id", "Title");
             var units = await _context.UnitProducts.ToListAsync();
             ViewData["units"] = new SelectList(units, "Id", "Unit");
+            var trade = await _context.TradeMarks.ToListAsync();
+            ViewData["trade"] = new SelectList(trade, "Id", "Name");
 
             return View();
         }
@@ -110,10 +112,14 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryId")] ProductModel product)
+        public async Task<IActionResult> Create([Bind("Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryId,TradeMarkId")] ProductModel product)
         {
             var categories = await _context.CategoryProducts.ToListAsync();
-            ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
+            ViewData["categories"] = new SelectList(categories, "Id", "Title");
+            var units = await _context.UnitProducts.ToListAsync();
+            ViewData["units"] = new SelectList(units, "Id", "Unit");
+            var trade = await _context.TradeMarks.ToListAsync();
+            ViewData["trade"] = new SelectList(trade, "Id", "Name");
             if (product.Slug == null) // phát sinh url nếu chưa có
             {
                 product.Slug = AppUtilities.GenerateSlug(product.Title);
@@ -136,6 +142,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                 return RedirectToAction(nameof(Index));
             }
             
+            
             return View(product);
         }
 
@@ -157,12 +164,14 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             ViewData["categories"] = new SelectList(categories, "Id", "Title");
             var units = await _context.UnitProducts.ToListAsync();
             ViewData["units"] = new SelectList(units, "Id", "Unit");
+            var trade = await _context.TradeMarks.ToListAsync();
+            ViewData["trade"] = new SelectList(trade, "Id", "Name");
             return View(product);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryId")] ProductModel product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryId,TradeMarkId")] ProductModel product)
         {
             if (id != product.ProductId)
             {

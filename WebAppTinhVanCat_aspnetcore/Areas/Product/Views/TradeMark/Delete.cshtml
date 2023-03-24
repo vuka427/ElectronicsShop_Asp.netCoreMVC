@@ -1,21 +1,21 @@
-﻿@model WebAppTinhVanCat_aspnetcore.Models.Product.ProductModel
+﻿@model TradeMarkModel
 
 @{
-    ViewData["Title"] = "Xóa sản phẩm";
+    ViewData["Title"] = "Xóa thương hiệu";
 }
 
 
 
 <div>
-    <h4>Bạn có chắc muốn sản phẩm @Html.DisplayFor(model => model.Title)</h4>
-    <h4>Không thể khôi phục sản phẩm đã xóa ! </h4>
+    <h4>Bạn có chắc muốn xóa thương hiệu @Html.DisplayFor(model => model.Name)</h4>
+    <h4>Không thể khôi phục thương hiệu đã xóa ! </h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Author.UserName)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
@@ -23,22 +23,17 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DateUpdated)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DateUpdated)
-        </dd>
+       
     </dl>
 
     <form asp-action="Delete">
-        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở lại danh sách sản phẩm</a>
+        <a asp-action="Index">Trở lại danh sách thương hiệu</a>
     </form>
 </div>
 @{
-    _AdminSideBarService.SetActive("Product", "Index", "Product");
+    _AdminSideBarService.SetActive("TradeMark", "Index", "Product");
 }
 @section Sidebar {
     @Html.Raw(_AdminSideBarService.renderHtml())

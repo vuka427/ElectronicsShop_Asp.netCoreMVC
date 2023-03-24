@@ -19,7 +19,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
 
         [Required(ErrorMessage = "Phải có tên sản phẩm")]
         [Display(Name = "Tên sản phẩm")]
-        [StringLength(160, MinimumLength = 5, ErrorMessage = "{0} dài {1} đến {2}")]
+        [StringLength(160, MinimumLength = 3, ErrorMessage = "{0} dài {1} đến {2}")]
         public string Title { set; get; }
 
         [Display(Name = "Mô tả ngắn")]
@@ -74,6 +74,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [ForeignKey("Unit")]
         public UnitProduct UnitProduct { get; set; }
 
+        [Display(Name = "Danh mục")]
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
@@ -81,7 +82,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
        
         public List<ProductPhoto> Photos { get; set; }
 
-        [Display(Name = "Tên thương hiệu")]
+        [Display(Name = "Thương hiệu")]
         public int TradeMarkId { get; set; }
         [ForeignKey(nameof(TradeMarkId))]
         public TradeMarkModel TradeMark { get; set; }

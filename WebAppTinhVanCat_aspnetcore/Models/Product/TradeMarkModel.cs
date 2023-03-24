@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAppTinhVanCat_aspnetcore.Models.Product
@@ -16,6 +18,8 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
 
         [Display(Name = "Mô tả")]
         public string? Description { get; set; }
+
+        public ICollection<ProductModel> Products { get; set; }
 
     }
 }
