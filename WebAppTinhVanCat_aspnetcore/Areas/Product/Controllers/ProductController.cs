@@ -196,8 +196,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             {
                 try
                 {
+                    var user = await _usermanager.GetUserAsync(this.User);
                     product.DateUpdated = DateTime.Now;
-
+                    product.AuthorId = user.Id;
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
