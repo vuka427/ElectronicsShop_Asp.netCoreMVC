@@ -10,7 +10,7 @@
     var cart = _CartService.GetCartItems();
     if(cart.Count>0)
     {
-        <div class="nav-item "><a class="text-warning" asp-route="cart"><i class="fas fa-shopping-cart"></i>(@cart.Count)</a></div>
+        <div class="nav-item "><a class="text-danger" asp-route="cart"><i class="fa-solid fa-basket-shopping header_navbar-cart-icon"></i>(@cart.Count)</a></div>
          
     }
 }

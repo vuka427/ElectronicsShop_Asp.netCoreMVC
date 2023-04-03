@@ -9,11 +9,12 @@
     List<CategoryProduct> categories = ViewBag.categories as List<CategoryProduct> ;
     CategoryProduct category = ViewBag.category as CategoryProduct;
     ViewData["Title"] = (category != null)? category.Title : "Tất cả sản phẩm";
+    
 }
 
     
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
+<nav aria-label="breadcrumb"> 
+    <ol class="breadcrumb"> 
         <li class="breadcrumb-item"><a href="~/">Home</a></li>
         @if (category != null)
         {

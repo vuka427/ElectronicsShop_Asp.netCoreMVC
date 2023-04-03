@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Liên hệ và góp ý";
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_LayoutClient.cshtml";
 }
 
 <partial name="_StatusMessage"></partial>
@@ -10,9 +10,8 @@
 <div class="row">
     <div class="col-md-4">
         <div class="contact-firstcol p-2 h-100">
-            <img src="~/images/icon-mail.png" />
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1429.754494821324!2d105.76990251362123!3d10.030703324796137!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0883d2192b0f1%3A0x4c90a391d232ccce!2zVHLGsOG7nW5nIEPDtG5nIE5naOG7hyBUaMO0bmcgVGluIHbDoCBUcnV54buBbiBUaMO0bmcgKENUVSk!5e0!3m2!1svi!2s!4v1680546098758!5m2!1svi!2s" height="300" style="border:0; width:100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             <h1> @ViewData["Title"] </h1>
-
             <p>
                 Bạn có vấn đề không hài lòng, bạn muốn góp ý với chúng tôi. Xin đừng ngần ngại,
                 hãy điền đầy đủ thông tin theo mẫu bên dưới và gửi về chúng tôi.
@@ -47,7 +46,7 @@
                 <span asp-validation-for="Massage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Gửi" class="btn btn-primary" />
+                <input type="submit" value="Gửi" class="btn btn-danger" />
             </div>
         </form>
     </div>

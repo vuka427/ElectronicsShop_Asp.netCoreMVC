@@ -17,7 +17,7 @@ body {
 
 .footer {
   position: absolute;
-  bottom: 0;
+  bottom:  auto;
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
@@ -27,29 +27,7 @@ body {
   content: ">";
 }
 
-.app-navbar {
-  background: #3f76e8;
-}
-.app-navbar .text-dark {
-  color: #453b3b !important;
-}
-.app-navbar .text-dark:hover {
-  color: white !important;
-}
-.app-navbar .navbar-brand {
-  color: white !important;
-  font-weight: 800;
-}
-.app-navbar .navbar-brand:hover {
-  color: #808080 !important;
-}
-.app-navbar .dropdown-toggle {
-  color: white;
-}
 
-.navbar-right .nav-item .nav-link {
-  color: white;
-}
 
 .categorysidebar ul, .categorysidebar li {
   list-style: none;
@@ -76,26 +54,18 @@ body {
 }
 
 .contact-firstcol {
-  background-color: #05c3e1;
-  color: white;
-  text-align: center;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+    background-color: #ff0000;
+    color: white;
+    text-align: center;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
-.contact-firstcol img {
-  max-width: 100px;
-}
+
 
 .formcontact label {
   font-weight: 700;
 }
-.formcontact .btn-primary {
-  background-color: #20dbf8 !important;
-  border-color: #20dbf8 !important;
-}
-.formcontact .btn-primary:hover {
-  background-color: #1694a8 !important;
-}
+
 
 .app-footer {
   background-color: #25273b;

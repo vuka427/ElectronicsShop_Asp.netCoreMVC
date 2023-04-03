@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tinh Vân Cát </title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome-free-6.2.1-web/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/thai/index.css" />
+    <link rel="stylesheet" href="~/css/thai/product-detail.css" />
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header_navbar">
+            <img style="width: 100%;" src="/contens/banner/banner1.png" alt="Banner">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark ">
+                <div class="container">
+                    <div class="header_navbar-logo">
+                        ThaiVuSHOP
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon "></span>
+                    </button>
+                    <div class="navbar-collapse collapse  justify-content-center">
+                        <ul class="navbar-nav flex-grow-1 justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Product" asp-controller="ViewProduct" asp-action="Index">Sản phẩm</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Blog" asp-controller="ViewPost" asp-action="Index">Blog</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Contact" asp-controller="Contact" asp-action="SendContact">Liên Hệ</a>
+                            </li>
+                        </ul>
+                        <div class="nav ">
+                            @await Html.PartialAsync("_CartPartial")
+
+                            <partial name="_LoginPartial" />
+
+                            <partial name="_MenuManagePartial" />
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container " style="min-height:500px;">
+        <main role="main" class="pb-4 pt-4">
+
+           
+            @RenderBody()
+
+
+        </main>
+    </div>
+   
+    <footer class="border-top footer text-muted app-footer">
+        <div class="container-fluid" style="padding:0!important;">
+            <div class="signup_notice">
+                <p class="signup_notice-title">
+                    ĐĂNG NHẬP NGAY ĐỂ ĐẶT HÀNG VÀ NHẬN KHUYẾN MÃI
+                </p>
+                <div class="input-email">
+                    <i class="fa-regular fa-paper-plane header_navbar-cart-icon"></i>
+                    <input type="text" placeholder="Nhập email của bạn">
+
+                </div>
+            </div>
+            <div class="row m-0">
+                <div class="col">
+                    <ul class="footer_grid-items">
+                        <li class="footer_grid-items-header">Thông tin chung</li>
+                        <li>Tổng đài bán hàng (8:30-21:00)</li>
+                        <li>0931746413</li>
+                        <li>thaib1906763@student.ctu.edu.vn</li>
+                    </ul>
+
+                </div>
+                <div class="col">
+                    <ul class="footer_grid-items">
+                        <li class="footer_grid-items-header">Hỗ trợ</li>
+                        <li>Điều khoản sử dụng</li>
+                        <li>Hướng dẫn mua hàng</li>
+                        <li>Hướng dẫn thanh toán</li>
+                        <li>Chính sách vận chuyển</li>
+
+                    </ul>
+
+                </div>
+                <div class="col">
+
+                    <ul class="footer_grid-items">
+                        <li class="footer_grid-items-header">Về chúng tôi</li>
+                        <li>Facebook</li>
+                        <li>Zalo</li>
+                        <li>Instagram</li>
+                        <li></li>
+                    </ul>
+                </div>
+               
+            </div>
+            <div >
+                &copy; 2023
+            </div>
+        </div>
+        
+    </footer>
+    
+   
+</body>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("uploadPhotoScript", required: false)
+</html>
