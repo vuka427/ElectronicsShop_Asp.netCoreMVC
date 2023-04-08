@@ -42,32 +42,40 @@ else
 {
     <p>Sản phẩm thuộc tất cả các danh mục</p>
 }
-<div class="card-product d-flex flex-wrap justify-content-between ">
+
+<div class="row">
     @foreach (var product in Model)
     {
         var srcimg = product.Photos.Count > 0 ? "/contens/Products/" + product.Photos.First().FileName : "/contens/ico/nophoto.png";
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card-product  " style="min-width:240px; max-width:270px;">
 
-        <div class="card mb-3" style="width: 32%">
-            
-            <a class="card-link" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@product.Slug">
-                <div class="cart-img">
-                    <img src="@srcimg" class="card-img-top" alt="">
+                <div class="card shadow h-100 py-2 mb-3" >
+
+                    <a class="card-link" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@product.Slug">
+                        <div class="cart-img">
+                            <img src="@srcimg" class="card-img-top" alt="">
+                        </div>
+                    </a>
                     
-                </div>
-            </a>
-            <div class="card-body">
-                <h5 class="card-title"> @product.Title</h5>
-                <p>
-                    Giá : <strong>@product.Price.ToPriceUnitVND()</strong>/@product.UnitProduct.Unit
-                </p>
-            </div>
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold"> @product.Title</h5>
+                        <p>
+                            Giá : <strong>@product.Price.ToPriceUnitVND()</strong>/@product.UnitProduct.Unit
+                        </p>
+                    </div>
 
-            <div class="card-footer ">
-                <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-primary ml-4 float-right">Đặt hàng</a>
+                    <div class="card-footer ">
+                        <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-danger ml-4 float-right">Đặt hàng</a>
+                    </div>
+                </div>
+            
             </div>
         </div>
-    }
+   }
+
 </div>
+
 <partial name="_PagingXTL" model="@ViewBag.PagingModel" />
 
 

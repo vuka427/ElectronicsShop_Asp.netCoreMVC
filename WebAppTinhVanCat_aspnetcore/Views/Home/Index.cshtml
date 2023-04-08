@@ -1,4 +1,5 @@
-﻿@{
+﻿@using WebAppTinhVanCat_aspnetcore.Models.Product;
+@{
     ViewData["Title"] = "Trang chủ";
     Layout = "/Views/Shared/_LayoutClient.cshtml";
 }
@@ -18,92 +19,56 @@
                         <div class="body_category-top">DANH MỤC SẢN PHẨM</div>
                     </td>
                       
-                    
                 </tr>
-                <tr class="category_item">
-                    <td>
-                        <span class="category-title"><i class="fa-solid fa-fan category_item-icon"></i> Máy lạnh, điều hòa,...</span><i class="fa-solid fa-angle-right category_arrow-icon"></i>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#">menu item 1</a>
-                                <ul class="sub-menu2">
-                                    <li><a href="#">menu item 1.1</a></li>
-                                    <li><a href="#">menu item 1.2</a></li>
-                                    <li><a href="#">menu item 1.3</a></li>
-                                    <li><a href="#">menu item 1.4</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">menu item 2</a>
-                                <ul class="sub-menu2">
-                                    <li><a href="#">menu item 2.1</a></li>
-                                    <li><a href="#">menu item 2.2</a></li>
-                                    <li><a href="#">menu item 2.3</a></li>
-                                    <li><a href="#">menu item 2.4</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">menu item</a></li>
-                            <li><a href="#">menu item</a></li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr class="category_item">
-                    <td>
-                        <span class="category-title"><i class="fa-solid fa-tv category_item-icon"></i> TV, Loa,...</span><i class="fa-solid fa-angle-right category_arrow-icon"></i>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#">menu item 1</a>
-                                <ul class="sub-menu2">
-                                    <li><a href="#">menu item 1.1</a></li>
-                                    <li><a href="#">menu item 1.2</a></li>
-                                    <li><a href="#">menu item 1.3</a></li>
-                                    <li><a href="#">menu item 1.4</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">menu item</a></li>
-                            <li><a href="#">menu item</a></li>
-                            <li><a href="#">menu item</a></li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr class="category_item">
-                    <td>
-                        <span class="category-title"><i style="margin-left: 4px;" class="fa-solid fa-mobile-screen-button category_item-icon"></i>Điện thoại</span><i class="fa-solid fa-angle-right category_arrow-icon"></i>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#">menu item 1</a>
-                                <ul class="sub-menu2">
-                                    <li><a href="#">menu item 1.1</a></li>
-                                    <li><a href="#">menu item 1.2</a></li>
-                                    <li><a href="#">menu item 1.3</a></li>
-                                    <li><a href="#">menu item 1.4</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">menu item</a></li>
-                            <li><a href="#">menu item</a></li>
-                            <li><a href="#">menu item</a></li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr class="category_item">
-                    <td>
-                        <span class="category-title"><i class="fa-solid fa-laptop category_item-icon"></i> Laptop</span><i class="fa-solid fa-angle-right category_arrow-icon"></i>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="#">menu item 1</a>
-                                <ul class="sub-menu2">
-                                    <li><a href="#">menu item 1.1</a></li>
-                                    <li><a href="#">menu item 1.2</a></li>
-                                    <li><a href="#">menu item 1.3</a></li>
-                                    <li><a href="#">menu item 1.4</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">menu item</a></li>
-                            <li><a href="#">menu item</a></li>
-                            <li><a href="#">menu item</a></li>
-                        </ul>
-                    </td>
-                </tr>
+
+                @if (ViewBag.categories.Count > 0)
+                {
+
+                    @foreach (CategoryProduct category in ViewBag.categories)
+                    {
+
+                        <tr class="category_item">
+
+                            <td>
+                                <a asp-area="Product" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="@category.Slug">
+                                    <span class="category-title"><i class="fa-solid fa-fan category_item-icon"></i>  @category.Title </span><i class="fa-solid fa-angle-right category_arrow-icon"></i>
+                                </a>
+                                
+                                @if (category.CategoryChildren?.Count > 0)  // duyệt nếu có danh mục con
+                                {
+                                     <ul class="sub-menu">
+                                        @foreach (CategoryProduct categoryLV2 in category.CategoryChildren)
+                                        {
+                                       
+                                            <li>
+                                                <a asp-area="Product" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="@categoryLV2.Slug">@categoryLV2.Title</a>
+
+                                                @if (categoryLV2.CategoryChildren?.Count > 0)  // duyệt nếu danh mục con
+                                                {
+                                                    <ul class="sub-menu2">
+                                                        @foreach (CategoryProduct categoryLV3 in categoryLV2.CategoryChildren)
+                                                        {
+                                                            <li><a asp-area="Product" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="@categoryLV3.Slug">@categoryLV3.Title</a></li>
+                                                        }
+                                                    </ul>
+                                                   
+                                                }
+                                                
+                                            </li>
+
+                                       
+                                        }
+                                    </ul>
+                                }
+                               
+                            </td>
+                        </tr>
+                        
+                    }
+                   
+                }
+
+
             </table>
         </div>
 

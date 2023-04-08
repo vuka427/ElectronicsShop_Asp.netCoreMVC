@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,28 @@ namespace WebAppTinhVanCat_aspnetcore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+            var qr = (from c in _context.CategoryProducts select c)
+                                       .Include(c => c.ParentCategory)
+                                       .Include(c => c.CategoryChildren);
+
+            ViewBag.categories = (await qr.ToListAsync()).Where(c => c.ParentCategory == null).ToList();
+
+
+
+
+
+
             return View();
         }
 

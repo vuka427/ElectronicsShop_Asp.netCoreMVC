@@ -35,7 +35,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                                         
             var categories = (await qr.ToListAsync()).Where(c => c.ParentCategory == null).ToList();
 
-            var selectList = new SelectList(categories, "Id", "Title"); 
+            var selectList = new SelectList(categories, "Id", "Title"); //dư
 
             return View(categories);
         }

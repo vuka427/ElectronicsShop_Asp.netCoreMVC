@@ -22,9 +22,14 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+.breadcrumb-item a{
+    font-size: 10pt;
+
+}
 
 .breadcrumb-item + .breadcrumb-item::before {
-  content: ">";
+    content: "/";
+    font-size: 20pt;
 }
 
 
@@ -98,12 +103,18 @@ body {
 }
 
 .cart-img {
-  width: 100%;
+    width: 100%;
+    height: 250px;
+    min-height: 240px;
+    margin:5px 0;
 }
+
 .cart-img .card-img-top {
-  height: 300px;
-  object-fit: cover;
-  transition: transform 0.4s;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.4s;
 }
 
 .card-product .card:hover {
@@ -113,11 +124,13 @@ body {
 .card-product .card:hover .cart-img .card-img-top {
   transform: scale(1.08);
 }
-
+.card-title{
+    height: 25px;
+}
 .detailpost .photo-detail {
-  background-color: #808080;
-  width: 100%;
-  height: 400px;
+    background-color: #808080;
+    width: 100%;
+    height: 400px;
 }
 .detailpost .photo-detail img {
   max-height: 400px;
@@ -147,3 +160,10 @@ body {
   min-width: 100px;
   object-fit: cover;
 }
+
+@media (min-width: 1200px) {
+    .container {
+        min-width: 1500px;
+    }
+}
+

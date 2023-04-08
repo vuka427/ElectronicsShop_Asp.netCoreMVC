@@ -44,14 +44,14 @@ else
 
 @foreach (var post in Model)
 {
-<div class="media border-bottom mb-3 pb-3">
-        <img class="mr-3 w-25" src="/contens/ico/nophoto.png" alt=" hahaha !">
+<div class="media border-bottom mb-3 pb-3 bg-light">
+        <img class="mr-3 w-22" src="/contens/ico/nophoto.png" alt=" hahaha !">
   <div class="media-body">
-    <h5 class="mt-0">
-                <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
+    <h2 class="mt-0 font-weight-bold " >
+                <a  asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
             @post.Title
         </a>
-    </h5>
+    </h2>
     @post.Description
     <div>
         Chủ đề: 
