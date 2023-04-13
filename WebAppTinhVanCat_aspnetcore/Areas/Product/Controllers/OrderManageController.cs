@@ -123,6 +123,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                 if(order.State == StateOrder.Received)
                 {
                     order.State = StateOrder.Accept;
+                    order.Finished = DateTime.Now;
                     _context.Orders.Update(order);
                     _context.SaveChanges();
                     return Json(new { error = 0 });

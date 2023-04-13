@@ -232,7 +232,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
                     _cartService.ClearCart();
                     _context.SaveChanges();
-                    return Content("Đặt hàng thành công");
+                    return RedirectToAction("Index","Home");
                 }
 
                

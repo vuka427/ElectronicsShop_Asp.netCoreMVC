@@ -1,8 +1,10 @@
 ﻿@using WebAppTinhVanCat_aspnetcore.Menu;
+@using WebAppTinhVanCat_aspnetcore.ExtendMethods;
 @inject AdminSideBarService _AdminSideBarService;
 
 @{
     ViewData["Title"] = "Admin Control Panel";
+   decimal totalprice =  (decimal)ViewBag.totalprice;
 }
 
 
@@ -28,7 +30,7 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Doanh thu tháng này
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">55,000,000đ</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@totalprice.ToPriceUnitVND()</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -70,7 +72,7 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Số lượng người dùng
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">2</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.totalUser</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa fa-user fa-2x text-gray-300"></i>
@@ -91,7 +93,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">@ViewBag.totalProduct</div>
                                 </div>
                                 
                             </div>
@@ -114,7 +116,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">@ViewBag.totalBlog</div>
                                 </div>
                                 
                             </div>
@@ -136,7 +138,7 @@
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                 Góp ý 
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.totalContact</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa fa-envelope fa-2x text-gray-300"></i>
@@ -181,12 +183,13 @@
             </div>
         </div>
 
+
         <!-- Pie Chart -->
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Đơn hàng tháng này</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -209,21 +212,29 @@
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
+                            <i class="fas fa-circle text-primary"></i> Hoàn thành
                         </span>
                         <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
+                            <i class="fas fa-circle text-warning"></i> Chờ xử lý
                         </span>
                         <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
+                            <i class="fas fa-circle text-danger"></i> Bị hủy
                         </span>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
     </div>
 
-    <!-- Content Row -->
+
+
+
+
+   @* <!-- Content Row -->
     <div class="row">
 
         <div class="col-lg-6 mb-4">
@@ -266,7 +277,7 @@
             </div>
 
         </div>
-    </div>
+    </div>*@
 
 </div>
 <!-- /.container-fluid -->
@@ -274,7 +285,7 @@
 
 @section Scripts {
     <script src="~/lib/chart/Chart.js"></script>
-    <script src="~/js/chart-pie-demo.js"></script>
+  
 
     <script >
         // Set new default font family and font color to mimic Bootstrap's default styling
@@ -396,6 +407,44 @@
             }
         });
 
+        //--------------------------------------------------------------------------------
+
+
+        // Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#858796';
+
+        // Pie Chart Example
+        var ctx = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["Hoàn thành", "Chờ xử lý", "Bị hủy"],
+                datasets: [{
+                    data: [@ViewBag.PieChartHT , @ViewBag.PieChartXL, @ViewBag.PieChartBH],
+                    backgroundColor: ['#4e73df', '#f6c23e', '#e74a3b'],
+                    hoverBackgroundColor: ['#2e59d9', '#CB9C23', '#CB3325'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 80,
+            },
+        });
 
 
 
