@@ -131,6 +131,17 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
             });
             Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
             Items.Add(new SideBarItem()
+            { //Thống kê
+                Type = SidebarItemType.NavItem,
+                Controller = "Statistical",
+                Action = "Index",
+                Area = "Statistic",
+                Title = "Thống kê",
+                AwesomeIcon = "fas fa-chart-bar"
+
+            });
+            Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
+            Items.Add(new SideBarItem()
             { //Quản lý file
                 Type = SidebarItemType.NavItem,
                 Controller = "FileManager",
