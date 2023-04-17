@@ -36,9 +36,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.AdminCP.Controllers
             ViewBag.totalBlog = _context.Posts.Count();
             ViewBag.totalContact = _context.Contacts.Count();
             
-            ViewBag.PieChartHT = Order.Where(o => o.State == Models.Product.StateOrder.Accept && o.CreateDate.Month == day.Month && o.CreateDate.Year == day.Year).Count();
-            ViewBag.PieChartXL = Order.Where(o => o.State == Models.Product.StateOrder.Received && o.CreateDate.Month == day.Month && o.CreateDate.Year == day.Year).Count();
-            ViewBag.PieChartBH = Order.Where(o => o.State == Models.Product.StateOrder.ShopCancel || o.State == Models.Product.StateOrder.CustomerCancel && o.CreateDate.Month == day.Month && o.CreateDate.Year == day.Year).Count();
+            ViewBag.PieChartHT = Order.Where(o => o.State == Models.Product.StateOrder.Accept && o.CreateDate.Month == day.Month && o.CreateDate.Year == day.Year).Count(); //hoàng thành
+            ViewBag.PieChartXL = Order.Where(o => o.State == Models.Product.StateOrder.Received && o.CreateDate.Month == day.Month && o.CreateDate.Year == day.Year).Count();//đang xử lý
+            ViewBag.PieChartBH = Order.Where(o => o.State == Models.Product.StateOrder.ShopCancel || o.State == Models.Product.StateOrder.CustomerCancel && o.CreateDate.Month == day.Month && o.CreateDate.Year == day.Year).Count(); //hủy
 
             var chartM = Order.Where(o => o.State == Models.Product.StateOrder.Accept && o.Finished.Year == day.Year)
                                     .GroupBy(om => om.Finished.Month)

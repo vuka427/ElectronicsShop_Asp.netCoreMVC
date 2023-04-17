@@ -1,26 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Thống kê";
     _AdminSideBarService.SetActive("Statistical", "Index", "Statistic");
-    
+
+   
+  
 }
 
 
-
-<ul class="nav nav-tabs" id="example-tabs" role="tablist">
-    <li class="nav-item">
-        <a id="tab1" class="nav-link active" data-toggle="tab" role="tab" href="#pane-tab-1">Thống kê doanh thu</a>
-    </li>
-    <li class="nav-item">
-        <a id="tab2" class="nav-link" data-toggle="tab" role="tab" href="#pane-tab-2">Tab2</a>
-    </li>
-   
-</ul>
-
-
-
-<div class="tab-content">
-    <div class="tab-pane fade show active" id="pane-tab-1" role="tabpanel" aria-labelledby="tab1">
-        
         <div class="row">
 
             <!--  -->
@@ -28,7 +14,7 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Tùy chọn </h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Thống kê doanh thu theo tháng </h6>
                         
                     </div>
                     <!-- Card Body -->
@@ -37,30 +23,24 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="card shadow mb-4">
-                                    <form  class="p-3">
+                                    <div class="card-body">
                                         <div class="form-group col-5">
                                             <label for="dateStart" class="control-label"> Từ </label>
-                                            <input id="dateStart" type="date" class="form-control" />
+                                            <input id="dateStart" name="datestart" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" />
                                         </div>
                                         <div class="form-group col-5">
                                             <label for="dateEnd" class="control-label"> Đến </label>
-                                            <input id="dateEnd" type="date" class="form-control" />
+                                            <input id="dateEnd" name="dateend" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" />
                                         </div>
                                         <div>
-                                            <button class="btn btn-primary" type="submit"> Xem </button>
+                                            <button class="btn btn-primary getdata ml-3"> Xem </button>
                                         </div>
+                                    </div>
                                        
-                                    </form>
-                                  
-
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="card shadow mb-4">
-                                    <button> Ngày </button>
-                                    <button> Tháng </button>
-                                    <button> Năm </button>
-                                </div>
+                               
                             </div>
 
                         </div>
@@ -110,51 +90,6 @@
 
 
 
-
-
-
-
-    </div>
-    <!-- tab2 -->
-    <div class="tab-pane fade" id="pane-tab-2" role="tabpanel" aria-labelledby="tab2">
-        <div class="row">
-
-            <!--  -->
-            <div class="col-12">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary"> </h6>
-
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                    </div>
-
-                </div>
-            </div>
-
-           
-        </div>
-    </div>
-    
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @section Scripts {
     <script src="~/lib/chart/Chart.js"></script>
 
@@ -163,6 +98,7 @@
         // Set new default font family and font color to mimic Bootstrap's default styling
         Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
         Chart.defaults.global.defaultFontColor = '#858796';
+        var myLineChart;
 
         function number_format(number, decimals, dec_point, thousands_sep) {
             // *     example: number_format(1234.56, 2, ',', ' ');
@@ -191,7 +127,7 @@
 
         // Area Chart Example
         var ctx = document.getElementById("myAreaChart");
-        var myLineChart = new Chart(ctx, {
+        myLineChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
@@ -279,11 +215,66 @@
             }
         });
 
+        //-------------------------------------------------------
+
+
+
+        function SetClickGetData() {
+
+            $(".getdata").click(function () {
+
+
+                var dateT = $("#dateStart").val();
+                var dateE = $("#dateEnd").val();
+               
+                var formData = new FormData();
+                formData.append("datestart", dateT);
+                formData.append("dateend", dateE);
+                var urlUpdateState = "@Url.Action("GetDataApi")";
+
+                $.ajax({
+                    data: formData,
+                    cache: false,
+                    url: urlUpdateState,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                       console.log(data);
+                        if (data.error == 0) {
+                            
+                            
+
+                        } else {
+                            alert("lỗi!");
+                        }
+                    }
+                });
+            });
+        }
+
+
+        $(document).ready(function () {
+            SetClickGetData();
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </script>
 }
-
-
 
 @section Sidebar {
     @Html.Raw(_AdminSideBarService.renderHtml())
