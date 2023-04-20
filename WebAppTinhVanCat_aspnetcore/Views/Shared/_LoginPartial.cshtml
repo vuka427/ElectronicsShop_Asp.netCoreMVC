@@ -1,18 +1,59 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using WebAppTinhVanCat_aspnetcore.Models
+@using Microsoft.AspNetCore.Authorization;
 
+
+@inject IAuthorizationService authorizationServer;
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
+
+@{
+    var result = await authorizationServer.AuthorizeAsync(this.User, "viewManageMenu");
+}
+
+
 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Identity" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm"  class="navbar-right">
         <ul class="nav navbar-nav navbar-right nav-login">
-            <li class="nav-item">
-                <a class="nav-link text-warning" asp-area="Identity" asp-controller="Manage" asp-action="Index" title="Manage"><i class="fas fa-user fa-1x"></i> @UserManager.GetUserName(User)!</a>
-            </li>
-            <li class="nav-item">
-                <button title="Đăng xuất"  type="submit" class="btn btn-link navbar-btn navbar-link text-danger"><i class="fas fa-sign-out-alt text-danger" ></i></button>
+           
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline font-weight-bold text-primary ">@UserManager.GetUserName(User)</span>
+                    <img class="img-profile rounded-circle"
+                         src="img/undraw_profile.svg">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <a class="dropdown-item " asp-area="Identity" asp-controller="Manage" asp-action="Index" >
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Tài khoản
+                    </a>
+                   
+                    <a class="dropdown-item" href="#" >
+                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Đơn hàng của tôi
+                    </a>
+                    @if (result.Succeeded)
+                    {
+                        
+                        <a class="dropdown-item" asp-action="Index" asp-controller="Admin" asp-area="AdminCP">
+                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Quản trị
+                        </a>
+                    }
+                    
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item text-danger"  type="submit"  data-toggle="modal" data-target="#logoutModal">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 "></i>
+                        Đăng xuất
+                        
+                    </button>
+                </div>
             </li>
         </ul>
     </form>
@@ -27,4 +68,5 @@ else
             <a title="Đăng nhập" class="nav-link" asp-area="Identity" asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt text-danger"></i></a>
         </li>
     </ul>
+
 }

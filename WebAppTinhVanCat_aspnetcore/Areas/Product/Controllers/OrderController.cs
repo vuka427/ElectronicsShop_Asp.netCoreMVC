@@ -232,6 +232,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
                     _cartService.ClearCart();
                     _context.SaveChanges();
+
                     return RedirectToAction("Index","Home");
                 }
 
@@ -239,7 +240,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             }
 
            
-            return Content("Có lỗi xảy ra vui lòng thử lại");
+           // return Content("Có lỗi xảy ra vui lòng thử lại");
+            return RedirectToAction("Index", "Home");
         }
 
         private async Task<AppUser> GetAppUserAsync()

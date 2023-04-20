@@ -22,7 +22,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Models
 
         [Display(Name = "Số điện thoại nhận hàng")]
         [Required(ErrorMessage ="Phải nhập {0}")]
-        [Phone]
+        [RegularExpression(@"^(84|0[1-9])+([0-9]{8})$", ErrorMessage = "Định dạng số điện thoại sai")]
         public string PhoneNumber { get; set; }
 
 
