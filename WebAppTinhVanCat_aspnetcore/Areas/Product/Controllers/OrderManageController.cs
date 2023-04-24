@@ -94,12 +94,12 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             ViewBag.OrderIndex = (currentPage - 1) * pagesize;
             ViewBag.TotalOrder = totalOrder;
 
-            var ListProductInPage = await orders.Skip((currentPage - 1) * pagesize) // bỏ qua nhưng hóa đơn của trang trước đó
+            var ListOrdertInPage = await orders.Skip((currentPage - 1) * pagesize) // bỏ qua nhưng hóa đơn của trang trước đó
                         .Take(pagesize)// Hóa đơn trang hiện tại
                         .Include(o => o.OrderItems)
                         .ToListAsync();
 
-            return View(ListProductInPage);
+            return View(ListOrdertInPage);
         }
 
         [Route("/order/manage/orderdetail/{ordercode:guid}", Name = "orderdetail")]

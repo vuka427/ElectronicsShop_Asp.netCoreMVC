@@ -36,7 +36,7 @@
                                 
                                 @if (category.CategoryChildren?.Count > 0)  // duyệt nếu có danh mục con
                                 {
-                                     <ul class="sub-menu">
+                                     <ul class="sub-menut">
                                         @foreach (CategoryProduct categoryLV2 in category.CategoryChildren)
                                         {
                                        
@@ -119,102 +119,92 @@
     </div>
 </div>
 
-<div class="body_featured">
-    <div class="body_featured-title">
-        <img src="../img/icon/chili.png" alt=""><span class="body_featured-title-text">SẢN PHẨM HOT</span>
-    </div>
-    <div class="body_featured-product">
-        <a href="./product-detail.html" class="product_link">
 
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
+<div class="container-fluid">
+
+    <div class=" row "> 
+        <div class="body_featured">
+            <div class="body_featured-title">
+                <img src="../img/icon/chili.png" alt=""><span class="body_featured-title-text">SẢN PHẨM BÁN CHẠY NHẤT</span>
+            </div>
+
+            <div class="body_featured-product">
+
+                <a href="./product-detail.html" class="product_link">
+
+                    <div class="featured-product-card">
+                        <div class="featured-product-img">
+                            <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
+                        </div>
+                        <div class="featured-product-item">
+                            <ul class="featured-product-list-child">
+                                <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
+                                <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
+                              
+                                <li></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </a>
+
 
             </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-379898_hp-pavilion-15-eg0513tu-i3-46m12pa-3-org.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Laptop HP P15-EG0513TU (46M12PA) Core i3-1125G4</li>
-                        <li class="featured-product-child-currentPrice">11.999.000</li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-370312_s6500-ai-in.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-
-
+            <a href="#" class="body_featured-viewAll">XEM TẤT CẢ</a>
+        </div>
 
     </div>
-    <a href="#" class="body_featured-viewAll">XEM TẤT CẢ</a>
+
 </div>
+
+
+
+@if (ViewBag.categories.Count > 0)
+{
+
+    @foreach (CategoryProduct category in ViewBag.categories)
+    {
+
+        <div class="body_products">
+            <div class="body_products-option">
+                <ul>
+                    <li class="active">
+                        <a class="text-danger" asp-area="Product" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="@category.Slug">
+                            <span >@category.Title </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="products-container">
+
+                <a href="./product-detail.html" class="product_link">
+
+                    <div class="featured-product-card">
+                        <div class="featured-product-img">
+                            <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
+                        </div>
+                        <div class="featured-product-item">
+                            <ul class="featured-product-list-child">
+                                <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
+                                <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
+                                <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
+                                <li></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+    }
+
+}
+
+
+
 <div class="body_products">
     <div class="body_products-option">
         <ul>
@@ -223,6 +213,7 @@
         </ul>
     </div>
     <div class="products-container">
+
         <a href="./product-detail.html" class="product_link">
 
             <div class="featured-product-card">
@@ -240,143 +231,7 @@
 
             </div>
         </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-379898_hp-pavilion-15-eg0513tu-i3-46m12pa-3-org.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Laptop HP P15-EG0513TU (46M12PA) Core i3-1125G4</li>
-                        <li class="featured-product-child-currentPrice">11.999.000</li>
-                        <li class="featured-product-child-oldPrice"></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-370312_s6500-ai-in.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-379898_hp-pavilion-15-eg0513tu-i3-46m12pa-3-org.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Laptop HP P15-EG0513TU (46M12PA) Core i3-1125G4</li>
-                        <li class="featured-product-child-currentPrice">11.999.000</li>
-                        <li class="featured-product-child-oldPrice"></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-370312_s6500-ai-in.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
+       
     </div>
 </div>
  

@@ -4,8 +4,24 @@
     --primary-color: #ff0000f5;
   }
 *{
-    margin: 0;
+    margin : 0;
 }
+
+ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -15,7 +31,7 @@ footer, header, hgroup, menu, nav, section {
 body {
     align-items: center;
 	line-height: 1;
-   
+    
     font-family: 'Lexend Deca', sans-serif;
 }
 ol, ul {
@@ -200,6 +216,7 @@ border-right: 0;
     position: absolute;
     width: 100%;
     height: 40px;
+    top: 0px;
     background-color: var(--primary-color);
    
     border-radius: 10px 10px 0 0;
@@ -229,10 +246,10 @@ border-right: 0;
     border-bottom: 1px solid var(--primary-color);
 
 }
-.category_item td:hover>ul.sub-menu{
+.category_item td:hover>ul.sub-menut{
     display: block;
 }
-ul.sub-menu li:hover ul.sub-menu2{
+ul.sub-menut li:hover ul.sub-menu2{
     display: block;
 
 }
@@ -245,6 +262,9 @@ ul.sub-menu li:hover ul.sub-menu2{
 } */
 .category-title{
     margin-left: 10px;
+    color :rgb(235, 6, 6);
+    font-size :medium;
+    font-weight:bold;
 }
 .category_arrow-icon{
     right: 10px;
@@ -259,32 +279,34 @@ ul.sub-menu li:hover ul.sub-menu2{
     
 }
 
-ul.sub-menu{
-    padding:0;
+ul.sub-menut {
+    padding: 0;
     font-size: 1rem;
     font-weight: 300;
     position: absolute;
     background-color: white;
     width: 150px;
     z-index: 10;
-    right: -45%;
+    right: -40%;
     top: 30%;
+    margin: 0;
     display: none;
 }
-ul.sub-menu li a{
+ul.sub-menut li a {
     text-decoration: none;
-    color:#000;
+    color: #850000;
+    margin: 0;
 }
 
-ul.sub-menu li{
-    
+ul.sub-menut li {
     border-bottom: 1px solid #d6d2d2;
-    position:relative;
+    position: relative;
+    margin: 0;
 }
-ul.sub-menu li:last-child{
+ul.sub-menut li:last-child{
     border-bottom: 1px solid white;
 }
-ul.sub-menu li:hover{
+ul.sub-menut li:hover{
     border-bottom: 1px solid var(--primary-color);
 
 }
@@ -311,7 +333,7 @@ ul.sub-menu2{
     display: none;
     
 }
-ul.sub-menu li:hover>a {
+ul.sub-menut li:hover>a {
     font-size: 1rem;
     font-weight: 500;
 }
