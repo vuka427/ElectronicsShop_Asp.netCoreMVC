@@ -8,6 +8,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAppTinhVanCat_aspnetcore.Models;
+using WebAppTinhVanCat_aspnetcore.Models.Blog;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
+using WebAppTinhVanCat_aspnetcore.Models.ViewModelHome;
 
 namespace WebAppTinhVanCat_aspnetcore.Controllers
 {
@@ -29,11 +32,30 @@ namespace WebAppTinhVanCat_aspnetcore.Controllers
             var qr = (from c in _context.CategoryProducts select c)
                                        .Include(c => c.ParentCategory)
                                        .Include(c => c.CategoryChildren);
+            List<CategoryProduct> cates = (await qr.ToListAsync()).Where(c => c.ParentCategory == null).ToList();
+            ViewBag.categories = cates;
+            var products = _context.Products.Include(p => p.Photos).OrderByDescending(p => p.DateUpdated);
+             
+            List< HomeViewModel > listNewProduct = new List< HomeViewModel >();
 
-            ViewBag.categories = (await qr.ToListAsync()).Where(c => c.ParentCategory == null).ToList();
+            foreach (CategoryProduct c in cates)
+            {
+                var pd = new HomeViewModel();
+                pd.Title = c.Title;
+                pd.Slug = c.Slug;
+
+                var idCateChill = new List<int>();
+                c.ChildCategoryIDs(idCateChill, null);// lấy id của tất cả danh mục con
+                idCateChill.Add(c.Id);
 
 
+                pd.Products = products.Where(p => idCateChill.Contains(p.CategoryId)).Take(5).ToList();
 
+
+                listNewProduct.Add(pd);
+            }
+
+            ViewBag.catepd = listNewProduct;
 
 
 

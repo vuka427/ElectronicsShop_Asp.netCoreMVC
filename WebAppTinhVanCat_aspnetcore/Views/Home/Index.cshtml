@@ -1,4 +1,6 @@
-﻿@using WebAppTinhVanCat_aspnetcore.Models.Product;
+﻿@using WebAppTinhVanCat_aspnetcore.ExtendMethods;
+@using WebAppTinhVanCat_aspnetcore.Models.Product;
+@using WebAppTinhVanCat_aspnetcore.Models.ViewModelHome;
 @{
     ViewData["Title"] = "Trang chủ";
     Layout = "/Views/Shared/_LayoutClient.cshtml";
@@ -162,39 +164,46 @@
 @if (ViewBag.categories.Count > 0)
 {
 
-    @foreach (CategoryProduct category in ViewBag.categories)
+    @foreach (HomeViewModel cate in ViewBag.catepd)
     {
 
         <div class="body_products">
             <div class="body_products-option">
                 <ul>
                     <li class="active">
-                        <a class="text-danger" asp-area="Product" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="@category.Slug">
-                            <span >@category.Title </span>
+                        <a class="text-danger" asp-area="Product" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="@cate.Slug">
+                            <span >@cate.Title </span>
                         </a>
                     </li>
 
                 </ul>
             </div>
-            <div class="products-container">
+            <div class="products-container row ">
 
-                <a href="./product-detail.html" class="product_link">
+                @foreach (ProductModel p in cate.Products)
+                {
+                    var srcimg = p.Photos.Count > 0 ? "/contens/Products/" + p.Photos.First().FileName : "/contens/ico/nophoto.png";
 
-                    <div class="featured-product-card">
-                        <div class="featured-product-img">
-                            <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                        </div>
-                        <div class="featured-product-item">
-                            <ul class="featured-product-list-child">
-                                <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                                <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                                <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                                <li></li>
-                            </ul>
-                        </div>
+                    <a asp-area="Product" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@p.Slug" class="product_link col">
 
-                    </div>
-                </a>
+                            <div class="featured-product-card">
+                                <div class="featured-product-img">
+                                <img src="@srcimg" alt="">
+                                </div>
+                                <div class="featured-product-item">
+                                    <ul class="featured-product-list-child">
+                                        <li class="featured-product-child-title">@p.Title</li>
+                                    <li class="featured-product-child-currentPrice">@p.Price.ToPriceUnitVND()</li>
+                                        
+                                        
+                                    </ul>
+                                </div>
+
+                            </div>
+                    </a>
+                  
+                }
+               
 
             </div>
         </div>
