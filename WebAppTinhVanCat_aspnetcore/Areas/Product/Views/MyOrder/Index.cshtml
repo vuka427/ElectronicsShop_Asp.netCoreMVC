@@ -47,6 +47,9 @@
                             @Html.DisplayNameFor(model => model.Address)
                         </th>
                         <th>
+                            Đánh giá
+                        </th>
+                        <th>
                             Trang thái
                         </th>
                         <th>Tác vụ</th>
@@ -71,8 +74,23 @@
                             <td>
                                 @item.CreateDate.ToShortDateString()
                             </td>
+                           
                             <td>
                                 @Html.DisplayFor(modelitem => item.Address)
+                            </td>
+                            <td>
+                                @if (item.State == StateOrder.Accept)
+                                {
+                                    <a class="btn btn-sm btn-outline-warning" asp-action="OrderDetail" asp-route-ordercode="@item.OrderCode">Đánh giá</a>
+                                }
+                                else
+                                {
+                                   
+                                }
+
+
+                                    
+                                 
                             </td>
                             @{
                                 string idState = "state" + item.OrderId;

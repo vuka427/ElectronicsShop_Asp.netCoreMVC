@@ -124,7 +124,7 @@
 
                             </td>
                             @{ string ClassState =  "class" + item.OrderId;}
-                            <td width="20%" >
+                            <td width="25%" >
                                 @if (item.State == StateOrder.Received)
                                 {
                                     <button class="AcceptButton @ClassState btn btn-sm btn-primary my-1" data-id="@item.OrderId">Chấp nhận</button>
@@ -145,6 +145,10 @@
                                 }
                                
                                 <a asp-action="OrderDetail" asp-route-ordercode="@item.OrderCode" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                               
+                                <a asp-action="OrderPrint" asp-route-ordercode="@item.OrderCode" target="_blank" class="btn btn-sm btn-outline-success">In</a>
+                                
+                                
                             </td>
                         </tr>
                     }

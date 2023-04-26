@@ -178,34 +178,40 @@
 
                 </ul>
             </div>
-            <div class="products-container row ">
 
-                @foreach (ProductModel p in cate.Products)
+            <div class="row">
+                @foreach ( ProductModel product in cate.Products)
                 {
-                    var srcimg = p.Photos.Count > 0 ? "/contens/Products/" + p.Photos.First().FileName : "/contens/ico/nophoto.png";
+                    var srcimg = product.Photos.Count > 0 ? "/contens/Products/" + product.Photos.First().FileName : "/contens/ico/nophoto.png";
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card-product  " style="min-width:240px; max-width:270px;">
 
-                    <a asp-area="Product" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@p.Slug" class="product_link col">
+                            <div class="card shadow h-100 py-2 mb-3">
 
-                            <div class="featured-product-card">
-                                <div class="featured-product-img">
-                                <img src="@srcimg" alt="">
+                                <a class="card-link" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@product.Slug">
+                                    <div class="cart-img">
+                                        <img src="@srcimg" class="card-img-top" alt="">
+                                    </div>
+                                </a>
+
+                                <div class="card-body">
+                                    <h6 class="card-title font-weight-bold "> @product.Title</h6>
+                                    <p class=" mt-3">
+                                        <strong class="text-danger" >@product.Price.ToPriceUnitVND()</strong>
+                                    </p>
                                 </div>
-                                <div class="featured-product-item">
-                                    <ul class="featured-product-list-child">
-                                        <li class="featured-product-child-title">@p.Title</li>
-                                    <li class="featured-product-child-currentPrice">@p.Price.ToPriceUnitVND()</li>
-                                        
-                                        
-                                    </ul>
-                                </div>
 
+                                <div class="card-footer ">
+                                    <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-danger ml-4 float-right">Đặt hàng</a>
+                                </div>
                             </div>
-                    </a>
-                  
+
+                        </div>
+                    </div>
                 }
-               
 
             </div>
+           
         </div>
 
     }
@@ -214,36 +220,7 @@
 
 
 
-<div class="body_products">
-    <div class="body_products-option">
-        <ul>
-            <li class="active">Ti vi</li>
 
-        </ul>
-    </div>
-    <div class="products-container">
-
-        <a href="./product-detail.html" class="product_link">
-
-            <div class="featured-product-card">
-                <div class="featured-product-img">
-                    <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                </div>
-                <div class="featured-product-item">
-                    <ul class="featured-product-list-child">
-                        <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                        <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                        <li class="featured-product-child-oldPrice">22.900.000<u>đ</u></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </div>
-        </a>
-       
-    </div>
-</div>
- 
 
 
 <div class="body_blog">

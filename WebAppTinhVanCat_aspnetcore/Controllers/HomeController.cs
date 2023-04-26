@@ -49,7 +49,7 @@ namespace WebAppTinhVanCat_aspnetcore.Controllers
                 idCateChill.Add(c.Id);
 
 
-                pd.Products = products.Where(p => idCateChill.Contains(p.CategoryId)).Take(5).ToList();
+                pd.Products = products.Where(p => idCateChill.Contains(p.CategoryId)).Take(4).ToList();
 
 
                 listNewProduct.Add(pd);

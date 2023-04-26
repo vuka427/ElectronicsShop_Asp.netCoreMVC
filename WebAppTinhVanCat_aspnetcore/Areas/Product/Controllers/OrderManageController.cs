@@ -113,6 +113,25 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             return NotFound("lổi không tìm thấy hóa đơn!");
         }
 
+        [Route("/order/manage/orderprint/{ordercode:guid}", Name = "orderprint")]
+        public async Task<IActionResult> OrderPrint([FromRoute] string ordercode)
+        {
+            var order = await _context.Orders.Where(od => od.OrderCode == ordercode ).Include(o => o.OrderItems).FirstOrDefaultAsync();
+            if (order != null)
+            {
+                if(order.State == StateOrder.Accept)
+                {
+                    return View(order);
+                }
+                else
+                {
+                    return Content("không thể in hóa đơn cho đơn hàng này");
+                }
+                
+            }
+            return NotFound("lổi không tìm thấy hóa đơn!");
+        }
+
         [HttpPost]
         public IActionResult AccessOrderApi(int id)
         {

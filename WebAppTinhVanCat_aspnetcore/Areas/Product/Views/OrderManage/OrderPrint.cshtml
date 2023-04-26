@@ -1,0 +1,183 @@
+﻿@model OrderModel
+
+@{
+    Layout = "";
+    int coutnOrderItem = 1;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết hóa đơn - Của hàng điện máy </title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+  
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   
+    <style>
+        
+
+        .table > tbody > tr > .no-line {
+            border-top: none;
+        }
+
+        .table > thead > tr > .no-line {
+            border-bottom: none;
+        }
+
+        .table > tbody > tr > .thick-line {
+            border-top: 2px solid;
+        }
+    </style>
+
+</head>
+<body>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="invoice-title">
+                <h2>ThaiVuShop</h2>
+                <small> <b>Liên hệ</b> : 0999999999 </small>
+                <small> <b>Địa chỉ</b>  : Khu II, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ. </small>
+                <p class="text-right">
+                     <b>Mã đơn hàng: </b>  @Html.DisplayFor(model => model.OrderCode)
+                </p>
+            </div>
+            <hr>
+                <div>
+                    <h2 class="text-center">Hóa Đơn</h2>
+                </div>
+            <div class="col-12">
+                    <dl class="row ">
+                       
+                        <dt class="col-sm-2  ">
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.FullName)
+                        </dd>
+                        <dt class="col-sm-2 ">
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Phone)
+                        </dd>
+                        <dt class="col-sm-2 ">
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                       
+                        <dt class="col-sm-2 ">
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Model.CreateDate.ToShortDateString()
+                        </dd>
+                        <dt class="col-sm-2 ">
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Address)
+                        </dd>
+                        
+                    </dl>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title"><strong>Danh sách sản phẩm</strong></h5>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <tr>
+                                        <th>
+                                            STT
+                                        </th>
+                                        <th>
+                                            Tên sản phẩm
+                                        </th>
+                                        <th>
+                                            Đơn giá
+                                        </th>
+                                        <th>
+                                            Số lượng
+                                        </th>
+                                        <th>
+                                            Đơn vị tính
+                                        </th>
+                                        <th>
+                                            Thành tiền
+                                        </th>
+
+                                    </tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    @foreach (OrderItem item in Model.OrderItems)
+                                    {
+                                        var totalprice = item.Quantity * item.CurentPrice;
+                                        <tr>
+                                            <td>
+                                                @coutnOrderItem
+                                            </td>
+                                            <td>
+                                                @item.ProductTitle
+                                            </td>
+                                            <td>
+                                                @item.CurentPrice.ToPriceUnitVND()
+                                            </td>
+                                            <td>
+                                                @item.Quantity
+                                            </td>
+                                            <td>
+                                                @item.Unit
+                                            </td>
+                                            <td class="text-dark">
+                                                @totalprice.ToPriceUnitVND()
+                                            </td>
+                                        </tr>
+
+                                        coutnOrderItem += 1;
+                                    }
+                               
+                               
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-center"><strong>@Html.DisplayNameFor(model => model.Price)</strong></td>
+                                    <td class="no-line "><strong>@Model.Price.ToPriceUnitVND()</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                            <p  align=center style='text-align:center'>
+                                
+                                <input type="button" value="IN HOÁ ĐƠN" onclick="this.style.display ='none'; window.print()" class="btn btn-primary" />
+                            </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
