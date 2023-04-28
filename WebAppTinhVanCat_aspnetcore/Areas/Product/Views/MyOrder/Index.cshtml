@@ -81,7 +81,7 @@
                             <td>
                                 @if (item.State == StateOrder.Accept)
                                 {
-                                    <a class="btn btn-sm btn-outline-warning" asp-action="OrderDetail" asp-route-ordercode="@item.OrderCode">Đánh giá</a>
+                                    <a class="btn btn-sm btn-outline-warning" asp-action="OrderReviews" asp-route-ordercode="@item.OrderCode">Đánh giá</a>
                                 }
                                 else
                                 {

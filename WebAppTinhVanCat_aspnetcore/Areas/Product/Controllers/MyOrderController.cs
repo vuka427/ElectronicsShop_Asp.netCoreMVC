@@ -9,6 +9,9 @@ using WebAppTinhVanCat_aspnetcore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp;
 using Castle.Core.Resource;
+using System.Collections;
+using System.Collections.Generic;
+using WebAppTinhVanCat_aspnetcore.Areas.Product.Models;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 {
@@ -101,13 +104,74 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task<IActionResult> OrderReviews([FromQuery] string ordercode)
+        {
+            AppUser user = await GetAppUserAsync();
 
+            if (user == null)
+            {
+                StatusMessage = "Error không tìm thấy người dùng ";
+                return RedirectToAction("Index", "Home");
+            }
+            var order = await _context.Orders.Where(od => od.OrderCode == ordercode && od.CustomerID == user.Id).Include(o => o.OrderItems).FirstOrDefaultAsync();
+            if (order != null)
+            {
+                return View(order);
+            }
+            StatusMessage = "Error không tìm thấy đơn hàng";
+            return RedirectToAction("Index", "Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> OrderReviews([FromQuery] string ordercode, ICollection<ReviewsModel> model)
+        {
+            if (ordercode == null) return NotFound("lỗi rồi !");
+            AppUser user = await GetAppUserAsync();
+            var order = await _context.Orders.Where(od => od.OrderCode == ordercode && od.CustomerID == user.Id).Include(o => o.OrderItems).FirstOrDefaultAsync();
+            if (order == null)
+            {
+                StatusMessage = "Error không tìm thấy đơn hàng";
+            }
+            var idPs = order.OrderItems.Select(oi => oi.ProductID).ToArray(); // danh sách id sẳn phẩm cần đánh giá
+            var products = _context.Products.Where(p => idPs.Contains(p.ProductId)).ToList(); 
+
+            foreach (var item in order.OrderItems)
+            {
+               var r = model.Where(r=>r.IdItem == item.OrderItemID).FirstOrDefault();
+                if (r != null)
+                {
+                    item.rating = r.Star;
+                    if (r.Reviews != null)
+                    {
+                        item.Reviews = r.Reviews.Length < 256? r.Reviews : r.Reviews.Substring(0,255);
+                    }
+                    
+
+                    var p = products.Where(p=>p.ProductId == item.ProductID).FirstOrDefault();
+                    if(p != null)
+                    {
+                        p.rating = ((p.rating * p.QuantityRating) + r.Star)/(p.QuantityRating+1);
+                        p.QuantityRating += 1;
+
+                    }
+
+                }
+            }
+
+            order.IsReviews = true;
+            _context.Products.UpdateRange(products);
+            _context.OrderItems.UpdateRange(order.OrderItems);
+            _context.SaveChanges();
+
+            StatusMessage = "Đánh giá thành công !";
+
+            return RedirectToAction("Index", "MyOrder");
+        }
 
         private async Task<AppUser> GetAppUserAsync()
         {
             return await _userManager.GetUserAsync(User);
         }
 
-
+        
     }
 }

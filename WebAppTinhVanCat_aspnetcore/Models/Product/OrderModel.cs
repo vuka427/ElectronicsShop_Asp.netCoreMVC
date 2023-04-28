@@ -101,6 +101,9 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
 
         public ICollection<OrderItem> OrderItems { get; set; } //nav list sản phẩm 
 
+        [Display(Name = "Đã đánh giá")]
+        public bool IsReviews { get; set; }
+
 
        
     }

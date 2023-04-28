@@ -38,5 +38,14 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
 
         [Display(Name = "Đơn vị")]
         public string Unit { get; set; }
+
+        [Display(Name = "Đánh giá")] 
+        [StringLength(256, MinimumLength = 0, ErrorMessage = "{0} dài {1} đến {2}")]
+        public string Reviews { get; set; }
+
+        [Range(0, 5, ErrorMessage = "Nhập giá trị từ {1} đến {2} ký tự ")]
+        [Display(Name = "đánh giá")]
+        public int rating { get; set; }
+
     }
 }

@@ -188,7 +188,7 @@
 
                             <div class="card shadow h-100 py-2 mb-3">
 
-                                <a class="card-link" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@product.Slug">
+                                <a class="card-link" asp-area="Product" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@product.Slug">
                                     <div class="cart-img">
                                         <img src="@srcimg" class="card-img-top" alt="">
                                     </div>
@@ -202,7 +202,7 @@
                                 </div>
 
                                 <div class="card-footer ">
-                                    <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-danger ml-4 float-right">Đặt hàng</a>
+                                    <a asp-area="Product" asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-danger ml-4 float-right">Đặt hàng</a>
                                 </div>
                             </div>
 

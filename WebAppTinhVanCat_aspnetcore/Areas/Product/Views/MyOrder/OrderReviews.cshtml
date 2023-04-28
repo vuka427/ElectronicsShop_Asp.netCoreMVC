@@ -1,0 +1,180 @@
+﻿
+@model OrderModel
+
+@{
+
+    Layout = "_LayoutClient";
+    ViewData["Title"] = "Đánh giá sản phẩm";
+    int coutnOrderItem = 1;
+    int indexorder = 0;
+
+}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+         
+    }
+
+        .rate:not(:checked) > input {
+            position: absolute;
+            z-index:-5;
+        }
+
+       
+
+        .rate:not(:checked) > label {
+            float: right;
+            width: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 30px;
+            color: #ccc;
+        }
+
+            .rate:not(:checked) > label:before {
+                content: '★ ';
+            }
+
+        .rate > input:checked ~ label {
+            color: #ffc700;
+        }
+
+        .rate:not(:checked) > label:hover,
+        .rate:not(:checked) > label:hover ~ label {
+            color: #deb217;
+        }
+
+        .rate > input:checked + label:hover,
+        .rate > input:checked + label:hover ~ label,
+        .rate > input:checked ~ label:hover,
+        .rate > input:checked ~ label:hover ~ label,
+        .rate > label:hover ~ input:checked ~ label {
+            color: #c59b08;
+        }
+
+</style>
+
+<hr />
+<a class="btn btn-sm btn-outline-danger " asp-action="Index">Trở về danh sách hóa đơn </a>
+<hr />
+
+<!-- DataTales  -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+       
+        <h6 class="m-0 font-weight-bold text-danger">Danh sách hàng hóa</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead class="bg-danger text-light">
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                            Đơn giá
+                        </th>
+                        <th>
+                            Số lượng
+                        </th>
+                       
+                        <th>
+                            Thành tiền
+                        </th>
+                        <th>
+                            Đánh giá
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <form method="post">
+                    @foreach (OrderItem item in Model.OrderItems)
+                    {
+                        var totalprice = item.Quantity * item.CurentPrice;
+                        var name = "[" + indexorder + "].Star";
+                        
+                        var id1 = "star1-" + item.OrderItemID;
+                        var id2 = "star2-" + item.OrderItemID;
+                        var id3 = "star3-" + item.OrderItemID;
+                        var id4 = "star4-" + item.OrderItemID;
+                        var id5 = "star5-" + item.OrderItemID;
+
+                            <input type="text" hidden name="[@indexorder].IdItem" value="@item.OrderItemID" />
+                        <tr>
+                            <td>
+                                @coutnOrderItem
+                            </td>
+                            <td>
+                                @item.ProductTitle
+                            </td>
+                            <td>
+                                @item.CurentPrice.ToPriceUnitVND()
+                            </td>
+                            <td>
+                                @item.Quantity
+                            </td>
+                            
+                            <td class="text-dark">
+                                @totalprice.ToPriceUnitVND()
+                            </td>
+                            <td class="text-dark">
+
+                                <div class="rate">
+                                    <input type="radio" checked id="@id5" name="@name" value="5" />
+                                    <label for="@id5" title="5 sao">5 stars</label>
+                                    <input type="radio" id="@id4" name="@name" value="4" />
+                                    <label for="@id4" title="4 sao">4 stars</label>
+                                    <input type="radio" id="@id3" name="@name" value="3" />
+                                    <label for="@id3" title="3 sao">3 stars</label>
+                                    <input type="radio" id="@id2" name="@name" value="2" />
+                                    <label for="@id2" title="2 sao">2 stars</label>
+                                    <input type="radio" id="@id1" name="@name" value="1" />
+                                    <label for="@id1" title="1 sao">1 star</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <textarea class="form-control" name="[@indexorder].Reviews" style="width:100%;" rows="5" placeholder="đánh giá về sản phẩm tại đây..."></textarea>
+                            </td>
+                            </tr>
+
+                            coutnOrderItem += 1;
+                            indexorder += 1;
+                        }
+                    <tr>
+                        <td colspan="6" >
+                            <div class="form-group">
+                                <input type="submit" value="Đánh giá" class="btn btn-danger" />
+                            </div>
+                        </td>
+                    </tr>
+                   
+                    </form>
+                </tbody>
+            </table>
+           
+        </div>
+    </div>
+</div>
+
+<!-- DataTales  -->
+
+
+
+

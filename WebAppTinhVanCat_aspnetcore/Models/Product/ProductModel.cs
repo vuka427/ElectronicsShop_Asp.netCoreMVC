@@ -61,6 +61,9 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [Range(0, int.MaxValue, ErrorMessage = "Nhập giá trị từ {1} đến {2} ")]
         [Display(Name = "Số lượng")]
         public int Quantity { set; get; }
+        [Range(0, int.MaxValue, ErrorMessage = "Nhập giá trị từ {1} đến {2} ")]
+        [Display(Name = "Số lượng đã bán")]
+        public int QuantitySold { set; get; }
 
         [Display(Name = "Thời gian bảo hành")]
         public int Warranty { set; get; }//năm
@@ -87,6 +90,12 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [ForeignKey(nameof(TradeMarkId))]
         public TradeMarkModel TradeMark { get; set; }
 
-        
+        [Range(0, 5, ErrorMessage = "Nhập giá trị từ {1} đến {2} ")]
+        [Display(Name = "Đánh giá")]
+        public float rating { get; set; }
+
+        [Display(Name = "Lượt đánh giá")]
+        public int QuantityRating { get; set; }
+
     }
 }
