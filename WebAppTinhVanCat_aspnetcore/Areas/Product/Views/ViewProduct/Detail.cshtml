@@ -3,6 +3,8 @@
 @model ProductModel;
 
 @{
+
+    Layout = "/Views/Shared/_LayoutClient.cshtml";
     List<CategoryProduct> categories = ViewBag.categories as List<CategoryProduct>;
     CategoryProduct category = ViewBag.category as CategoryProduct;
     ViewData["Title"] = Model.Title;
@@ -29,7 +31,7 @@
                     <a asp-action="Index" asp-route-productslug="@category.Slug">
                 @category.Title
                     </a> 
-                </li>
+              </li>
         }
 
     </ol>
@@ -40,7 +42,7 @@
 
 
 <div class="row detailpost">
-    <div class="col-md-7 ">
+    <div class="col-md-6 ">
 
         <div class="photo-detail">
             @if (Model.Photos.Any())
@@ -66,28 +68,45 @@
         </div>
         
     </div>
-    <div class="col-md-5 ">
-        <h4>@Model.Title</h4>
-        <div class="sapo">
-            @Model.Description
-        </div>
+
+    <div class="col-md-6 ">
+        <h4 class="font-weight-bold"> @Model.Title</h4>
+        
         <div>
-            <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i>
-            <i> Số lượng còn: @Model.Quantity</i>
+            <p class="text-danger" ">@String.Format("{0:0.0}", Model.rating) <i class="far fa-star"></i></p>
+            <i> Số lượng còn: @Model.Quantity</i> <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i>
+            
         </div>
         <hr />
         <div>
             <p>
-                Giá : <strong>@Model.Price.ToPriceUnitVND()</strong>/@Model.UnitProduct.Unit
-                <a asp-controller="Order"  asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger">Đặt hàng</a>
+                <strong class="text-danger" style="font-size:17pt;" >@Model.Price.ToPriceUnitVND()</strong>
+               
             </p>
+            <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger text-light">Đặt hàng</a>
         </div>
         
     </div>
 </div>
+
+
 <hr />
-<h3>Thông tin sản phẩm</h3>
-@Html.Raw(Model.Content)
+
+<h3 class="text-center" >Thông tin sản phẩm</h3>
+<div class="text-center">
+    <a href="#boxnoidung" aria-expanded="false" data-toggle="collapse" >xem thêm</a>
+</div>
+
+
+
+
+<div class="collapse mt-4" id="boxnoidung">
+    <div class="card card-body ">
+            @Html.Raw(Model.Content)
+    </div>
+</div>
+
+
 
 
 <script>
@@ -102,28 +121,3 @@
 </script>
 
 
-@section Sidebar {
-    @await Component.InvokeAsync("WebAppTinhVanCat_aspnetcore.Components.CategoryProductSidebar",
-    new CategoryProductSidebar.CategoryProductSidebarData()// chuyên data sang viewcomponent
-    {
-        Categories = categories,
-        Level = 0,
-        CategorySlug = (category != null)?  category.Slug : "" 
-    })
-
-
-    @if (otherProduct != null)
-    {
-         <ul class="list-group">
-            @foreach (var post in otherProduct)
-            {
-                <li class="list-group-item">
-                    <a asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@post.Slug">
-                        @post.Title
-                    </a>
-                </li>
-            }
-         </ul>
-    }
-   
-}

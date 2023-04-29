@@ -63,14 +63,14 @@
 </style>
 
 <hr />
-<a class="btn btn-sm btn-outline-danger " asp-action="Index">Trở về danh sách hóa đơn </a>
+<a class="btn btn-sm btn-outline-danger " asp-action="Index">Quay lại </a>
 <hr />
 
 <!-- DataTales  -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
        
-        <h6 class="m-0 font-weight-bold text-danger">Danh sách hàng hóa</h6>
+        <h6 class="m-0 font-weight-bold text-danger">Danh sách sản phẩm</h6>
     </div>
 
     <div class="card-body">
@@ -102,70 +102,161 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <form method="post">
-                    @foreach (OrderItem item in Model.OrderItems)
-                    {
-                        var totalprice = item.Quantity * item.CurentPrice;
-                        var name = "[" + indexorder + "].Star";
-                        
-                        var id1 = "star1-" + item.OrderItemID;
-                        var id2 = "star2-" + item.OrderItemID;
-                        var id3 = "star3-" + item.OrderItemID;
-                        var id4 = "star4-" + item.OrderItemID;
-                        var id5 = "star5-" + item.OrderItemID;
+                    @if(Model.IsReviews){
+                        @foreach (OrderItem item in Model.OrderItems)
+                        {
+                            var totalprice = item.Quantity * item.CurentPrice;
+                            var name = "[" + indexorder + "].Star";
 
-                            <input type="text" hidden name="[@indexorder].IdItem" value="@item.OrderItemID" />
-                        <tr>
-                            <td>
-                                @coutnOrderItem
-                            </td>
-                            <td>
-                                @item.ProductTitle
-                            </td>
-                            <td>
-                                @item.CurentPrice.ToPriceUnitVND()
-                            </td>
-                            <td>
-                                @item.Quantity
-                            </td>
-                            
-                            <td class="text-dark">
-                                @totalprice.ToPriceUnitVND()
-                            </td>
-                            <td class="text-dark">
+                            var id1 = "star1-" + item.OrderItemID;
+                            var id2 = "star2-" + item.OrderItemID;
+                            var id3 = "star3-" + item.OrderItemID;
+                            var id4 = "star4-" + item.OrderItemID;
+                            var id5 = "star5-" + item.OrderItemID;
 
-                                <div class="rate">
-                                    <input type="radio" checked id="@id5" name="@name" value="5" />
-                                    <label for="@id5" title="5 sao">5 stars</label>
-                                    <input type="radio" id="@id4" name="@name" value="4" />
-                                    <label for="@id4" title="4 sao">4 stars</label>
-                                    <input type="radio" id="@id3" name="@name" value="3" />
-                                    <label for="@id3" title="3 sao">3 stars</label>
-                                    <input type="radio" id="@id2" name="@name" value="2" />
-                                    <label for="@id2" title="2 sao">2 stars</label>
-                                    <input type="radio" id="@id1" name="@name" value="1" />
-                                    <label for="@id1" title="1 sao">1 star</label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">
-                                <textarea class="form-control" name="[@indexorder].Reviews" style="width:100%;" rows="5" placeholder="đánh giá về sản phẩm tại đây..."></textarea>
-                            </td>
+                            <tr>
+                                <td>
+                                    @coutnOrderItem
+                                </td>
+                                <td>
+                                    @item.ProductTitle
+                                </td>
+                                <td>
+                                    @item.CurentPrice.ToPriceUnitVND()
+                                </td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+
+                                <td class="text-dark">
+                                    @totalprice.ToPriceUnitVND()
+                                </td>
+                                <td class="text-dark">
+
+                                    <div class="rate">
+                                        @for(int i = 5;i>=1 ;i--){
+
+                                            if (item.rating == i)
+                                            {
+                                                <input disabled type="radio" checked id="@item.OrderItemID-@i" name="@item.OrderItemID" value="@i" />
+                                            }
+                                            else
+                                            {
+                                                <input disabled type="radio" id="@item.OrderItemID-@i" name="@item.OrderItemID" value="@i" />
+                                            }
+
+                                            <label for="@item.OrderItemID-@i" title="@i sao">@i stars</label>
+                                        }
+
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+                                    <textarea class="form-control" disabled  style="width:100%;" rows="5" >@item.Reviews</textarea>
+                                </td>
                             </tr>
 
                             coutnOrderItem += 1;
                             indexorder += 1;
                         }
-                    <tr>
-                        <td colspan="6" >
-                            <div class="form-group">
-                                <input type="submit" value="Đánh giá" class="btn btn-danger" />
+                    }
+                    else
+                    {
+                        <form method="post">
+                            @foreach (OrderItem item in Model.OrderItems)
+                            {
+                                var totalprice = item.Quantity * item.CurentPrice;
+                                var name = "[" + indexorder + "].Star";
+
+                                var id1 = "star1-" + item.OrderItemID;
+                                var id2 = "star2-" + item.OrderItemID;
+                                var id3 = "star3-" + item.OrderItemID;
+                                var id4 = "star4-" + item.OrderItemID;
+                                var id5 = "star5-" + item.OrderItemID;
+
+                                <input type="text" hidden name="[@indexorder].IdItem" value="@item.OrderItemID" />
+                            <tr>
+                                <td>
+                                        @coutnOrderItem
+                                </td>
+                                <td>
+                                        @item.ProductTitle
+                                </td>
+                                <td>
+                                        @item.CurentPrice.ToPriceUnitVND()
+                                </td>
+                                <td>
+                                        @item.Quantity
+                                </td>
+
+                                <td class="text-dark">
+                                        @totalprice.ToPriceUnitVND()
+                                </td>
+                                <td class="text-dark">
+
+                                    <div class="rate">
+                                        <input type="radio" checked id="@id5" name="@name" value="5" />
+                                        <label for="@id5" title="5 sao">5 stars</label>
+                                        <input type="radio" id="@id4" name="@name" value="4" />
+                                        <label for="@id4" title="4 sao">4 stars</label>
+                                        <input type="radio" id="@id3" name="@name" value="3" />
+                                        <label for="@id3" title="3 sao">3 stars</label>
+                                        <input type="radio" id="@id2" name="@name" value="2" />
+                                        <label for="@id2" title="2 sao">2 stars</label>
+                                        <input type="radio" id="@id1" name="@name" value="1" />
+                                        <label for="@id1" title="1 sao">1 star</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+                                    <textarea class="form-control" name="[@indexorder].Reviews" style="width:100%;" rows="5" placeholder="đánh giá về sản phẩm tại đây..."></textarea>
+                                </td>
+                            </tr>
+
+                                coutnOrderItem += 1;
+                                indexorder += 1;
+                            }
+
+
+                            <tr>
+                                <td colspan="6">
+                                   
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                                        Đánh giá
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                        <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-light">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Bạn xác nhận đánh giá này ?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Bạn sẻ không thể thay đổi thông tin đánh giá !</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            
+                                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
+
+
+                        </form>
+                    }
+
                    
-                    </form>
                 </tbody>
             </table>
            

@@ -125,11 +125,17 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         public async Task<IActionResult> OrderReviews([FromQuery] string ordercode, ICollection<ReviewsModel> model)
         {
             if (ordercode == null) return NotFound("lỗi rồi !");
+
             AppUser user = await GetAppUserAsync();
             var order = await _context.Orders.Where(od => od.OrderCode == ordercode && od.CustomerID == user.Id).Include(o => o.OrderItems).FirstOrDefaultAsync();
             if (order == null)
             {
                 StatusMessage = "Error không tìm thấy đơn hàng";
+            }
+            if (order.IsReviews)
+            {
+                StatusMessage = "Bạn đã đánh giá đơn hàng này rồi";
+                return RedirectToAction("Index", "MyOrder");
             }
             var idPs = order.OrderItems.Select(oi => oi.ProductID).ToArray(); // danh sách id sẳn phẩm cần đánh giá
             var products = _context.Products.Where(p => idPs.Contains(p.ProductId)).ToList(); 
@@ -139,7 +145,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                var r = model.Where(r=>r.IdItem == item.OrderItemID).FirstOrDefault();
                 if (r != null)
                 {
-                    item.rating = r.Star;
+                    item.rating = (r.Star>5 || r.Star<1) ? 0 : r.Star;
                     if (r.Reviews != null)
                     {
                         item.Reviews = r.Reviews.Length < 256? r.Reviews : r.Reviews.Substring(0,255);

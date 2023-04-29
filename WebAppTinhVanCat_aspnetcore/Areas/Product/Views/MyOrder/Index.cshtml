@@ -81,12 +81,23 @@
                             <td>
                                 @if (item.State == StateOrder.Accept)
                                 {
-                                    <a class="btn btn-sm btn-outline-warning" asp-action="OrderReviews" asp-route-ordercode="@item.OrderCode">Đánh giá</a>
+                                    if (!item.IsReviews)
+                                    {
+                                        <a class="btn btn-sm btn-outline-warning" asp-action="OrderReviews" asp-route-ordercode="@item.OrderCode">Đánh giá</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-sm btn-outline-success" asp-action="OrderReviews" asp-route-ordercode="@item.OrderCode">Xem đánh giá</a>
+                                    }
+
+                                        
+                                    
+
                                 }
-                                else
-                                {
+                                
                                    
-                                }
+                                
+                                
 
 
                                     

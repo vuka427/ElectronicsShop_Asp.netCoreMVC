@@ -23,8 +23,9 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 .breadcrumb-item a{
-    font-size: 10pt;
-
+    font-size: 14pt;
+    text-decoration:none;
+    color :#ff0000;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -134,15 +135,17 @@ body {
     height: 25px;
 }
 .detailpost .photo-detail {
-    background-color: #808080;
+    background-color: white;
     width: 100%;
-    height: 400px;
+    min-height:400px;
+    height:auto;
 }
-.detailpost .photo-detail img {
-  max-height: 400px;
-  min-width: 100%;
-  object-fit: cover;
-}
+    .detailpost .photo-detail img {
+        max-height: 400px;
+      
+        object-fit: cover;
+        height: auto;
+    }
 .detailpost .photo-list .photo-list-item {
   margin-top: 10px;
   width: 100px;
