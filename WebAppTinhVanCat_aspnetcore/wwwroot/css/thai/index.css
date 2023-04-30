@@ -162,7 +162,11 @@ border-right: 0;
     cursor: pointer;
     margin: auto 0;
 }
-.navbar-icon{
+.navbar{
+    background-color:rgb(235, 6, 6);
+}
+
+.navbar-icon {
     color: var(--primary-color);
     font-size: 1.5rem;
     margin-right: 5px;

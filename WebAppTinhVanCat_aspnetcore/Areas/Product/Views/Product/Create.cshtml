@@ -50,6 +50,11 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Feature" class="control-label"></label>
+                <textarea rows="4" asp-for="Feature" class="form-control"></textarea>
+                <span asp-validation-for="Feature" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Slug" class="control-label"></label>
                 <input asp-for="Slug" class="form-control" />
                 <span asp-validation-for="Slug" class="text-danger"></span>
@@ -97,8 +102,12 @@
 
     var summernote = new Summernote("#Content");
     summernote.height = 700;
+    var summernoteF = new Summernote("#Feature");
+    summernoteF.height = 300;
 }
+
 <partial name="_Summernote" model="summernote" />
+<partial name="_Summernote" model="summernoteF" />
 @{
     _AdminSideBarService.SetActive("Product", "Create", "Product");
 }

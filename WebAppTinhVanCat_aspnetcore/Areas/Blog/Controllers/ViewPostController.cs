@@ -29,7 +29,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
         //post/{categoryslug?}
         [Route("/post/{categoryslug?}")]
         [AllowAnonymous]
-        public IActionResult Index(string categoryslug, [FromQuery(Name = "p")] int currentPage, int pagesize) 
+        public IActionResult Index(string categoryslug, [FromQuery(Name = "p")] int currentPage, int pagesize,[FromQuery] string searchstring) 
         {
             ViewBag.categories = GetCategories();//tất cả danh mục
             ViewBag.categoryslug = categoryslug;//url truy cập hiện tại
@@ -44,13 +44,24 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
                 if(category == null) return NotFound("không tìm thấy danh mục");
             }
             ViewBag.category = category;
-
-
-            var Post = _context.Posts.Include(p => p.Author) //tất cả các bài viết
+            IQueryable<Post> Post;
+            if (String.IsNullOrEmpty(searchstring))
+            {
+                Post = _context.Posts.Include(p => p.Author) //tất cả các bài viết
                                     .Include(p => p.PostCategories)
                                     .ThenInclude(p => p.Category)
-                                    .AsQueryable(); 
-                                    
+                                    .AsQueryable();
+            }
+            else
+            {
+                searchstring = searchstring.Trim().ToLower();
+                Post = _context.Posts.Where(p => p.Title.ToLower().Contains(searchstring) || p.Description.ToLower().Contains(searchstring))  //tất cả các bài viết
+                                   .Include(p => p.Author) 
+                                   .Include(p => p.PostCategories)
+                                   .ThenInclude(p => p.Category)
+                                   .AsQueryable();
+            }
+
             Post = Queryable.OrderByDescending(Post, p => p.DateUpdated);
 
 

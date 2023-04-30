@@ -18,7 +18,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [ForeignKey("OrderID")]
         public OrderModel Order { get; set; }
 
-        
+
         [Display(Name = "Tên sản phẩm")]
         [StringLength(160, MinimumLength = 5, ErrorMessage = "{0} dài {1} đến {2}")]
         public string ProductTitle { get; set; }
@@ -39,7 +39,7 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [Display(Name = "Đơn vị")]
         public string Unit { get; set; }
 
-        [Display(Name = "Đánh giá")] 
+        [Display(Name = "Đánh giá")]
         [StringLength(256, MinimumLength = 0, ErrorMessage = "{0} dài {1} đến {2}")]
         public string Reviews { get; set; }
 
@@ -47,5 +47,6 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [Display(Name = "đánh giá")]
         public int rating { get; set; }
 
+        
     }
 }

@@ -36,12 +36,15 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         //product/{productslug?}
         [Route("/product/{productslug?}")]
         [AllowAnonymous]
-        public IActionResult Index(string productslug, [FromQuery(Name = "p")] int currentPage, int pagesize) 
+        public IActionResult Index(string productslug, [FromQuery(Name = "p")] int currentPage, int pagesize, [FromQuery] string searchstring) 
         {
             ViewBag.categories = GetCategories();//tất cả danh mục
             ViewBag.categoryslug = productslug;//url truy cập hiện tại
 
+
+
             CategoryProduct category = null; //danh mục tương ứng với url truy cập hiện tại
+
 
             if (!string.IsNullOrEmpty(productslug) ) // nếu tồn tại url chỉ định danh mục thì lấy danh mục tương ứng
             {
@@ -51,12 +54,25 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                 if(category == null) return NotFound("không tìm thấy danh mục");
             }
             ViewBag.category = category;
+            IQueryable<ProductModel> product;
+            if (String.IsNullOrEmpty(searchstring))
+            {
+                product = _context.Products.Include(p => p.Author) //tất cả các sản phẩm
+                                  .Include(p => p.Photos)
+                                  .Include(p => p.Category)
+                                  .AsQueryable();
+            }
+            else
+            {
+                searchstring = searchstring.Trim().ToLower();
+                product = _context.Products.Where(p => p.Title.ToLower().Contains(searchstring)  || p.Description.ToLower().Contains(searchstring)) //tìm kiếm trên tất cả các sản phẩm
+                                                    .Include(p => p.Author) 
+                                                    .Include(p=>p.Photos)
+                                                    .Include(p => p.Category)
+                                                    .AsQueryable(); 
+            }
 
-
-            var product = _context.Products.Include(p => p.Author) //tất cả các sản phẩm
-                                    .Include(p=>p.Photos)
-                                    .Include(p => p.Category)
-                                    .AsQueryable(); 
+            
                                     
             product = product.OrderByDescending(p => p.DateUpdated);//sấp xếp sản phẩm
 
@@ -123,6 +139,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             }
              
             ViewBag.category = Product.Category;//lấy danh mục của sản phẩm
+            ViewBag.Reviews = _context.OrderItems.Where(o=>o.ProductID == Product.ProductId && o.rating!=0).Include(o=>o.Order).ToList();//lấy danh mục của sản phẩm
 
             if (Product.Category != null)
             {

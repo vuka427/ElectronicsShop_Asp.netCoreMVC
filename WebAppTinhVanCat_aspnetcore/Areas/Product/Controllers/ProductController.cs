@@ -112,7 +112,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryId,TradeMarkId")] ProductModel product)
+        public async Task<IActionResult> Create([Bind("Title,Price,Unit,Quantity,Description,Feature,Slug,Content,Published,CategoryId,TradeMarkId")] ProductModel product)
         {
             var categories = await _context.CategoryProducts.ToListAsync();
             ViewData["categories"] = new SelectList(categories, "Id", "Title");
@@ -171,7 +171,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Price,Unit,Quantity,Description,Slug,Content,Published,CategoryId,TradeMarkId")] ProductModel product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Price,Unit,Quantity,Description,Feature,Slug,Content,Published,CategoryId,TradeMarkId")] ProductModel product)
         {
             if (id != product.ProductId)
             {

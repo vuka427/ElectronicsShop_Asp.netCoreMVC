@@ -10,8 +10,8 @@
 
 
 
-<div class="row">
-    <div class="col-md-12">
+<div class="row justify-content-center">
+    <div class="col-md-8">
         <form asp-action="Edit" asp-controller="Product" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductId" />
@@ -59,6 +59,11 @@
                 <label asp-for="Description" class="control-label"></label>
                 <textarea rows="5" asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Feature" class="control-label"></label>
+                <textarea rows="4" asp-for="Feature" class="form-control"></textarea>
+                <span asp-validation-for="Feature" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Slug" class="control-label"></label>
@@ -111,6 +116,8 @@
 
     var summernote = new Summernote("#Content");
     summernote.height = 700;
+    var summernoteF = new Summernote("#Feature");
+    summernoteF.height = 300;
 
     <script>
 
@@ -211,7 +218,6 @@
                     setClickDeletePhoto();
                 }
             });
-
         }
 
         $(document).ready(function () {
@@ -225,6 +231,7 @@
 
 }
 <partial name="_Summernote" model="summernote" />
+<partial name="_Summernote" model="summernoteF" />
 @{
     _AdminSideBarService.SetActive("Product", "Index", "Product");
 }

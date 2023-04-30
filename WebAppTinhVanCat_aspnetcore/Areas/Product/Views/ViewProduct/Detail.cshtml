@@ -73,7 +73,8 @@
         <h4 class="font-weight-bold"> @Model.Title</h4>
         
         <div>
-            <p class="text-danger" ">@String.Format("{0:0.0}", Model.rating) <i class="far fa-star"></i></p>
+
+            <p class="text-danger"> @String.Format("{0:0.0}", Model.rating) <i class="far fa-star"></i></p>
             <i> Số lượng còn: @Model.Quantity</i> <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i>
             
         </div>
@@ -83,29 +84,86 @@
                 <strong class="text-danger" style="font-size:17pt;" >@Model.Price.ToPriceUnitVND()</strong>
                
             </p>
-            <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger text-light">Đặt hàng</a>
+            
+            <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger text-light" >Đặt hàng</a>
         </div>
-        
+        <hr>
+        <div class="card shadow  mb-3">
+            <div class="card-header bg-danger text-light font-weight-bold">
+                Thông số kỹ thuật
+            </div>
+            <div class="card-body">
+                @Html.Raw(Model.Feature)
+            </div>
+
+            <div class="card-footer ">
+               
+            </div>
+
+            
+        </div>
     </div>
 </div>
-
 
 <hr />
 
 <h3 class="text-center" >Thông tin sản phẩm</h3>
-<div class="text-center">
-    <a href="#boxnoidung" aria-expanded="false" data-toggle="collapse" >xem thêm</a>
-</div>
-
-
-
 
 <div class="collapse mt-4" id="boxnoidung">
     <div class="card card-body ">
             @Html.Raw(Model.Content)
     </div>
 </div>
+<div class="text-center">
+    <a id="btn-show-info" href="#boxnoidung" aria-expanded="false" data-toggle="collapse">xem thêm</a>
+</div>
+<script>
+    $('#boxnoidung').on('show.bs.collapse', function () {
+        $("#btn-show-info").text("Ẩn bớt")
+    })
+    $('#boxnoidung').on('hide.bs.collapse', function () {
+        $("#btn-show-info").text("Xem thêm")
+    })
+</script>
 
+<hr />
+
+@{
+    List<OrderItem> orders = ViewBag.Reviews as List<OrderItem>;
+}
+<div class="card shadow  mb-3">
+    <div class="card-header bg-danger text-light font-weight-bold">
+        Đánh giá sản phẩm <small> @orders.Count lượt đánh giá </small>
+
+    </div>
+    <div class="card-body">
+        @foreach (var orderItem in orders)
+        {
+            <div class="card w-100 border-bottom-danger">
+                <div class="card-body row">
+               
+                    <h6 class="card-title col font-italic text-danger"><i class="far fa-user fa-lg text-danger mr-2"></i>@orderItem.Order.FullName</h6>
+                    <div class="col text-right text-warning">
+                        @for( int i=1; i<= orderItem.rating; i++){
+                            <i class="fas fa-star "></i>
+                        }
+                        
+                       
+                    </div>
+                    <p class="card-text col-12">
+                        @orderItem.Reviews
+                    </p>
+               
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="card-footer ">
+    </div>
+
+
+</div>
 
 
 
