@@ -43,9 +43,8 @@ body {
 }
 .categorysidebar a {
     text-decoration: none;
-    font-size:15pt;
-    color: Red;
-    
+    font-size: 15pt;
+    color: #ff0000;
 }
 .categorysidebar a:hover {
   color: #02006e;
@@ -57,12 +56,12 @@ body {
 }
 .categorysidebar > ul > li > a {
   font-weight: bold;
+  color:red;
 }
 .categorysidebar h4 {
   text-transform: uppercase;
   font-size: 1.3em;
-  border-bottom: 1px solid blue;
-  padding-bottom: 10px;
+  
 }
 
 .contact-firstcol {

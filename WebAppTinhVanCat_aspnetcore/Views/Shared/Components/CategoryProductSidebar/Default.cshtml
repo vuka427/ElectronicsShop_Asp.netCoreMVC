@@ -11,13 +11,17 @@
 
     @if (level==0)
     {
+       
         @Html.Raw("<div class=\"categorysidebar\">")
-        <h4>
-            <a asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="">
-                Tất cả các danh mục sản phẩm
-            </a>
-        </h4>
+        <div class="card-header bg-danger  font-weight-bold">
+            <h4 >
+                <a class="text-light" asp-controller="ViewProduct" asp-action="Index" asp-route-productslug="">
+                    Danh mục sản phẩm
+                </a>
+            </h4>
+        </div>
         
+        @Html.Raw("<div class=\"card-body\">")
     }
     
     <ul>
@@ -45,6 +49,7 @@
     </ul>
     @if (level == 0)
     {
+        @Html.Raw("</div>")
         @Html.Raw("</div>")
     }
 }

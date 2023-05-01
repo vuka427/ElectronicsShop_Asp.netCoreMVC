@@ -9,7 +9,16 @@
     List<CategoryProduct> categories = ViewBag.categories as List<CategoryProduct> ;
     CategoryProduct category = ViewBag.category as CategoryProduct;
     ViewData["Title"] = (category != null)? category.Title : "Tất cả sản phẩm";
-    
+
+    string sortby = ViewBag.sortby as string;
+    string datecreate ="", priceup ="", pricedown ="";
+
+    List<TradeMarkModel> trademarks = ViewBag.trandemark as List<TradeMarkModel>;
+    int tradeId = ViewBag.trandemarkID;
+    int pricestart = ViewBag.pricestart;
+    int priceend = ViewBag.priceend;
+
+
 }
 <div class="mb-3">
     <form method="get" class="row justify-content-center" >
@@ -46,16 +55,75 @@
     </ol>
 </nav>
 
-<h3> @ViewData["Title"] </h3>
+<div class="row">
+    <div class="col-9">
+        <h3> @ViewData["Title"] </h3>
 
-@if (category != null)
-{
-    <p> @Html.Raw(category.Content) </p>
-}
-else
-{
-    <p>Sản phẩm thuộc tất cả các danh mục</p>
-}
+        @if (category != null)
+        {
+            <p> @Html.Raw(category.Content) </p>
+        }
+        else
+        {
+            if(tradeId!= 0)
+            {
+                var t =  trademarks.Where(t => t.Id == tradeId).FirstOrDefault();
+                if (t != null)
+                {
+                    <p>Sản phẩm thuộc nhãn hiệu:<strong>@t.Name </strong> </p>
+                }
+            }
+            else
+            {
+                if (priceend >0)
+                {
+                    <p>Sản phẩm thuộc có giá từ @pricestart.ToPriceUnitVND() đến @priceend.ToPriceUnitVND()</p>
+                }
+                else
+                {
+                     <p>Sản phẩm thuộc tất cả các danh mục</p>
+                }
+               
+            }
+            
+        }
+    </div>
+    <div class="col-3 float-right">
+        <form method="get" >
+            <div class="form-group">
+                <select class="form-control" name="sortby" onchange="this.form.submit()">
+                    @{
+                        
+                        if (!String.IsNullOrEmpty(sortby))
+                        {
+                            switch (sortby)
+                            {
+                                case "datecreate":
+                                    datecreate = "selected";
+                                    break;
+                                case "pricedown":
+                                    pricedown = "selected";
+                                    break;
+                                case "priceup":
+                                    priceup = "selected";
+                                    break;
+                                default:
+                                    datecreate = "selected";
+                                    break;
+                            }
+                        }
+                    }
+                    <!option @datecreate value="datecreate"  >mới nhất</!option>
+                    <!option @priceup value="priceup" >giá thấp đến cao</!option>
+                    <!option @pricedown value="pricedown" >giá cao xuống thấp</!option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
 
 <div class="row">
     @foreach (var product in Model)
@@ -96,13 +164,77 @@ else
 
 
 @section Sidebar {
-    @await Component.InvokeAsync("WebAppTinhVanCat_aspnetcore.Components.CategoryProductSidebar",
-    new CategoryProductSidebar.CategoryProductSidebarData()// chuyên data sang viewcomponent
-    {
-        Categories = categories, 
-        Level = 0,
-        CategorySlug = @ViewBag.categoryslug
-    })
+    <div class="card shadow  mb-3 mt-5">
+        
+            @await Component.InvokeAsync("WebAppTinhVanCat_aspnetcore.Components.CategoryProductSidebar",
+            new CategoryProductSidebar.CategoryProductSidebarData()// chuyên data sang viewcomponent
+            {
+                Categories = categories,
+                Level = 0,
+                CategorySlug = @ViewBag.categoryslug
+            })
+       
+    </div>
+   
+
+    <div class="card shadow  mb-3 mt-4">
+        <div class="card-header bg-danger text-light font-weight-bold">
+            Nhãn hiệu
+        </div>
+        <div class="card-body p-2">
+            <div class="list-group list-group-flush">
+                @if (trademarks.Count >= 0)
+                {
+                    foreach (var trade in trademarks)
+                    {
+                        if ( trade.Id == tradeId)
+                        {
+                            <a class="list-group-item list-group-item-danger" asp-action="Index" asp-route-trademark="@trade.Id">@trade.Name</a>
+                        }
+                        else
+                        {
+                            <a class="list-group-item text-danger " asp-action="Index" asp-route-trademark="@trade.Id" >@trade.Name</a>
+                        }
+                        
+                    }
+                }
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow  mb-3 mt-4">
+        <div class="card-header bg-danger text-light font-weight-bold">
+           Lọc theo mức giá
+        </div>
+        <form method="get">
+            <div class="card-body text-danger p-3">
+            
+                <div class="form-group ">
+                    <label for="pricestart">Từ</label>
+                    <input type="number" value="@pricestart" class="form-control" id="pricestart" name="pricestart" min="0" max="1000000000" step="100000">
+                        
+                </div>
+                <div class="form-group">
+                    <label for="priceend">Đến</label>
+                    <input type="number" value="@priceend" class="form-control" id="priceend" name="priceend" min="0" max="1000000000" step="100000">
+
+                </div>
+
+
+               
+           
+            </div>
+
+            <div class="card-footer ">
+                <button class="btn btn-danger" >Áp dụng</button>
+            </div>
+        </form>
+
+    </div>
+
+
+
 }
 
 
