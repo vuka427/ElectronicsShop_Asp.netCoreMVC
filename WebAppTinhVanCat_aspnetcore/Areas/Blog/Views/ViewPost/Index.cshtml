@@ -27,7 +27,7 @@
    
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        <li class="breadcrumb-item p-1"><a href="~/">Home</a></li>
         @if (category != null)
         {
             var listParent = category.ListParents();
@@ -58,8 +58,20 @@ else
 
 @foreach (var post in Model)
 {
-<div class="media border-bottom mb-3 pb-3 bg-light">
-        <img class="mr-3 w-22" src="/contens/ico/nophoto.png" alt=" hahaha !">
+<div class="media photo-post border-bottom mb-3 pb-3 bg-light">
+        
+        @if (String.IsNullOrEmpty(post.PhotoName))
+        {
+            
+            <img class="mr-3 w-22" src="/contens/ico/nophoto.png" alt=" !">
+        }
+        else
+        {
+            string url = "/contens/Posts/" + post.PhotoName;
+            <img class="mr-3 w-22" src="@url" alt=" !">
+        }
+
+        
   <div class="media-body">
     <h4 class="mt-0 font-weight-bold " >
                 <a  asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
@@ -75,7 +87,7 @@ else
     </div>
     <div class="author-row">
         Tác giả: <strong>@post.Author.UserName</strong> |
-        Ngày cập nhật: <i>@post.DateUpdated.ToShortDateString()</i>
+        Ngày cập nhật: <i>@post.DateUpdated.ToShortDateString()</i> 
     </div>
   </div>
 </div>

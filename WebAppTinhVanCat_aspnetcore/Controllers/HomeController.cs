@@ -57,8 +57,10 @@ namespace WebAppTinhVanCat_aspnetcore.Controllers
 
             ViewBag.catepd = listNewProduct;
 
-
-
+            ViewBag.hotproduct = products.OrderByDescending(p=>p.Sold ).Take(4).ToList();
+           
+            var post = _context.Posts.OrderByDescending(p => p.DateCreated);
+            ViewBag.newpost = (post.Count() >= 6) ? post.Take(6).ToList() : null;
             return View();
         }
 

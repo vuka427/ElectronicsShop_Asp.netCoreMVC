@@ -1,4 +1,5 @@
 ﻿@using WebAppTinhVanCat_aspnetcore.ExtendMethods;
+@using WebAppTinhVanCat_aspnetcore.Models.Blog;
 @using WebAppTinhVanCat_aspnetcore.Models.Product;
 @using WebAppTinhVanCat_aspnetcore.Models.ViewModelHome;
 @{
@@ -132,27 +133,43 @@
 
             <div class="body_featured-product">
 
-                <a href="./product-detail.html" class="product_link">
+                <div class="row">
+                    @foreach (ProductModel product in ViewBag.hotproduct)
+                    {
+                        var srcimg = product.Photos.Count > 0 ? "/contens/Products/" + product.Photos.First().FileName : "/contens/ico/nophoto.png";
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card-product  " style="min-width:240px; max-width:270px;">
 
-                    <div class="featured-product-card">
-                        <div class="featured-product-img">
-                            <img src="https://file.pico.vn/media/product/250-381287_qa65q60bakxxd001front1blackabove.jpg" alt="">
-                        </div>
-                        <div class="featured-product-item">
-                            <ul class="featured-product-list-child">
-                                <li class="featured-product-child-title">Tivi Qled Samsung QA55Q60BAKXXV 55" 4K Ultra HD</li>
-                                <li class="featured-product-child-currentPrice">16.400.000<u>đ</u></li>
-                              
-                                <li></li>
-                            </ul>
-                        </div>
+                                <div class="card shadow h-100 py-2 mb-3">
 
-                    </div>
-                </a>
+                                    <a class="card-link" asp-area="Product" asp-controller="ViewProduct" asp-action="Detail" asp-route-productslug="@product.Slug">
+                                        <div class="cart-img">
+                                            <img src="@srcimg" class="card-img-top" alt="">
+                                        </div>
+                                    </a>
+
+                                    <div class="card-body">
+                                        <h6 class="card-title font-weight-bold "> @product.Title</h6>
+                                        <p class=" mt-3">
+                                            <strong class="text-danger">@product.Price.ToPriceUnitVND()</strong>
+                                        </p>
+                                    </div>
+
+                                    <div class="card-footer ">
+                                        <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-sm btn-danger float-right">Đặt hàng</a>
+                                        <a class="AddCart btn btn-sm btn-outline-primary text-primary float-left" data-id="@product.ProductId">Thêm vào giỏ</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                </div>
 
 
             </div>
-            <a href="#" class="body_featured-viewAll">XEM TẤT CẢ</a>
+            <a asp-area="Product" asp-action="Index" asp-controller="ViewProduct" class="body_featured-viewAll">XEM TẤT CẢ</a>
         </div>
 
     </div>
@@ -202,7 +219,8 @@
                                 </div>
 
                                 <div class="card-footer ">
-                                    <a asp-area="Product" asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-danger ml-4 float-right">Đặt hàng</a>
+                                    <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-sm btn-danger float-right">Đặt hàng</a>
+                                    <a class="AddCart btn btn-sm btn-outline-primary text-primary float-left" data-id="@product.ProductId">Thêm vào giỏ</a>
                                 </div>
                             </div>
 
@@ -232,54 +250,74 @@
         </ul>
     </div>
     <div class="body_blog-container">
-
-        <div class="blog-items">
-            <img src="https://images.unsplash.com/photo-1535303311164-664fc9ec6532?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fHRlY2hub2xvZ3l8ZW58MHx8MHx8&auto=format&fit=crop&w=1400&q=60" alt="">
-            <div class="blog-detail">
-                <p class="blog-title">Lorem ipsum dolor sit, amet consectetur adipisicing elit</p>
-                <p class="blog-date">19/2/2023 </p>
-            </div>
-        </div>
-        <div class="blog-items">
-            <img src="https://images.unsplash.com/photo-1526666923127-b2970f64b422?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjh8fHRlY2hub2xvZ3l8ZW58MHx8MHx8&auto=format&fit=crop&w=1400&q=60" alt="">
-            <div class="blog-detail">
-                <p class="blog-title">Lorem ipsum dolor sit, amet consectetur adipisicing elit</p>
-                <p class="blog-date">19/2/2023 </p>
-            </div>
-        </div>
-        <div class="blog-items">
-            <img src="https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fHRlY2hub2xvZ3l8ZW58MHx8MHx8&auto=format&fit=crop&w=1400&q=60" alt="">
-            <div class="blog-detail">
-                <p class="blog-title">Lorem ipsum dolor sit, amet consectetur adipisicing elit</p>
-                <p class="blog-date">19/2/2023 </p>
-            </div>
-        </div>
-        <div class="blog-items">
-            <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fHRlY2hub2xvZ3l8ZW58MHx8MHx8&auto=format&fit=crop&w=1400&q=60" alt="">
-            <div class="blog-detail">
-                <p class="blog-title">Lorem ipsum dolor sit, amet consectetur adipisicing elit</p>
-                <p class="blog-date">19/2/2023 </p>
-            </div>
-        </div>
-        <div class="blog-items">
-            <img src="https://images.unsplash.com/photo-1457305237443-44c3d5a30b89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTJ8fHRlY2hub2xvZ3l8ZW58MHx8MHx8&auto=format&fit=crop&w=1400&q=60" alt="">
-            <div class="blog-detail">
-                <p class="blog-title">Lorem ipsum dolor sit, amet consectetur adipisicing elit</p>
-                <p class="blog-date">19/2/2023 </p>
-            </div>
-        </div>
-        <div class="blog-items">
-            <img src="https://images.unsplash.com/photo-1535979014625-490762ceb2ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTM0fHx0ZWNobm9sb2d5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1400&q=60" alt="">
-            <div class="blog-detail">
-                <p class="blog-title">Lorem ipsum dolor sit, amet consectetur adipisicing elit</p>
-                <p class="blog-date">19/2/2023 </p>
-            </div>
-        </div>
+        @if (ViewBag.newpost != null)
+        {
+            foreach (Post item in ViewBag.newpost)
+            {
+                string url = !string.IsNullOrEmpty(item.PhotoName)? "/contens/Posts/" + item.PhotoName : "/contens/ico/nophoto.png";
+               
+                    <div class="blog-items">
+                    <a asp-area="Blog" asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@item.Slug">
+                            <img src="@url" alt="">
+                      
+                            <div class="blog-detail">
+                                <p class="blog-title">@item.Title</p>
+                                <p class="blog-date">@item.DateCreated</p>
+                            </div>
+                        </a>
+                    </div>
+                
+                
+            }
+        }
+        
+      
     </div>
 </div>
 
 
+@section Scripts{
+    <script>
+        function SetClickAddCart() {
 
+            $(".AddCart").click(function () {
+
+                var Button = $(this);
+                var id = Button.data("id");
+                var formData = new FormData();
+                formData.append("productid", id);
+                var urlUpdateState = "@Url.Action("AddToCartApi","Order",new {Area = "Product"})";
+                var cart = $("#cart-icon");
+                $.ajax({
+                    data: formData,
+                    cache: false,
+                    url: urlUpdateState,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.error == 0) {
+                            cart.html(
+                                "<div class=\"nav-item mt-2\" ><a class=\"text-light  mr-2\" href=\"/cart\" ><i class=\"fas fa-shopping-cart fa-lg\" ></i>"
+                                + "(" + data.quantity + ")</a></div>"
+                            );
+                        }
+
+
+                    }
+                });
+            });
+        }
+
+
+
+        $(document).ready(function () {
+
+            SetClickAddCart();
+        });
+    </script>
+}
 
 
 

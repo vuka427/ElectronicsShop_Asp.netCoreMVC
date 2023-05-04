@@ -47,7 +47,10 @@
                             </li>
                         </ul>
                         <div class="nav ">
-                            @await Html.PartialAsync("_CartPartial")
+                            <div id="cart-icon"> 
+                                @await Html.PartialAsync("_CartPartial")
+                            </div>
+                            
 
                             <partial name="_LoginPartial" />
 

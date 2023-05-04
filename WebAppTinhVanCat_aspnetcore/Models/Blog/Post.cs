@@ -46,6 +46,8 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Blog
         [Display(Name = "Ngày cập nhật")]
         public DateTime DateUpdated { set; get; }
 
+        public string PhotoName { get; set; }
+
         public virtual List<PostCategory> PostCategories { get; set; }
 
     }

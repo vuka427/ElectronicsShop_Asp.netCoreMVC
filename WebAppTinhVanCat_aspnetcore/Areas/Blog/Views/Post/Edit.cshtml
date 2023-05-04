@@ -29,6 +29,15 @@
                 <textarea rows="5" asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <div>
+                <input class="collapse" type="file" id="select-file-upload" onchange="AutoUploadPhoto()" />
+
+                <span class="btn btn-primary" onclick="ClickButtonUpload()">Uploads hình ảnh</span>
+
+            </div>
+            <hr />
+            <div id="box-photo-upload" class="d-flex flex-wrap photo-upload" data-id="@Model.PostId">
+            </div>
             <div class="form-group">
                 <label asp-for="Slug" class="control-label"></label>
                 <input asp-for="Slug" class="form-control" />
@@ -78,6 +87,124 @@
 
     var summernote = new Summernote("#Content");
     summernote.height = 700;
+
+    <script>
+
+
+        function ClickButtonUpload() {
+
+            $("#select-file-upload").click();
+        }
+
+        function AutoUploadPhoto() { //up ảnh thông qua api
+            var ProductID = $("#box-photo-upload").data("id");
+
+            var formData = new FormData();
+            formData.append("id", ProductID);
+
+            var totalfile = document.getElementById("select-file-upload").files.length;
+            if (totalfile == 0) return;
+            var file = document.getElementById("select-file-upload").files[0];
+            formData.append("FileUpload", file);
+
+
+            var urlUpload = "@Url.Action("UploadPhotoApi")"; // đường dẫn post về
+
+            $.ajax({
+
+                data: formData,// post data từ form về
+                cache: false,
+                url: urlUpload,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+
+                    LoadPhoto();
+                }
+
+            });
+        }
+
+        function setClickDeletePhoto() { //thêm sự kiện click xóa ảnh cho thẻ span
+
+            $("#box-photo-upload .photodetail span").click(function () {
+
+                if (confirm("Bạn có chắc chắn xóa ảnh ?") != true) return;
+
+                var spanButton = $(this);
+                var id = spanButton.data("id");
+
+                var formData = new FormData();
+                formData.append("id", id);
+                var urlDeletePhoto = "@Url.Action("DeletePhoto")"; // đường dẫn post về
+
+                $.ajax({
+
+                    data: formData,// post data từ form về
+                    cache: false,
+                    url: urlDeletePhoto,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+
+                        LoadPhoto();
+                    }
+
+                });
+            });
+        }
+
+
+        function LoadPhoto() { //load danh sách hình ảnh
+            var box = $("#box-photo-upload");
+            var ProductID = box.data("id");
+            box.empty();
+
+            var formData = new FormData();
+            formData.append("id", ProductID);
+            var urlListPhoto = "@Url.Action("ListPhotos")"; // đường dẫn post về
+
+            $.ajax({
+
+                data: formData,// post data từ form về
+                cache: false,
+                url: urlListPhoto,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.success ==1) {
+
+                        data.photos
+
+                        var htmlphoto = $(
+                            '<div class="photodetail w-25 p-1">'
+                            + '<img class="w-100" src="' + data.photos + '" />'
+                            + '<span class="btn btn-danger" data-id="' + data.postid + '"> Xóa ảnh </span></div>'
+                        )
+                        box.append(htmlphoto);
+
+                        setClickDeletePhoto();
+                    }
+                    
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            LoadPhoto();
+
+
+        });
+    </script>
+
+
+
+
+
 }
 <partial name="_Summernote" model="summernote" />
 @{

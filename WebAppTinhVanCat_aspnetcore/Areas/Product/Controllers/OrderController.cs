@@ -24,6 +24,10 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         private readonly DiaGioiHanhChinhVN _diaGioi;
         private readonly UserManager<AppUser> _userManager;
 
+
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public OrderController(ILogger<ViewProductController> logger, AppDbContext context, CartService cartService, DiaGioiHanhChinhVN diaGioi, UserManager<AppUser> userManager)
         {
             _logger = logger;
@@ -53,7 +57,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             var cartitem = cart.Find(p => p.product.ProductId == productid);
             if (cartitem != null)
             {
-                
+
                 if (cartitem.quantity == cartitem.product.Quantity)// kiểm tra xem số lượng trong đơn hạng có vượt quá số lượng hiện có hay không
                 {
                     return RedirectToAction(nameof(Cart));// nếu đặt tới giới hạn rồi thì ko thêm nữa
@@ -65,22 +69,71 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             else
             {
                 var productAdd = _context.Products.Find(productid);
-                if(productAdd != null)
+                if (productAdd != null)
                 {
-                    if (productAdd.Quantity > 0 )// kiểm tra xem số lượng hiện còn hay không
+                    if (productAdd.Quantity > 0)// kiểm tra xem số lượng hiện còn hay không
                     {
                         //  Thêm mới
                         cart.Add(new CartItem() { quantity = 1, product = product });
                     }
                 }
-                    
-                
+
+
             }
 
             // Lưu cart vào Session
             _cartService.SaveCartSession(cart);
             // Chuyển đến trang hiện thị Cart
             return RedirectToAction(nameof(Cart));
+        }
+
+        [HttpPost]
+        [Route("/addcartapi", Name = "addcartapi")]
+        public IActionResult AddToCartApi( int productid)
+        {
+
+            var product = _context.Products
+                .Where(p => p.ProductId == productid)
+                .FirstOrDefault();
+            if (product == null)
+                return Json(new { error = 1, message = "Sản phẩm không thêm được vào giỏ hàng vui lòng thử lại sau !" });
+
+            // Xử lý đưa vào Cart ...
+            var cart = _cartService.GetCartItems();
+            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            if (cartitem != null)
+            {
+
+                if (cartitem.quantity == cartitem.product.Quantity)// kiểm tra xem số lượng trong đơn hạng có vượt quá số lượng hiện có hay không
+                {
+                    return Json(new { error = 1, message = " Sản phẩm đã hết vui lòng chọn sản phẩm khác !" });
+                }
+
+                // Đã tồn tại, tăng thêm 1
+                cartitem.quantity++;
+
+            }
+            else
+            {
+                var productAdd = _context.Products.Find(productid);
+                if (productAdd != null)
+                {
+                    if (productAdd.Quantity > 0)// kiểm tra xem số lượng hiện còn hay không
+                    {
+                        //  Thêm mới
+                        cart.Add(new CartItem() { quantity = 1, product = product });
+                        // Lưu cart vào Session
+                        _cartService.SaveCartSession(cart);
+                        return Json(new { error = 0, quantity = cart.Count, message = "Thêm vào giỏ hàng thành công !" });
+                    }
+                }
+            }
+
+            // Lưu cart vào Session
+            _cartService.SaveCartSession(cart);
+            // Chuyển đến trang hiện thị Cart
+
+            return Json(new { error = 1  ,message = "Sản phẩm đã có trong giỏ !" });
         }
 
         [Route("/cart", Name = "cart")]
@@ -232,7 +285,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
 
                     _cartService.ClearCart();
                     _context.SaveChanges();
-
+                    StatusMessage = "Đăt hàng thành công";
                     return RedirectToAction("Index","Home");
                 }
 

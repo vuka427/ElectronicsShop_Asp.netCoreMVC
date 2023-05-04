@@ -15,7 +15,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        <li class="breadcrumb-item p-1"><a href="~/">Home</a></li>
         @if (category != null)
         {
             var listParent = category.ListParents();
@@ -75,7 +75,9 @@
         <div>
 
             <p class="text-danger"> @String.Format("{0:0.0}", Model.rating) <i class="far fa-star"></i></p>
-            <i> Số lượng còn: @Model.Quantity</i> <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i>
+            <i>Số lượng còn: @Model.Quantity </i>
+            <i>Cập nhật: @Model.DateUpdated.ToShortDateString()</i>
+            <i>Đã bán: @Model.Sold</i>
             
         </div>
         <hr />

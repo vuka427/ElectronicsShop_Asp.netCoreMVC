@@ -2164,6 +2164,7 @@
     <Folder Include="Areas\Files\Data\" />
     <Folder Include="Areas\Files\Models\" />
     <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="Uploads\Posts\" />
     <Folder Include="Uploads\Products\" />
     <Folder Include="wwwroot\files\" />
   </ItemGroup>

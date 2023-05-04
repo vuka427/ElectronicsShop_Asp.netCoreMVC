@@ -26,11 +26,12 @@ body {
     font-size: 14pt;
     text-decoration:none;
     color :#ff0000;
+    
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: "/";
-    font-size: 20pt;
+    font-size: 19pt;
 }
 
 
@@ -167,6 +168,10 @@ body {
   max-height: 100px;
   min-width: 100px;
   object-fit: cover;
+}
+
+.photo-post img {
+    width :150px;
 }
 
 @media (min-width: 1200px) {

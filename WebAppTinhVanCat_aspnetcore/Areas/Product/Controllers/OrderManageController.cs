@@ -136,13 +136,24 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         public IActionResult AccessOrderApi(int id)
         {
 
-            var order = _context.Orders.FirstOrDefault(od => od.OrderId == id);
+            var order = _context.Orders.Include(o=>o.OrderItems).FirstOrDefault(od => od.OrderId == id);
             if(order != null)
             {
                 if(order.State == StateOrder.Received)
                 {
                     order.State = StateOrder.Accept;
                     order.Finished = DateTime.Now;
+                    foreach (var pitem in order.OrderItems)
+                    {
+                       var product = _context.Products.Find(pitem.ProductID);
+                        if (product != null)
+                        {
+                            product.Sold += pitem.Quantity;
+                            _context.Update(product);
+                        }
+                        
+                    }
+
                     _context.Orders.Update(order);
                     _context.SaveChanges();
                     return Json(new { error = 0 });
@@ -155,7 +166,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         public IActionResult CancelOrderApi(int id, string reason)
         {
 
-            var order = _context.Orders.FirstOrDefault(od => od.OrderId == id);
+            var order = _context.Orders.Include(o=>o.OrderItems).FirstOrDefault(od => od.OrderId == id);
             if (order != null)
             {
                 if (order.State == StateOrder.Received || order.State == StateOrder.Accept)
@@ -165,6 +176,18 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                         if (reason.Count() > 256)
                             reason = reason.Substring(0, 256);
                     order.ShopCancelReason = reason;
+
+                    foreach (var pitem in order.OrderItems)
+                    {
+                        var product = _context.Products.Find(pitem.ProductID);
+                        if (product != null)
+                        {
+                            product.Sold -= pitem.Quantity;
+                            _context.Update(product);
+                        }
+
+                    }
+
                     _context.SaveChanges();
                     return Json(new { error = 0 });
                 }

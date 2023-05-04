@@ -13,7 +13,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        <li class="breadcrumb-item p-1"><a href="~/">Home</a></li>
         @if (category != null)
         {
             var listParent = category.ListParents();
@@ -64,16 +64,26 @@
     })
     @if (otherPost != null)
     {
-         <ul class="list-group">
-            @foreach (var post in otherPost)
-            {
-                <li class="list-group-item">
-                    <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
-                        @post.Title
-                    </a>
-                </li>
-            }
-         </ul>
+        <div class="card shadow  mb-3 mt-4">
+            <div class="card-header bg-danger text-light font-weight-bold">
+                Bài viết liên quan
+            </div>
+            <div class="card-body p-2">
+                <div class="list-group list-group-flush">
+                    @foreach (var post in otherPost)
+                    {
+                       
+                        <a class="list-group-item" asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
+                            @post.Title
+                        </a>
+                        
+                    }
+                    
+                </div>
+            </div>
+        </div>
+
+         
     }
    
 }

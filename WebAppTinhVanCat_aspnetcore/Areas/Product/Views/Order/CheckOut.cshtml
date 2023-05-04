@@ -10,8 +10,8 @@
     ViewData["Title"] = "Thanh Toán";
 
 }
-<h2>Thanh Toán</h2>
-<hr />
+<h2 class="text-center">Thanh Toán</h2>
+
 
 
 @if (ListCartItem.Count > 0)
@@ -19,8 +19,8 @@
     decimal total = 0;
     int stt = 1;
 
-    <table class="table">
-        <tr>
+    <table class="table ">
+        <tr class="bg-danger text-light font-weight-bold ">
             <th>STT</th>
             <th>Ảnh</th>
             <th>Sản phẩm</th>
@@ -42,15 +42,15 @@
                 <td>
                     @cartitem.product.Price.ToPriceUnitVND()
                 </td>
-                <td><input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.ProductId}")" /> @cartitem.product.UnitProduct.Unit </td>
+                <td>@cartitem.quantity / @cartitem.product.UnitProduct.Unit </td>
                 <td>
                     @thanhtien.ToPriceUnitVND()
                 </td>
             </tr>
         }
         <tr>
-            <td colspan="4" class="text-right">Tổng tiền</td>
-            <td>
+            <td colspan="4" class="text-right font-weight-bold h4">Tổng tiền</td>
+            <td class="text-danger font-weight-bold h4">
                 @total.ToPriceUnitVND()
             </td>
             <td></td>
@@ -58,43 +58,43 @@
     </table>
 
     <hr />
-    <form asp-action="CheckoutConfirm" method="post">
-        <h5> Địa chỉ giao hàng </h5>
+    <form class="row" asp-action="CheckoutConfirm" method="post">
+        <h5 class="col-12 text-center"> Địa chỉ giao hàng </h5>
 
-        <div class="form-group">
+        <div class="form-group col-12">
             <label asp-for="DcTinh" class="control-label"></label>
-            <select asp-for="DcTinh"  id="city" >
+            <select asp-for="DcTinh" id="city" class="form-control">
                 <option value="" selected >Chọn tỉnh thành</option>
             </select>
             <span asp-validation-for="DcTinh" class="text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group col-12">
             <label asp-for="DcHuyen" class="control-label"></label>
-            <select asp-for="DcHuyen" id="district" >
+            <select asp-for="DcHuyen" id="district" class="form-control">
                 <option value="" selected>Chọn quận huyện</option>
             </select>
             <span asp-validation-for="DcHuyen" class="text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group col-12">
             <label asp-for="DcXa" class="control-label"></label>
-            <select asp-for="DcXa" id="ward" >
+            <select asp-for="DcXa" id="ward" class="form-control">
                 <option value="" selected>Chọn phường xã</option>
             </select>
             <span asp-validation-for="DcXa" class="text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group w-25 col-12">
             <label asp-for="SoNha" class="control-label"></label>
             <input asp-for="SoNha" class="form-control" />
             <span asp-validation-for="SoNha" class="text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group col-12">
             <label asp-for="PhoneNumber" class="control-label"></label>
             <input asp-for="PhoneNumber" class="form-control" />
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
-         <h5> Phương thức thanh toán</h5>
+       
 
-        <div class="form-group">
+        <div class="form-group col-12">
             <input type="submit" value="Đặt Hàng" class="btn btn-primary" />
         </div>
     </form>

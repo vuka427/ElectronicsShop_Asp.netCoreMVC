@@ -97,5 +97,9 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [Display(Name = "Lượt đánh giá")]
         public int QuantityRating { get; set; }
 
+        [Display(Name = "Đã bán")]
+        public int Sold { get; set; }
+
+
     }
 }

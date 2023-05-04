@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Bogus.DataSets;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,7 +15,9 @@ using WebAppTinhVanCat_aspnetcore.Areas.Blog.Models;
 using WebAppTinhVanCat_aspnetcore.Data;
 using WebAppTinhVanCat_aspnetcore.Models;
 using WebAppTinhVanCat_aspnetcore.Models.Blog;
+using WebAppTinhVanCat_aspnetcore.Models.Product;
 using WebAppTinhVanCat_aspnetcore.Utilities;
+using WebAppTinhVanCataspnetcore.Migrations;
 
 namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
 {
@@ -300,5 +306,114 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Blog.Controllers
         {
             return _context.Posts.Any(e => e.PostId == id);
         }
+
+        public class UploadOneFile
+        {
+            [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Phải chọn file Upload")]
+            [DataType(DataType.Upload)]
+            [FileExtensions(Extensions = "png,jpg,jpeg,gif")]
+            [Display(Name = "Chọn file upload ")]
+            public IFormFile FileUpload { get; set; }
+
+
+        }
+
+        [HttpPost]
+        public IActionResult ListPhotos(int id)
+        {//API get photo 
+            var post = _context.Posts.Find(id);
+            if (String.IsNullOrEmpty(post.PhotoName))
+            {
+                return Json(new
+                {
+                    success = 0,
+                    message = "không tìm thấy photo "
+                });
+            }
+
+            return Json(new
+            {
+                success = 1,
+                postid = id,
+                photos = "/contens/Posts/" + post.PhotoName
+            });
+        }
+
+        [HttpPost]
+        public IActionResult DeletePhoto(int id)
+        {
+            var post = _context.Posts.Find(id);
+            if (post != null)
+            {
+                var filename = "Uploads/Posts/" + post.PhotoName;
+                post.PhotoName = "";
+                _context.SaveChanges();
+                try
+                {
+                    System.IO.File.Delete(filename);
+                }
+                catch
+                {
+                    Console.WriteLine("khong xoa duoc anh tren o dia !");
+                }
+
+
+            }
+
+
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadPhotoApi(int id, [Bind("FileUpload")] UploadOneFile f)
+        {
+
+            var post = await _context.Posts.FindAsync(id);
+
+            if (post == null)
+            {
+                return NotFound("không tìm thấy sản phẩm");
+
+            }
+
+
+            if (f.FileUpload != null)
+            {
+                var fileNameRandom = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(f.FileUpload.FileName);//tên file random + extension file upload
+
+                var filePath = Path.Combine("Uploads", "Posts", fileNameRandom); //đường đẫn đến file
+
+                if (!String.IsNullOrEmpty(post.PhotoName))// xóa ảnh nếu có
+                {
+                    var filename = "Uploads/Posts/" + post.PhotoName;
+                    try
+                    {
+                        System.IO.File.Delete(filename);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("khong xoa duoc anh tren o dia !");
+                    }
+                }
+
+                using (var filestream = new FileStream(filePath, FileMode.Create))
+                {
+                    await f.FileUpload.CopyToAsync(filestream); // copy file f vào filestream
+                }
+
+                
+                
+                post.PhotoName = fileNameRandom;
+                
+                _context.Update(post);  
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
+
+
+
     }
 }

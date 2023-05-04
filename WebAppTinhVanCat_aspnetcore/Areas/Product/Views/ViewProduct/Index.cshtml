@@ -38,7 +38,7 @@
     
 <nav aria-label="breadcrumb"> 
     <ol class="breadcrumb"> 
-        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        <li class="breadcrumb-item p-1"><a href="~/">Home</a></li>
         @if (category != null)
         {
             var listParent = category.ListParents();
@@ -149,7 +149,8 @@
                     </div>
 
                     <div class="card-footer ">
-                        <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-danger ml-4 float-right">Đặt hàng</a>
+                        <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@product.ProductId" class="btn btn-sm btn-danger float-right">Đặt hàng</a>
+                        <a class="AddCart btn btn-sm btn-outline-primary text-primary float-left" data-id="@product.ProductId">Thêm vào giỏ</a>
                     </div>
                 </div>
             
@@ -237,5 +238,46 @@
 
 }
 
+@section Scripts{
+    <script>
+        function SetClickAddCart() {
 
+            $(".AddCart").click(function () {  
+
+                var Button = $(this);
+                var id = Button.data("id");
+                var formData = new FormData();
+                formData.append("productid", id);
+                var urlUpdateState = "@Url.Action("AddToCartApi","Order")";
+                var cart = $("#cart-icon");
+                $.ajax({
+                    data: formData,
+                    cache: false,
+                    url: urlUpdateState,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.error == 0) {
+                           cart.html(
+                                "<div class=\"nav-item mt-2\" ><a class=\"text-light  mr-2\" href=\"/cart\" ><i class=\"fas fa-shopping-cart fa-lg\" ></i>"
+                                + "(" + data.quantity + ")</a></div>"
+                           );
+                        }
+
+
+                    }
+                });
+            });
+        }
+
+
+
+        $(document).ready(function () {
+
+            SetClickAddCart();
+        });
+    </script>
+}
 
