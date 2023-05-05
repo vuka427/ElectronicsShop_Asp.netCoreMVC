@@ -46,6 +46,7 @@
                 <h2>ThaiVuShop</h2>
                 <small> <b>Liên hệ</b> : 0999999999 </small>
                 <small> <b>Địa chỉ</b>  : Khu II, đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ. </small>
+                
                 <p class="text-right">
                      <b>Mã đơn hàng: </b>  @Html.DisplayFor(model => model.OrderCode)
                 </p>
@@ -62,6 +63,12 @@
                         </dt>
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.FullName)
+                        </dd>
+                        <dt class="col-sm-2 ">
+                            @Html.DisplayNameFor(model => model.HomeAddress)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.HomeAddress)
                         </dd>
                         <dt class="col-sm-2 ">
                             @Html.DisplayNameFor(model => model.Phone)
@@ -173,6 +180,7 @@
                                 
                                 <input type="button" value="IN HOÁ ĐƠN" onclick="this.style.display ='none'; window.print()" class="btn btn-primary" />
                             </p>
+                            <small> <i>Ngày in hóa đơn : @DateTime.Now </i> </small>
                     </div>
                 </div>
             </div>

@@ -60,42 +60,44 @@
     <hr />
     <form class="row" asp-action="CheckoutConfirm" method="post">
         <h5 class="col-12 text-center"> Địa chỉ giao hàng </h5>
+        <small class="col-12 text-center"><i>(phải cập nhật họ tên và địa chỉ trước khi đặt hàng)</i></small>
+
 
         <div class="form-group col-12">
-            <label asp-for="DcTinh" class="control-label"></label>
+            <label asp-for="DcTinh" class="control-label font-weight-bold"></label>
             <select asp-for="DcTinh" id="city" class="form-control">
                 <option value="" selected >Chọn tỉnh thành</option>
             </select>
             <span asp-validation-for="DcTinh" class="text-danger"></span>
         </div>
         <div class="form-group col-12">
-            <label asp-for="DcHuyen" class="control-label"></label>
+            <label asp-for="DcHuyen" class="control-label font-weight-bold"></label>
             <select asp-for="DcHuyen" id="district" class="form-control">
                 <option value="" selected>Chọn quận huyện</option>
             </select>
             <span asp-validation-for="DcHuyen" class="text-danger"></span>
         </div>
         <div class="form-group col-12">
-            <label asp-for="DcXa" class="control-label"></label>
+            <label asp-for="DcXa" class="control-label font-weight-bold"></label>
             <select asp-for="DcXa" id="ward" class="form-control">
                 <option value="" selected>Chọn phường xã</option>
             </select>
             <span asp-validation-for="DcXa" class="text-danger"></span>
         </div>
         <div class="form-group w-25 col-12">
-            <label asp-for="SoNha" class="control-label"></label>
+            <label asp-for="SoNha" class="control-label font-weight-bold"></label>
             <input asp-for="SoNha" class="form-control" />
             <span asp-validation-for="SoNha" class="text-danger"></span>
         </div>
         <div class="form-group col-12">
-            <label asp-for="PhoneNumber" class="control-label"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
+            <label asp-for="PhoneNumber" class="control-label font-weight-bold"></label>
+            <input asp-for="PhoneNumber" class="form-control" value="@ViewBag.phonenumber" />
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
-       
 
-        <div class="form-group col-12">
-            <input type="submit" value="Đặt Hàng" class="btn btn-primary" />
+
+        <div class="form-group col-12 text-center">
+            <input type="submit" value="Đặt Hàng" class="btn btn-danger"   />
         </div>
     </form>
     

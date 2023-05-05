@@ -190,11 +190,22 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
         }
 
         [Route("/checkout")]
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
             var cart = _cartService.GetCartItemsWithPhoto();
 
             ViewData["ListCartItem"] = cart;
+
+            var user = await GetAppUserAsync(); //lấy user hiện tại
+            if (user != null)
+            {
+                ViewBag.phonenumber = user.PhoneNumber != null ? user.PhoneNumber.ToString() : "";
+            }
+            else
+            {
+                ViewBag.phonenumber = "";
+            }
+                
 
             return View() ;
         }
@@ -227,12 +238,19 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                     //chưa làm j hết để tạm vậy
                     return NotFound(" user!");
                 }
-                if (user.FullName == null)
+                if (user.FullName == null )
                 {
                     //sử lý trả về lổi 
                     //chưa làm j hết để tạm vậy
-
-                    return NotFound("có lỗi người dùng chưa Cập nhật tên!");
+                    StatusMessage = "Cập nhật họ tên để có thể tiếp tục đặt hàng";
+                    return RedirectToAction("EditProfile", "Manage", new {Area = "Identity"});
+                }
+                if (user.Address == null)
+                {
+                    //sử lý trả về lổi 
+                    //chưa làm j hết để tạm vậy
+                    StatusMessage = "Cập nhật địa chỉ để có thể tiếp tục đặt hàng";
+                    return RedirectToAction("EditProfile", "Manage", new { Area = "Identity" });
                 }
 
                 var Order = new OrderModel()
@@ -243,7 +261,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
                     Address = model.SoNha + ", " + Address,
                     FullName = user.FullName,
                     Email = user.Email,
-                    Phone = model.PhoneNumber
+                    Phone = model.PhoneNumber,
+                    HomeAddress = user.Address
+                    
                 };
 
                 var ListOrderItem = new List<OrderItem>();

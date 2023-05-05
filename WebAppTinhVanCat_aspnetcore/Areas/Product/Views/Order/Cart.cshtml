@@ -47,13 +47,15 @@
             </tr>
         }
         <tr>
-            <td colspan="4" class="text-right">Tổng tiền</td>
-            <td>@total.ToPriceUnitVND()</td>
+            <td colspan="4" class="text-right h5 font-weight-bold">Tổng tiền</td>
+            <td class="text-danger h5">@total.ToPriceUnitVND()</td>
             <td></td>
         </tr>
     </table>
-
-    <a  asp-controller="Order" asp-action="Checkout" class="btn btn-success">Mua Hàng</a>
+    <div class="text-center">
+        <a asp-controller="Order" asp-action="Checkout" class="btn btn-success ">Mua Hàng</a>
+    </div>
+   
 
     @section Scripts {
     <script>

@@ -5,6 +5,7 @@
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
 <div>
+    <partial name="_StatusMessage" />
     <h4>Cập nhật thông tin tài khoản</h4>
     <hr />
     <dl class="row">
@@ -77,7 +78,7 @@
             Có @Model.Logins.Count liên kết. <a asp-controller="Manage" asp-action="ManageLogins">Quản lý liên kết ngoài</a>
         </dd>
        
-        <dt class="col-sm-4">Số điện thoại:</dt>
+       @* <dt class="col-sm-4">Số điện thoại:</dt>
         <dd class="col-sm-6">
             <p>
                 Số điện thoại dùng để xác thực hai yêu tố
@@ -95,7 +96,7 @@
             {
                 <text>&nbsp;&nbsp;<a asp-controller="Manage" asp-action="AddPhoneNumber">Thêm số điện thoại</a></text>
             }
-        </dd>
+        </dd>*@
         
         <dt class="col-sm-4">Xác thực hai yếu tố:</dt>
         <dd class="col-sm-6">

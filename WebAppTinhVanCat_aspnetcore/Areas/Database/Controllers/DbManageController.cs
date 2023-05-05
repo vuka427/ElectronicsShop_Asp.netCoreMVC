@@ -95,7 +95,7 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
                     EmailConfirmed = true,
 
                 };
-                await _userManager.CreateAsync(useradmin, "admin");
+                await _userManager.CreateAsync(useradmin, "123456");
               
                 await _userManager.AddToRoleAsync(useradmin, RoleName.Administrator);
 
@@ -103,8 +103,8 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Database.Controllers
             var user = _userManager.GetUserAsync(this.User).Result;
             if (user !=null)
             {
-                SeedPostCategory();
-                SeedProductCategory();
+               // SeedPostCategory();
+               // SeedProductCategory();
             }
             
 

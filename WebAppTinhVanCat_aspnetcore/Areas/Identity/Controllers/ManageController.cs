@@ -28,6 +28,9 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
         private readonly UrlEncoder _urlEncoder;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
+        [TempData]
+        public string StatusMessage { get; set; }
+
 
         public ManageController(
         UserManager<AppUser> userManager,
@@ -417,9 +420,11 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Identity.Controllers
             user.Address = model.HomeAdress;
             user.Birthday = model.BirthDate;
             user.FullName= model.FullName;
+            user.PhoneNumber = model.PhoneNumber;
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
+            StatusMessage = "cập nhật thông tin thành công!";
             return RedirectToAction(nameof(Index), "Manage");
 
         }

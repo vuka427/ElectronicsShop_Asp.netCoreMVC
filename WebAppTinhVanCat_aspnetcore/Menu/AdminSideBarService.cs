@@ -187,7 +187,7 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                 },
             });
             Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
-            Items.Add(new SideBarItem() { Type = SidebarItemType.Heading, Title = "Quản lý chung" });// Heading
+            /*Items.Add(new SideBarItem() { Type = SidebarItemType.Heading, Title = "Quản lý chung" });// Heading
 
             Items.Add(new SideBarItem()
             { //Quản lý Database
@@ -198,7 +198,7 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                 Title = "Quản lý Database",
                 AwesomeIcon = "fa fa-database"
 
-            });
+            });*/
 
             Items.Add(new SideBarItem() // Quản lý liên hệ
             {

@@ -51,6 +51,9 @@ namespace WebAppTinhVanCat_aspnetcore.Models.Product
         [Display(Name = "Trạng thái đơn hàng")]
         public StateOrder State { get; set; }
 
+        [Display(Name = "Địa chỉ khách hàng")]
+        public string HomeAddress { get; set; }
+
         [Display(Name = "Địa chỉ nhận hàng")]
         public string Address { get; set; }
 
