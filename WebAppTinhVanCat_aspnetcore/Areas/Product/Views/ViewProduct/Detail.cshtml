@@ -86,15 +86,16 @@
                 <strong class="text-danger" style="font-size:17pt;" >@Model.Price.ToPriceUnitVND()</strong>
                
             </p>
-            
+            <a class="AddCart btn btn-outline-primary text-primary float-left mr-2" data-id="@Model.ProductId">Thêm vào giỏ</a>
             <a asp-controller="Order" asp-action="AddToCart" asp-route-productid="@Model.ProductId" class="btn btn-danger text-light" >Đặt hàng</a>
         </div>
         <hr>
-        <div class="card shadow  mb-3">
+        <div class="card shadow  mb-3  " >
+            
             <div class="card-header bg-danger text-light font-weight-bold">
                 Thông số kỹ thuật
             </div>
-            <div class="card-body">
+            <div class="card-body " style=" height:400px;overflow-y: scroll;">
                 @Html.Raw(Model.Feature)
             </div>
 
@@ -102,7 +103,6 @@
                
             </div>
 
-            
         </div>
     </div>
 </div>
@@ -178,6 +178,49 @@
         console.log(imgSrc.src);
     }
 
+
+
 </script>
 
+@section Scripts{
+    <script>
+        function SetClickAddCart() {
 
+            $(".AddCart").click(function () {
+
+                var Button = $(this);
+                var id = Button.data("id");
+                var formData = new FormData();
+                formData.append("productid", id);
+                var urlUpdateState = "@Url.Action("AddToCartApi","Order")";
+                var cart = $("#cart-icon");
+                $.ajax({
+                    data: formData,
+                    cache: false,
+                    url: urlUpdateState,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.error == 0) {
+                            cart.html(
+                                "<div class=\"nav-item mt-2\" ><a class=\"text-light  mr-2\" href=\"/cart\" ><i class=\"fas fa-shopping-cart fa-lg\" ></i>"
+                                + "(" + data.quantity + ")</a></div>"
+                            );
+                        }
+
+
+                    }
+                });
+            });
+        }
+
+
+
+        $(document).ready(function () {
+
+            SetClickAddCart();
+        });
+    </script>
+}

@@ -177,41 +177,50 @@ namespace WebAppTinhVanCat_aspnetcore.Areas.Product.Controllers
             {
                 return NotFound();
             }
+           
+            
             var categories = await _context.CategoryProducts.ToListAsync();
             ViewData["categories"] = new MultiSelectList(categories, "Id", "Title");
             var units = await _context.UnitProducts.ToListAsync();
             ViewData["units"] = new SelectList(units, "Id", "Unit");
 
-            if (product.Slug == null) // phát sinh url nếu chưa có
+            var oldproduct = _context.Products.Where(p=>p.ProductId == id).AsNoTracking().FirstOrDefault();
+            if (oldproduct != null)
             {
-                product.Slug = AppUtilities.GenerateSlug(product.Title);
-            }
-            if (await _context.Products.AnyAsync(p => p.Slug == product.Slug && p.ProductId != id))//kiểm tra url có đc sử dụng hay chưa
-            {
-                ModelState.AddModelError("Slug", "Nhập chuỗi Url khác !");
-                return View(product);
-            }
-            
-            if (ModelState.IsValid)
-            {
-                try
+                if (product.Slug == null) // phát sinh url nếu chưa có
                 {
-                    var user = await _usermanager.GetUserAsync(this.User);
-                    product.DateUpdated = DateTime.Now;
-                    product.AuthorId = user.Id;
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    product.Slug = AppUtilities.GenerateSlug(product.Title);
                 }
-                catch (DbUpdateConcurrencyException)
+                if (await _context.Products.AnyAsync(p => p.Slug == product.Slug && p.ProductId != id))//kiểm tra url có đc sử dụng hay chưa
                 {
-                    
-                   return NotFound("lỗi rồi hehe");
-                   
+                    ModelState.AddModelError("Slug", "Nhập chuỗi Url khác !");
+                    return View(product);
                 }
 
-                StatusMessage = "Vừa cập nhật thông tin sản sản phẩm!";
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        var user = await _usermanager.GetUserAsync(this.User);
+                        product.DateUpdated = DateTime.Now;
+                        product.AuthorId = user.Id;
+                        product.Sold = oldproduct.Sold;
+                        product.rating = oldproduct.rating;
+                        _context.Update(product);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+
+                        return NotFound("lỗi rồi hehe");
+
+                    }
+
+                    StatusMessage = "Vừa cập nhật thông tin sản sản phẩm!";
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", product.AuthorId);
             return View(product);
         }
