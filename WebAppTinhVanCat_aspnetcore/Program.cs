@@ -21,6 +21,7 @@ namespace WebAppTinhVanCat_aspnetcore
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    
                 });
     }
 }
