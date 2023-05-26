@@ -86,6 +86,7 @@ namespace WebAppTinhVanCat_aspnetcore.Menu
                         }
                 },
             });
+
             Items.Add(new SideBarItem() { Type = SidebarItemType.Divider });// gạch ngang
             Items.Add(new SideBarItem()//blog
             {
